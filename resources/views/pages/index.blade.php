@@ -1,53 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<title>SportFIT</title>
-<meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="description" content="SportFIT template project">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" type="text/css" href="styles/bootstrap-4.1.2/bootstrap.min.css">
-<link href="plugins/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-<link rel="stylesheet" type="text/css" href="plugins/OwlCarousel2-2.2.1/owl.carousel.css">
-<link rel="stylesheet" type="text/css" href="plugins/OwlCarousel2-2.2.1/owl.theme.default.css">
-<link rel="stylesheet" type="text/css" href="plugins/OwlCarousel2-2.2.1/animate.css">
-<link href="plugins/colorbox/colorbox.css" rel="stylesheet" type="text/css">
-<link rel="stylesheet" type="text/css" href="styles/main_styles.css">
-<link rel="stylesheet" type="text/css" href="styles/responsive.css">
-</head>
-<body>
-
+@extends('layouts.user')
+@section('content')
 <div class="super_container">
-	
 	<!-- Header -->
-
-	<header class="header">
-		<div class="container">
-			<div class="row">
-				<div class="col">
-					<div class="header_content d-flex flex-row align-items-center justify-content-start trans_400">
-						<a href="#">
-							<div class="logo d-flex flex-row align-items-center justify-content-start"><img src="images/dot.png" alt=""><div>Sport<span>fit</span></div></div>
-						</a>
-						<nav class="main_nav">
-							<ul class="d-flex flex-row align-items-center justify-content-start">
-								<li class="active"><a href="{{route('home')}}">Home</a></li>
-								<li><a href="{{route('about')}}">About us</a></li>
-								<li><a href="{{route('elements')}}">Classes & Services</a></li>
-								<li><a href="{{route('blog')}}">Blog</a></li>
-								<li><a href="{{route('contact')}}">Contact</a></li>
-							</ul>
-						</nav>
-						<div class="phone d-flex flex-row align-items-center justify-content-start ml-auto">
-							<i class="fa fa-phone" aria-hidden="true"></i>
-							<div>652-345 3222 11</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</header>
-
 	<!-- Hamburger -->
 	
 	<div class="hamburger_bar trans_400 d-flex flex-row align-items-center justify-content-start">
@@ -72,7 +26,7 @@
 			<ul>
 				<li><a href="{{route('home')}}">Home</a></li>
 				<li><a href="{{route('about')}}">About us</a></li>
-				<li><a href="{{route('elements')}}">Classes & Services</a></li>
+				{{-- <li><a href="{{route('elements')}}">Classes & Services</a></li> --}}
 				<li><a href="{{route('blog')}}">Blog</a></li>
 				<li><a href="{{route('contact')}}">Contact</a></li>
 			</ul>
@@ -86,24 +40,24 @@
 	<!-- Home -->
 
 	<div class="home">
-		<div class="background_image" style="background-image:url(images/index.jpg)"></div>
+		<div class="background_image" style="background-image:url(images/judo1.jpeg)"></div>
 		<div class="overlay"></div>
 		<div class="home_container">
 			<div class="container">
 				<div class="row">
 					<div class="col">
 						<div class="home_content text-center">
-							<div class="video_link">
+							{{-- <div class="video_link">
 								<a class="vimeo video_button d-flex flex-column align-items-center justify-content-center" href="https://player.vimeo.com/video/99340873?autoplay=1&loop=1&title=0&autopause=0">
 									<div class="video_link_content d-flex flex-row align-items-center justify-content-start">
 										<div class="video_icon d-flex flex-column align-items-center justify-content-center"><i class="fa fa-play" aria-hidden="true"></i></div>
 										<span class="video_text">See Workout Video</span>
 									</div>
 								</a>
-							</div>
+							</div> --}}
 							<div class="home_title">Get fit with us</div>
 							<div class="home_subtitle">Pilates, Yoga, Fitness, Spinning & many more</div>
-							<div class="button home_button ml-auto mr-auto"><a href="#">Join Now</a></div>
+							<div class="button home_button ml-auto mr-auto"><a href="{{route('admin.joueurs.create')}}">Join Now</a></div>
 						</div>
 					</div>
 				</div>
@@ -113,7 +67,7 @@
 
 	<!-- Boxes -->
 
-	<div class="boxes">
+	{{-- <div class="boxes">
 		<div class="container">
 			<div class="row">
 				<div class="col">
@@ -159,7 +113,7 @@
 				</div>
 			</div>
 		</div>
-	</div>
+	</div> --}}
 
 	<!-- About -->
 
@@ -176,7 +130,7 @@
 						<div class="about_text">
 							<p>Morbi sed varius risus, vitae molestie lectus. Donec id hendrerit velit, eu fringilla neque. Etiam id finibus sapien. Donec sollicitudin luctus ex non pharetra. Aenean lobortis ut leo vel porta. Maecenas ac vestibulum lectus. Cras nulla urna, lacinia ut tempor facilisis, congue dignissim tellus. Maecenas ac vestibulum lectus. Cras nulla urna, lacinia ut tempor facilisis, congue dignissim tellus. Phasellus sit amet justo ullamcorper, elementum ipsum nec.</p>
 						</div>
-						<div class="button about_button"><a href="#">Join Now</a></div>
+						{{-- <div class="button about_button"><a href="#">Join Now</a></div> --}}
 					</div>
 				</div>
 			</div>
@@ -282,102 +236,6 @@
 		</div>
 	</div>
 
-	<!-- Services -->
-
-	<div class="services">
-		<div class="container">
-			<div class="row">
-				<div class="col">
-					<div class="section_title_container">
-						<div class="section_subtitle">welcome to sportfit</div>
-						<div class="section_title">Our Courses</div>
-					</div>
-				</div>
-			</div>
-			<div class="row services_row">
-				
-				<!-- Service -->
-				<div class="col-xl-4 col-md-6 service_col">
-					<div class="service">
-						<div class="service_title_container d-flex flex-row align-items-center justify-content-start">
-							<div><div class="service_icon"><img src="images/icon_4.png" alt=""></div></div>
-							<div class="service_title">Weight Loss Class</div>
-						</div>
-						<div class="service_text">
-							<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec malesuada lorem maximus mauris scelerisque, at rutrum.</p>
-						</div>
-					</div>
-				</div>
-
-				<!-- Service -->
-				<div class="col-xl-4 col-md-6 service_col">
-					<div class="service">
-						<div class="service_title_container d-flex flex-row align-items-center justify-content-start">
-							<div><div class="service_icon"><img src="images/icon_5.png" alt=""></div></div>
-							<div class="service_title">Yoga Classes</div>
-						</div>
-						<div class="service_text">
-							<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec malesuada lorem maximus mauris scelerisque, at rutrum.</p>
-						</div>
-					</div>
-				</div>
-
-				<!-- Service -->
-				<div class="col-xl-4 col-md-6 service_col">
-					<div class="service">
-						<div class="service_title_container d-flex flex-row align-items-center justify-content-start">
-							<div><div class="service_icon"><img src="images/icon_6.png" alt=""></div></div>
-							<div class="service_title">Spinning Class</div>
-						</div>
-						<div class="service_text">
-							<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec malesuada lorem maximus mauris scelerisque, at rutrum.</p>
-						</div>
-					</div>
-				</div>
-
-				<!-- Service -->
-				<div class="col-xl-4 col-md-6 service_col">
-					<div class="service">
-						<div class="service_title_container d-flex flex-row align-items-center justify-content-start">
-							<div><div class="service_icon"><img src="images/icon_7.png" alt=""></div></div>
-							<div class="service_title">Private Fit Class</div>
-						</div>
-						<div class="service_text">
-							<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec malesuada lorem maximus mauris scelerisque, at rutrum.</p>
-						</div>
-					</div>
-				</div>
-
-				<!-- Service -->
-				<div class="col-xl-4 col-md-6 service_col">
-					<div class="service">
-						<div class="service_title_container d-flex flex-row align-items-center justify-content-start">
-							<div><div class="service_icon"><img src="images/icon_8.png" alt=""></div></div>
-							<div class="service_title">Nutrition Classes</div>
-						</div>
-						<div class="service_text">
-							<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec malesuada lorem maximus mauris scelerisque, at rutrum.</p>
-						</div>
-					</div>
-				</div>
-
-				<!-- Service -->
-				<div class="col-xl-4 col-md-6 service_col">
-					<div class="service">
-						<div class="service_title_container d-flex flex-row align-items-center justify-content-start">
-							<div><div class="service_icon"><img src="images/icon_9.png" alt=""></div></div>
-							<div class="service_title">Pillates Class</div>
-						</div>
-						<div class="service_text">
-							<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec malesuada lorem maximus mauris scelerisque, at rutrum.</p>
-						</div>
-					</div>
-				</div>
-
-			</div>
-		</div>
-	</div>
-
 	<!-- Blog -->
 
 	<div class="blog">
@@ -391,7 +249,7 @@
 							<div class="section_subtitle">welcome to sportfit</div>
 							<div class="section_title">The Blog</div>
 						</div>
-						<div class="all_posts_link ml-auto"><a href="#">View all blog posts</a></div>
+						{{-- <div class="all_posts_link ml-auto"><a href="#">View all blog posts</a></div> --}}
 					</div>
 				</div>
 			</div>
@@ -440,59 +298,5 @@
 		</div>
 	</div>
 
-	<!-- Footer -->
-
-	<footer class="footer">
-		<div class="container">
-			<div class="row">
-				<div class="col-lg-8 offset-lg-2">
-					<div class="footer_container">
-						<div class="footer_content">
-							<div class="footer_logo">
-								<a href="#">
-									<div class="logo d-flex flex-row align-items-center justify-content-center"><img src="images/dot.png" alt=""><div>Sport<span>fit</span></div></div>
-								</a>
-							</div>
-							<nav class="footer_nav">
-								<ul class="d-flex flex-sm-row flex-column align-items-sm-start align-items-center justify-content-center">
-									<li><a href="{{route('home')}}">Home</a></li>
-									<li><a href="{{route('about')}}">About us</a></li>
-									<li><a href="{{route('elements')}}">Classes & Services</a></li>
-									<li><a href="{{route('blog')}}">Blog</a></li>
-									<li><a href="{{route('contact')}}">Contact</a></li>
-								</ul>
-							</nav>
-							<div class="newsletter_container">
-								<form action="#" id="newsletter_form" class="newsletter_form">
-									<input type="text" class="newsletter_input" placeholder="Enter your email here" required="required">
-									<button class="newsletter_button">go</button>
-								</form>
-							</div>
-							<div class="copyright d-flex flex-row align-items-start justify-content-sm-end justify-content-center"><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
-<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></div>
-						</div>
-						<div class="footer_image text-center"><img src="images/footer.png" alt=""></div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</footer>
 </div>
-
-<script src="js/jquery-3.2.1.min.js"></script>
-<script src="styles/bootstrap-4.1.2/popper.js"></script>
-<script src="styles/bootstrap-4.1.2/bootstrap.min.js"></script>
-<script src="plugins/greensock/TweenMax.min.js"></script>
-<script src="plugins/greensock/TimelineMax.min.js"></script>
-<script src="plugins/scrollmagic/ScrollMagic.min.js"></script>
-<script src="plugins/greensock/animation.gsap.min.js"></script>
-<script src="plugins/greensock/ScrollToPlugin.min.js"></script>
-<script src="plugins/OwlCarousel2-2.2.1/owl.carousel.js"></script>
-<script src="plugins/easing/easing.js"></script>
-<script src="plugins/progressbar/progressbar.min.js"></script>
-<script src="plugins/parallax-js-master/parallax.min.js"></script>
-<script src="plugins/colorbox/jquery.colorbox-min.js"></script>
-<script src="js/custom.js"></script>
-</body>
-</html>
+@endsection

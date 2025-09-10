@@ -9,17 +9,27 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-public function up()
+    public function up(): void
     {
+        Schema::disableForeignKeyConstraints();
+
         Schema::create('communes', function (Blueprint $table) {
             $table->id();
-            $table->string('nom');
-            $table->foreignId('province_id')->constrained()->onDelete('cascade');
+            $table->string('name');
+            $table->foreignId('province_id')->nullable();
+            $table->float('commune_latitude')->nullable();
+            $table->float('commune_longitude')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
+
+        Schema::enableForeignKeyConstraints();
     }
 
-    public function down()
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
     {
         Schema::dropIfExists('communes');
     }

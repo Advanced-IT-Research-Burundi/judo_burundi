@@ -15,7 +15,12 @@ return new class extends Migration
             $table->id();
             $table->string('nom');
             $table->string('prenom');
-            $table->foreignId('quartier_id')->constrained()->onDelete('cascade');
+            $table->date('date_naissance')->nullable();
+            $table->string('lieu_naissance')->nullable();
+            $table->string('sexe')->nullable();
+            $table->string('telephone')->nullable();
+            $table->string('email')->nullable();
+            $table->foreignId('colline_id')->constrained()->onDelete('cascade');
             $table->foreignId('categorie_id')->constrained('categories')->onDelete('cascade');
             $table->timestamps();
         });

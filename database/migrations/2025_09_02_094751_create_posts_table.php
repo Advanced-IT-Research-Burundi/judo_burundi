@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('posts', function (Blueprint $table) {
             $table->id();
             $table->text('contenu');
-            $table->foreignId('joueur_id')->constrained()->onDelete('cascade');
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->foreignId('typepost_id')->constrained('type_posts')->onDelete('cascade');
             $table->timestamp('date_post');
             $table->timestamps();
