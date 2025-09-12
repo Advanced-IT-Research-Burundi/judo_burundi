@@ -9,9 +9,9 @@
         <div class="card">
             <div class="card-header">
                 <div class="d-flex justify-content-between align-items-center">
-                    <h5 class="mb-0">{{ $categorie->nom }}</h5>
+                    <h5 class="mb-0">{{ $category->nom }}</h5>
                     <div>
-                        <a href="{{ route('admin.categories.edit', $categorie) }}" class="btn btn-warning btn-sm">
+                        <a href="{{ route('admin.categories.edit', $category) }}" class="btn btn-warning btn-sm">
                             <i class="fas fa-edit"></i> Modifier
                         </a>
                         <a href="{{ route('admin.categories.index') }}" class="btn btn-secondary btn-sm">
@@ -22,13 +22,13 @@
             </div>
             <div class="card-body">
                 <p><strong>Description:</strong></p>
-                <p>{{ $categorie->description ?? 'Aucune description' }}</p>
+                <p>{{ $category->description ?? 'Aucune description' }}</p>
                 
                 <hr>
                 
-                <p><strong>Date de création:</strong> {{ $categorie->created_at->format('d/m/Y à H:i') }}</p>
-                <p><strong>Dernière modification:</strong> {{ $categorie->updated_at->format('d/m/Y à H:i') }}</p>
-                <p><strong>Nombre de joueurs:</strong> <span class="badge bg-primary">{{ $categorie->joueurs->count() }}</span></p>
+                <p><strong>Date de création:</strong> {{ $category->created_at->format('d/m/Y à H:i') }}</p>
+                <p><strong>Dernière modification:</strong> {{ $category->updated_at->format('d/m/Y à H:i') }}</p>
+                <p><strong>Nombre de joueurs:</strong> <span class="badge bg-primary">{{ $category->joueurs->count() }}</span></p>
             </div>
         </div>
     </div>
@@ -39,9 +39,9 @@
                 <h6 class="mb-0">Joueurs de cette catégorie</h6>
             </div>
             <div class="card-body">
-                @if($categorie->joueurs->count() > 0)
+                @if($category->joueurs->count() > 0)
                     <div class="list-group list-group-flush">
-                        @foreach($categorie->joueurs as $joueur)
+                        @foreach($category->joueurs as $joueur)
                             <div class="list-group-item px-0">
                                 <div class="d-flex justify-content-between align-items-start">
                                     <div class="flex-grow-1">

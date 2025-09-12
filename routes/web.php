@@ -36,10 +36,9 @@ Route::get('/about', [AboutController::class, 'index'])->name('about');
 Route::get('/blog', [BlogController::class, 'index'])->name('blog');
 Route::get('/elements', [ElementController::class, 'element'])->name('element');
 Route::get('/services', [ServiceController::class, 'index'])->name('service');
+Route::get('/contact', [ContactController::class, 'index'])->name('contact.index');
+Route::post('/contact/submit', [ContactController::class, 'submit'])->name('contact.submit');
 
-// Route::get('/dashboard', function () {
-//     return view('dashboard');
-// })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -48,7 +47,6 @@ Route::middleware('auth')->group(function () {
 });
 
 require __DIR__ . '/auth.php';
-// Routes pour l'administration
 Route::prefix('admin')->middleware('auth')->name('admin.')->group(function () {
     Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::resource('categories', CategorieController::class);

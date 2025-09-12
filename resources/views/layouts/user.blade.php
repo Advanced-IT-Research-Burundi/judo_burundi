@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>SportFIT</title>
+    <title> JUDO</title>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="description" content="SportFIT template project">
@@ -23,9 +23,9 @@
                 <li><a href="{{route('service')}}">Services</a></li>
                 <li><a href="{{route('about')}}">À Propos</a></li>
                 {{-- <li><a href="#equipe">Équipe</a></li> --}}
-                <li><a href="{{route('contact')}}">Contact</a></li>
+                <li><a href="{{route('contact.index')}}">Contact</a></li>
             </ul>
-            <a href="#" class="login-btn">Connexion</a>
+            {{-- <a href="#" class="login-btn">Connexion</a> --}}
         </nav>
     </header>
 

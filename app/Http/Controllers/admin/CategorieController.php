@@ -32,38 +32,38 @@ class CategorieController extends Controller
             ->with('success', 'Catégorie créée avec succès.');
     }
 
-    public function show(Categorie $categorie)
+    public function show(Categorie $category)
     {
-        $categorie->load(['joueurs.quartier.zone.commune']);
-        return view('admin.categorie.show', compact('categorie'));
+        $category->load(['joueurs.quartier.zone.commune']);
+        return view('admin.categorie.show', compact('category'));
     }
 
-    public function edit(Categorie $categorie)
+    public function edit(Categorie $category)
     {
-        return view('admin.categorie.edit', compact('categorie'));
+        return view('admin.categorie.edit', compact('category'));
     }
 
-    public function update(Request $request, Categorie $categorie)
+    public function update(Request $request, Categorie $category)
     {
         $request->validate([
-            'nom' => 'required|string|max:255|unique:categories,nom,' . $categorie->id,
+            'nom' => 'required|string|max:255|unique:categories,nom,' . $category->id,
             'description' => 'nullable|string'
         ]);
 
-        $categorie->update($request->all());
+        $category->update($request->all());
 
         return redirect()->route('admin.categories.index')
             ->with('success', 'Catégorie mise à jour avec succès.');
     }
 
-    public function destroy(Categorie $categorie)
+    public function destroy(Categorie $category)
     {
-        if ($categorie->joueurs()->count() > 0) {
+        if ($category->joueurs()->count() > 0) {
             return redirect()->route('admin.categories.index')
                 ->with('error', 'Impossible de supprimer cette catégorie car elle contient des joueurs.');
         }
 
-        $categorie->delete();
+        $category->delete();
 
         return redirect()->route('admin.categories.index')
             ->with('success', 'Catégorie supprimée avec succès.');

@@ -25,13 +25,6 @@ window.addEventListener('scroll', function () {
     }
 });
 
-// Contact form submission
-document.querySelector('.contact-form').addEventListener('submit', function (e) {
-    e.preventDefault();
-    alert('Merci pour votre message! Nous vous contacterons bientôt.');
-    this.reset();
-});
-
 // Gallery item hover effects
 document.querySelectorAll('.gallery-item').forEach(item => {
     item.addEventListener('mouseenter', function () {
@@ -201,5 +194,73 @@ document.getElementById('imageInput').addEventListener('change', function (e) {
     if (file) {
         const uploadDiv = document.querySelector('.image-upload div');
         uploadDiv.innerHTML = `✅ Image sélectionnée: ${file.name}<br><small>Cliquez pour changer</small>`;
+    }
+});
+// Script amélioré pour le bouton de soumission
+document.addEventListener('DOMContentLoaded', function () {
+    const form = document.querySelector('.contact-form');
+    const submitBtn = document.getElementById('contact-submit-btn');
+    const btnText = submitBtn.querySelector('.btn-text');
+    const btnLoading = submitBtn.querySelector('.btn-loading');
+
+    if (form && submitBtn) {
+        form.addEventListener('submit', function () {
+            btnText.style.display = 'none';
+            btnLoading.style.display = 'inline';
+            submitBtn.disabled = true;
+        });
+    }
+
+    // Auto-hide success message après 5 secondes
+    const successAlert = document.querySelector('.contact-success');
+    if (successAlert) {
+        setTimeout(() => {
+            successAlert.style.opacity = '0';
+            setTimeout(() => {
+                successAlert.style.display = 'none';
+            }, 300);
+        }, 5000);
+    }
+});
+
+function toggleContent(postId) {
+    const excerpt = document.querySelector(`#content-${postId}`).previousElementSibling;
+    const fullContent = document.getElementById(`content-${postId}`);
+    const button = fullContent.nextElementSibling;
+
+    if (fullContent.style.display === 'none') {
+        excerpt.style.display = 'none';
+        fullContent.style.display = 'block';
+        button.textContent = 'Réduire';
+    } else {
+        excerpt.style.display = 'block';
+        fullContent.style.display = 'none';
+        button.textContent = 'Lire la suite';
+    }
+}
+
+function sharePost(postId) {
+    if (navigator.share) {
+        navigator.share({
+            title: 'Publication FBJ',
+            text: 'Découvrez cette publication de la Fédération Burundaise de Judo',
+            url: window.location.href
+        });
+    } else {
+        navigator.clipboard.writeText(window.location.href);
+        alert('Lien copié dans le presse-papiers !');
+    }
+}
+
+// Script pour le bouton de soumission
+document.addEventListener('DOMContentLoaded', function () {
+    const form = document.querySelector('.contact-form');
+    const submitBtn = document.getElementById('contact-submit-btn');
+
+    if (form && submitBtn) {
+        form.addEventListener('submit', function () {
+            submitBtn.textContent = 'Envoi en cours...';
+            submitBtn.disabled = true;
+        });
     }
 });
