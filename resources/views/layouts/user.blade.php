@@ -1,70 +1,64 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
-    <title> JUDO</title>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="description" content="SportFIT template project">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" type="text/css" href="{{asset('css/user.css')}}">
-    {{-- <link rel="stylesheet" type="text/css" href="{{asset('css/contact.css')}}"> --}}
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JUDO-BURUNDI</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{asset('css/user.css')}}">
+    {{-- <link rel="icon" type="image/png" href="{{asset('images/logo.png')}}"> --}}
 </head>
 <body>
     <!-- Header -->
     <header class="header">
-        <nav class="nav-container">
-            <div class="logo">
-                <div style="width: 40px; height: 40px; background: #90c695; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 10px; font-weight: bold; color: #2d5016;">🥋</div>
-                FBJ
-            </div>
-            <ul class="nav-menu">
-                <li><a href="{{route('home')}}">Accueil</a></li>
-                <li><a href="{{route('service')}}">Services</a></li>
-                <li><a href="{{route('about')}}">À Propos</a></li>
-                {{-- <li><a href="#equipe">Équipe</a></li> --}}
-                <li><a href="{{route('contact.index')}}">Contact</a></li>
-            </ul>
-            {{-- <a href="#" class="login-btn">Connexion</a> --}}
-        </nav>
+        <div class="container">
+            <nav class="nav">
+                <div class="logo">JUDO</div>
+                <ul class="nav-links">
+                    <li><a href="#home">Accueil</a></li>
+                    <li><a href="#about">À propos</a></li>
+                    {{-- <li><a href="#instructors">Instructeurs</a></li> --}}
+                    <li><a href="#gallery">Galerie</a></li>
+                    <li><a href="#news">Actualités</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+                <button class="cta-button" onclick="openModal()">S'inscrire</button>
+            </nav>
+        </div>
     </header>
-
     <!-- Content -->
     <main>
         @yield('content')
     </main>
-     <!-- Footer -->
-    <footer class="footer">
+        <!-- Footer -->
+    <footer class="footer" id="contact">
         <div class="container">
             <div class="footer-content">
                 <div class="footer-section">
-                    <h3>Fédération Burundaise de Judo</h3>
-                    <p>Développer l'excellence du judo au Burundi à travers la formation, la compétition et les valeurs traditionnelles.</p>
-                </div>
-                <div class="footer-section">
-                    <h3>Liens Rapides</h3>
-                    <a href="#accueil">Accueil</a>
-                    <a href="#services">Services</a>
-                    <a href="#apropos">À Propos</a>
-                    <a href="#equipe">Équipe</a>
-                    <a href="#contact">Contact</a>
-                </div>
-                <div class="footer-section">
-                    <h3>Services</h3>
-                    <a href="#">Formations</a>
-                    <a href="#">Compétitions</a>
-                    <a href="#">Grades</a>
-                    <a href="#">Clubs Affiliés</a>
+                    <h3>JUDO-BURUNDI</h3>
+                    <p>Votre partenaire pour un parcours martial d'excellence. Nous formons les champions de demain avec passion et dévouement.</p>
                 </div>
                 <div class="footer-section">
                     <h3>Contact</h3>
-                    <p>📍 Bujumbura, Burundi</p>
-                    <p>📞 +257 22 24 35 67</p>
-                    <p>✉️ info@fbjudo.bi</p>
+                    <p><i class="fas fa-map-marker-alt"></i> Avenue de l'Indépendance, Bujumbura</p>
+                    <p><i class="fas fa-phone"></i> +257 22 123 456</p>
+                    <p><i class="fas fa-envelope"></i> info@judoburundi-bi.com</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Horaires</h3>
+                    <p>Lundi - Vendredi: 6h00 - 21h00</p>
+                    <p>Samedi: 8h00 - 18h00</p>
+                    <p>Dimanche: 10h00 - 16h00</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Suivez-nous</h3>
+                    <p><a href="#"><i class="fab fa-facebook"></i> Facebook</a></p>
+                    <p><a href="#"><i class="fab fa-instagram"></i> Instagram</a></p>
+                    <p><a href="#"><i class="fab fa-youtube"></i> YouTube</a></p>
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>&copy; 2024 Fédération Burundaise de Judo. Tous droits réservés.</p>
+                <p>&copy; 2025 JUDO-BURUNDI. Tous droits réservés.</p>
             </div>
         </div>
     </footer>
