@@ -14,17 +14,20 @@ use App\Http\Controllers\admin\TypePostController;
 use App\Http\Controllers\admin\CommuneController;
 use App\Http\Controllers\admin\ZoneController;
 use App\Http\Controllers\admin\QuartierController;
-use App\Http\Controllers\ElementController;
 use App\Http\Controllers\admin\CountrieController;
-use App\Http\Controllers\ServiceController;
+use App\Http\Controllers\admin\ActualiteController;
+use App\Http\Controllers\admin\GalerieController;
+use App\Http\Controllers\ContactController;
+
 
 
 // Routes publiques
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/about', [AboutController::class, 'index'])->name('about');
 Route::get('/blog', [BlogController::class, 'index'])->name('blog');
-Route::get('/elements', [ElementController::class, 'element'])->name('element');
-Route::get('/services', [ServiceController::class, 'index'])->name('service');
+Route::get('/galerie', [App\Http\Controllers\GalerieController::class, 'index'])->name('galerie');
+Route::get('/contact', [ContactController::class, 'index'])->name('contact');
+
 
 // Routes d'authentification
 require __DIR__ . '/auth.php';

@@ -17,12 +17,11 @@
             <nav class="nav">
                 <div class="logo">JUDO</div>
                 <ul class="nav-links">
-                    <li><a href="#home">Accueil</a></li>
-                    <li><a href="#about">À propos</a></li>
-                    {{-- <li><a href="#instructors">Instructeurs</a></li> --}}
-                    <li><a href="#gallery">Galerie</a></li>
-                    <li><a href="#news">Actualités</a></li>
-                    <li><a href="#contact">Contact</a></li>
+                    <li><a href="{{route('home')}}">Accueil</a></li>
+                    <li><a href="{{route('about')}}">À propos</a></li>
+                    <li><a href="{{route('galerie')}}">Galerie</a></li>
+                    <li><a href="{{route('blog')}}">Actualités</a></li>
+                    <li><a href="{{route('contact')}}">Contact</a></li>
                 </ul>
                 <button class="cta-button" onclick="openModal()">S'inscrire</button>
             </nav>

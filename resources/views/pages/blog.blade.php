@@ -2,53 +2,95 @@
 @section('content')
 @section('title', 'Blog & Actualités')
 <!-- Hero Section -->
-	<section id="accueil" class="hero">
-		<div class="container">
-			<div class="hero-content">
-				<h1>Fédération de Judo du Burundi</h1>
-				<p>Post et Actualites</p>
-				<a href="#programmes" class="cta-button">Découvrir nos programmes</a>
-			</div>
-		</div>
-	</section>
-	 <!-- Blog Section -->
-	<section class="blog" id="blog">
-		<div class="container">
-			<div class="section-title">
-				<h2>Blog & Actualités</h2>
-				<p>Restez informé des dernières nouvelles et événements de la FBJ</p>
-			</div>
-			<div class="blog-grid">
-				<div class="blog-post">
-					<div class="post-image">📰</div>
-					<div class="post-content">
-						<h3>Tournoi National de Judo 2024</h3>
-						<p>Le tournoi annuel de judo s'est tenu à Bujumbura avec
-							plus de 200 participants de tout le pays.</p>
-						<a href="#" class="read-more">Lire la suite</a>
-					</div>
-				</div>
-				<div class="blog-post">
-					<div class="post-image">🤼‍♂️</div>
-						<div class="post-content">
-						<h3>Formation des Instructeurs à Gitega</h3>
-						<p>Une session de formation intensive pour les nouveaux
-							instructeurs de judo a eu lieu à Gitega.</p>
-						<a href="#" class="read-more">Lire la suite</a>
-					</div>
-				</div>
-				<div class="blog-post">
-					<div class="post-image">🌍</div>
-						<div class="post-content">
-						<h3>Participation aux Championnats Africains</h3>
-						<p>Nos athlètes ont brillamment représenté le Burundi
-							au dernier championnat africain de judo.</p>
-						<a href="#" class="read-more">Lire la suite</a>
-					</div>
-				</div>
-			</div>
-		</div>
-	</section>
-</section>
-@endsection
+<section class="hero" id="home">
+    <div class="container">
+        <h1>ENTRAÎNEZ-VOUS AVEC LES MEILLEURS</h1>
+        <p>Découvrez JUDO traditionnel avec nos instructeurs légendaires</p>
+        <div class="hero-buttons">
 
+            <button class="btn-primary" onclick="openModal()">Commencer maintenant</button>
+            <button class="btn-secondary">En savoir plus</button>
+        </div>
+    </div>
+</section>
+<!-- News Section -->
+<section class="news" id="news">
+    <div class="container">
+        <div class="news-header">
+            <div class="section-title" style="text-align: left; margin-bottom: 0;">
+                <h2>Actualités</h2>
+                <p>Restez informés de toutes nos actualités</p>
+            </div>
+        </div>
+
+        <!-- News Grid -->
+        <div id="newsGrid" class="news-grid">
+            @forelse($actualites as $actualite)
+                <div class="news-card">
+                    <div class="news-image">
+                        @if ($actualite->image && file_exists(public_path('storage/' . $actualite->image)))
+                            <img src="{{ asset('storage/' . $actualite->image) }}" alt="{{ $actualite->titre }}"
+                                style="height: 100%; width: 100%; object-fit: cover; border-radius: 10px;">
+                        @else
+                            <!-- Image par défaut selon le type -->
+                            @switch($actualite->typePost->nom ?? 'default')
+                                @case('Compétition')
+                                    <img src="/images/judo3.jpg" alt="Compétition"
+                                        style="height: 100%; width: 100%; object-fit: cover; border-radius: 10px;">
+                                @break
+
+                                @case('Événement')
+                                    <img src="/images/judo4.jpg" alt="Événement"
+                                        style="height: 100%; width: 100%; object-fit: cover; border-radius: 10px;">
+                                @break
+
+                                @case('Formation')
+                                    <img src="/images/judo5.jpg" alt="Formation"
+                                        style="height: 100%; width: 100%; object-fit: cover; border-radius: 10px;">
+                                @break
+
+                                @default
+                                    <img src="/images/judo6.jpg" alt="Actualité"
+                                        style="height: 100%; width: 100%; object-fit: cover; border-radius: 10px;">
+                            @endswitch
+                        @endif
+                    </div>
+                    <div class="news-content">
+                        <div class="news-meta">
+                            <span class="news-date">{{ $actualite->date_post->format('d M Y') }}</span>
+                            <span class="news-category">{{ $actualite->typePost->nom ?? 'Actualité' }}</span>
+                        </div>
+                        <h3 class="news-title">{{ Str::limit($actualite->titre, 60) }}</h3>
+                        <p class="news-excerpt">
+                            {{ $actualite->extrait ?? Str::limit(strip_tags($actualite->contenu), 120) }}</p>
+                        <div class="news-author">
+                            <i class="fas fa-user"></i>
+                            <span>{{ $actualite->user->name ?? 'Fédération de Judo' }}</span>
+                        </div>
+                        <button class="read-more"
+                            onclick="readMoreActualite({{ $actualite->id }}, '{{ addslashes($actualite->titre) }}', '{{ addslashes(strip_tags($actualite->contenu)) }}', '{{ $actualite->date_post->format('d/m/Y') }}', '{{ $actualite->user->name ?? 'Fédération de Judo' }}', '{{ $actualite->typePost->nom ?? 'Actualité' }}')">
+                            Lire plus
+                        </button>
+                    </div>
+                </div>
+                @empty
+                    <!-- Affichage si aucune actualité -->
+                    <div class="col-12 text-center py-5">
+                        <i class="fas fa-newspaper fa-3x text-muted mb-3"></i>
+                        <h5 class="text-muted">Aucune actualité pour le moment</h5>
+                        <p class="text-muted">Revenez bientôt pour découvrir nos dernières nouvelles !</p>
+                    </div>
+                @endforelse
+            </div>
+
+            <!-- Voir plus d'actualités -->
+            @if ($actualites->count() >= 6)
+                <div class="text-center mt-4">
+                    <a href="{{ route('actualites.index') }}" class="btn-primary">
+                        <i class="fas fa-plus-circle"></i> Voir toutes les actualités
+                    </a>
+                </div>
+            @endif
+        </div>
+    </section>
+@endsection

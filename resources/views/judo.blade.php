@@ -21,19 +21,19 @@
                     <i class="fas fa-fist-raised"></i>
                     <h3>Techniques Expertes</h3>
                     <p>Apprenez les techniques authentiques avec nos maîtres expérimentés</p>
-                    <button class="btn-secondary">Découvrir</button>
+                    {{-- <button class="btn-secondary">Découvrir</button> --}}
                 </div>
                 <div class="feature-card">
                     <i class="fas fa-users"></i>
                     <h3>Communauté</h3>
                     <p>Rejoignez une communauté passionnée et bienveillante</p>
-                    <button class="btn-secondary">Rejoindre</button>
+                    {{-- <button class="btn-secondary">Rejoindre</button> --}}
                 </div>
                 <div class="feature-card">
                     <i class="fas fa-trophy"></i>
                     <h3>Compétitions</h3>
                     <p>Participez à des compétitions locales et nationales</p>
-                    <button class="btn-secondary">Participer</button>
+                    {{-- <button class="btn-secondary">Participer</button> --}}
                 </div>
             </div>
         </div>
@@ -62,51 +62,6 @@
             </div>
         </div>
     </section>
-
-    {{-- <!-- Instructors Section -->
-    <section class="instructors" id="instructors">
-        <div class="container">
-            <div class="section-title">
-                <h2>Nos Instructeurs</h2>
-                <p>Rencontrez nos maîtres expérimentés</p>
-            </div>
-            <div class="instructors-grid">
-                <div class="instructor-card">
-                    <div class="instructor-image">
-                        <div style="height: 100%; background: #ddd; display: flex; align-items: center; justify-content: center; color: #666;">
-                            <i class="fas fa-user" style="font-size: 3rem;"></i>
-                        </div>
-                    </div>
-                    <div class="instructor-info">
-                        <h3>Maître Karim</h3>
-                        <p>Expert en Karaté</p>
-                    </div>
-                </div>
-                <div class="instructor-card">
-                    <div class="instructor-image">
-                        <div style="height: 100%; background: #ddd; display: flex; align-items: center; justify-content: center; color: #666;">
-                            <i class="fas fa-user" style="font-size: 3rem;"></i>
-                        </div>
-                    </div>
-                    <div class="instructor-info">
-                        <h3>Maître Sarah</h3>
-                        <p>Experte en Taekwondo</p>
-                    </div>
-                </div>
-                <div class="instructor-card">
-                    <div class="instructor-image">
-                        <div style="height: 100%; background: #ddd; display: flex; align-items: center; justify-content: center; color: #666;">
-                            <i class="fas fa-user" style="font-size: 3rem;"></i>
-                        </div>
-                    </div>
-                    <div class="instructor-info">
-                        <h3>Maître Jean</h3>
-                        <p>Expert en Judo</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section> --}}
 
     <!-- Gallery Section -->
     <section class="gallery" id="gallery">

@@ -3,61 +3,85 @@
 @section('title', 'A Propos de nous')
 
 <!-- Hero Section -->
-    <section id="accueil" class="hero">
-        <div class="container">
-            <div class="hero-content">
-                <h1>Fédération de Judo du Burundi</h1>
-                <p>A propos de nous</p>
-                <a href="#programmes" class="cta-button">Découvrir nos programmes</a>
-            </div>
-        </div>
-    </section>
-<!-- About -->
+<section class="hero" id="home">
+    <div class="container">
+        <h1>ENTRAÎNEZ-VOUS AVEC LES MEILLEURS</h1>
+        <p>Découvrez JUDO traditionnel avec nos instructeurs légendaires</p>
+        <div class="hero-buttons">
 
-    <!-- About Section -->
-    <section class="about" id="apropos">
-        <div class="container">
-            <div class="about-content">
-                <div class="about-text">
-                    <h2>À Propos de la FBJ</h2>
-                    <p>La Fédération Burundaise de Judo (FBJ) est l'organisme officiel qui régit la pratique du judo au Burundi. Fondée pour promouvoir les valeurs du judo et développer ce sport noble dans tout le pays.</p>
-                    <p>Nous nous engageons à former des champions tout en inculquant les valeurs fondamentales du judo : respect, courage, sincérité, honneur, modestie, contrôle de soi, amitié et politesse.</p>
-                    <p>Avec plus de 20 clubs affiliés à travers le pays, nous touchons des milliers de pratiquants de tous âges et niveaux.</p>
-                    <a href="#contact" class="btn btn-primary">En Savoir Plus</a>
-                </div>
-                <div class="about-image">
-                    <div style="width: 100%; height: 400px; background: linear-gradient(45deg, #4a7c59, #2d5016); border-radius: 15px; display: flex; align-items: center; justify-content: center; color: white; font-size: 4rem;">🥋</div>
+            <button class="btn-primary" onclick="openModal()">Commencer maintenant</button>
+            <button class="btn-secondary">En savoir plus</button>
+        </div>
+    </div>
+</section>
+<!-- Welcome Section -->
+<section class="welcome" id="about">
+    <div class="container">
+        <div class="welcome-content">
+            <div class="welcome-text">
+                <h2>Bienvenue dans notre Académie</h2>
+                <p>Notre académie d'arts martiaux offre un enseignement de qualité supérieure dans un environnement
+                    respectueux et discipliné. Nous accueillons tous les niveaux, des débutants aux avancés.</p>
+                <p>Avec plus de 20 ans d'expérience, nos instructeurs vous guideront dans votre parcours martial, que ce
+                    soit pour la self-défense, la compétition ou le développement personnel.</p>
+                <button class="btn-primary" onclick="openModal()">Rejoignez-nous</button>
+            </div>
+            <div class="welcome-image">
+                <div
+                    style="height: 400px; background: #ddd; border-radius: 10px; display: flex; align-items: center; justify-content: center; color: #666;">
+                    {{-- <i class="fas fa-image" style="font-size: 4rem;"></i> --}}
+                    <img src="/images/judo2.jpg" alt="Welcome Image"
+                        style="height: 100%; width: auto; border-radius: 10px;">
                 </div>
             </div>
         </div>
-    </section>
-     <!-- Team Section -->
-    <section class="team" id="equipe">
-        <div class="container">
-            <div class="section-title">
-                <h2>Notre Équipe</h2>
-                <p>Rencontrez les dirigeants et entraîneurs qui font la force de notre fédération</p>
+    </div>
+</section>
+<!-- Instructors Section -->
+<section class="instructors" id="instructors">
+    <div class="container">
+        <div class="section-title">
+            <h2>Nos Instructeurs</h2>
+            <p>Rencontrez nos maîtres expérimentés</p>
+        </div>
+        <div class="instructors-grid">
+            <div class="instructor-card">
+                <div class="instructor-image">
+                    <div
+                        style="height: 100%; background: #ddd; display: flex; align-items: center; justify-content: center; color: #666;">
+                        <i class="fas fa-user" style="font-size: 3rem;"></i>
+                    </div>
+                </div>
+                <div class="instructor-info">
+                    <h3>Maître Karim</h3>
+                    <p>Expert en Karaté</p>
+                </div>
             </div>
-            <div class="team-grid">
-                <div class="team-member">
-                    <div class="member-photo">👨</div>
-                    <h3>Jean-Claude NIYONZIMA</h3>
-                    <p>Président de la Fédération</p>
-                    <p>Ceinture Noire 6ème Dan</p>
+            <div class="instructor-card">
+                <div class="instructor-image">
+                    <div
+                        style="height: 100%; background: #ddd; display: flex; align-items: center; justify-content: center; color: #666;">
+                        <i class="fas fa-user" style="font-size: 3rem;"></i>
+                    </div>
                 </div>
-                <div class="team-member">
-                    <div class="member-photo">👩</div>
-                    <h3>Marie UWIMANA</h3>
-                    <p>Directrice Technique</p>
-                    <p>Ceinture Noire 5ème Dan</p>
+                <div class="instructor-info">
+                    <h3>Maître Sarah</h3>
+                    <p>Experte en Taekwondo</p>
                 </div>
-                <div class="team-member">
-                    <div class="member-photo">👨</div>
-                    <h3>Pierre HABONIMANA</h3>
-                    <p>Entraîneur National</p>
-                    <p>Ceinture Noire 4ème Dan</p>
+            </div>
+            <div class="instructor-card">
+                <div class="instructor-image">
+                    <div
+                        style="height: 100%; background: #ddd; display: flex; align-items: center; justify-content: center; color: #666;">
+                        <i class="fas fa-user" style="font-size: 3rem;"></i>
+                    </div>
+                </div>
+                <div class="instructor-info">
+                    <h3>Maître Jean</h3>
+                    <p>Expert en Judo</p>
                 </div>
             </div>
         </div>
-    </section>
+    </div>
+</section>
 @endsection
