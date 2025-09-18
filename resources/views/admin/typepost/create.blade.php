@@ -1,48 +1,105 @@
 @extends('layouts.admin')
 
-@section('title', 'Ajouter un Type de Post')
-@section('page-title', 'Ajouter un Type de Post')
+@section('title', 'Créer un Type de Post')
 
 @section('content')
-<div class="card">
-    <div class="card-header">
-        <div class="d-flex justify-content-between align-items-center">
-            <h5 class="mb-0">Nouveau Type de Post</h5>
-            <a href="{{ route('admin.typeposts.index') }}" class="btn btn-secondary">
-                <i class="fas fa-arrow-left"></i> Retour à la liste
+<div class="container-fluid">
+    <div class="row mb-4">
+        <div class="col-md-8">
+            <h1 class="h3 mb-1">Créer un nouveau type de post</h1>
+            <p class="text-muted mb-0">Ajoutez une nouvelle catégorie de contenu</p>
+        </div>
+        <div class="col-md-4 text-end">
+            <a href="{{ route('admin.type-posts.index') }}" class="btn btn-secondary">
+                <i class="fas fa-arrow-left me-2"></i>Retour à la liste
             </a>
         </div>
     </div>
-    <div class="card-body">
-        <form action="{{ route('admin.typeposts.store') }}" method="POST">
-            @csrf
-            <div class="mb-3">
-                <label for="nom" class="form-label">Nom <span class="text-danger">*</span></label>
-                <input type="text" class="form-control @error('nom') is-invalid @enderror" 
-                       id="nom" name="nom" value="{{ old('nom') }}" required>
-                @error('nom')
-                    <div class="invalid-feedback">{{ $message }}</div>
-                @enderror
-                <div class="form-text">Ex: Annonce, Résultat, Entrainement, etc.</div>
+
+    @if($errors->any())
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <i class="fas fa-exclamation-circle me-2"></i>
+            <strong>Erreurs de validation :</strong>
+            <ul class="mb-0 mt-2">
+                @foreach($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    @endif
+
+    <div class="row">
+        <div class="col-lg-8">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">
+                        <i class="fas fa-plus me-2"></i>Informations du type
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <form method="POST" action="{{ route('admin.type-posts.store') }}">
+                        @csrf
+                        
+                        <div class="mb-3">
+                            <label for="nom" class="form-label">Nom du type *</label>
+                            <input type="text" class="form-control @error('nom') is-invalid @enderror" 
+                                   id="nom" name="nom" value="{{ old('nom') }}" required autofocus>
+                            @error('nom')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                            <div class="form-text">Nom unique du type (ex: Actualités, Événements, Résultats)</div>
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="description" class="form-label">Description</label>
+                            <textarea class="form-control @error('description') is-invalid @enderror" 
+                                      id="description" name="description" rows="4">{{ old('description') }}</textarea>
+                            @error('description')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                            <div class="form-text">Description détaillée du type de contenu (optionnel)</div>
+                        </div>
+
+                        <div class="d-flex gap-2">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save me-2"></i>Créer le type
+                            </button>
+                            <a href="{{ route('admin.type-posts.index') }}" class="btn btn-secondary">
+                                Annuler
+                            </a>
+                        </div>
+                    </form>
+                </div>
             </div>
-            
-            <div class="mb-3">
-                <label for="description" class="form-label">Description</label>
-                <textarea class="form-control @error('description') is-invalid @enderror" 
-                          id="description" name="description" rows="3">{{ old('description') }}</textarea>
-                @error('description')
-                    <div class="invalid-feedback">{{ $message }}</div>
-                @enderror
-                <div class="form-text">Description optionnelle du type de post</div>
+        </div>
+
+        <div class="col-lg-4">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">
+                        <i class="fas fa-info-circle me-2"></i>Aide
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <h6>Conseils pour les types :</h6>
+                    <ul class="small mb-3">
+                        <li><strong>Nom :</strong> Court et descriptif</li>
+                        <li><strong>Description :</strong> Expliquez le type de contenu</li>
+                        <li><strong>Unicité :</strong> Chaque nom doit être unique</li>
+                    </ul>
+                    
+                    <h6>Exemples courants :</h6>
+                    <ul class="small mb-0">
+                        <li>Actualités</li>
+                        <li>Événements</li>
+                        <li>Résultats</li>
+                        <li>Formations</li>
+                        <li>Annonces</li>
+                    </ul>
+                </div>
             </div>
-            
-            <div class="d-flex justify-content-end gap-2">
-                <a href="{{ route('admin.typeposts.index') }}" class="btn btn-secondary">Annuler</a>
-                <button type="submit" class="btn btn-primary">
-                    <i class="fas fa-save"></i> Enregistrer
-                </button>
-            </div>
-        </form>
+        </div>
     </div>
 </div>
 @endsection

@@ -4,30 +4,22 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Carbon\Carbon;
 
 class Joueur extends Model
 {
     use HasFactory;
 
-    protected $table = 'joueurs';
-
+ protected $table = 'joueurs';
     protected $fillable = [
-        'nom',
-        'prenom',
-        'date_naissance',
-        'lieu_naissance',
-        'sexe',
-        'telephone',
-        'email',
-        'colline_id',
-        'categorie_id'
+        'nom', 'prenom', 'date_naissance', 'lieu_naissance', 
+        'sexe', 'telephone', 'email', 'colline_id', 'categorie_id'
     ];
 
     protected $casts = [
-        'date_naissance' => 'date'
+        'date_naissance' => 'date',
     ];
 
-    // Relations
     public function colline()
     {
         return $this->belongsTo(Colline::class);
@@ -38,10 +30,17 @@ class Joueur extends Model
         return $this->belongsTo(Categorie::class);
     }
 
-    // Accesseurs
     public function getNomCompletAttribute()
     {
         return $this->prenom . ' ' . $this->nom;
+    }
+
+    // NOUVELLE MÉTHODE AJOUTÉE
+    public function getInitialesAttribute()
+    {
+        $prenom = $this->prenom ? substr($this->prenom, 0, 1) : '';
+        $nom = $this->nom ? substr($this->nom, 0, 1) : '';
+        return strtoupper($prenom . $nom);
     }
 
     public function getAgeAttribute()
@@ -50,21 +49,5 @@ class Joueur extends Model
             return null;
         }
         return $this->date_naissance->age;
-    }
-
-    // Scopes
-    public function scopeParCategorie($query, $categorieId)
-    {
-        return $query->where('categorie_id', $categorieId);
-    }
-
-    public function scopeParColline($query, $collineId)
-    {
-        return $query->where('colline_id', $collineId);
-    }
-
-    public function scopeParSexe($query, $sexe)
-    {
-        return $query->where('sexe', $sexe);
     }
 }

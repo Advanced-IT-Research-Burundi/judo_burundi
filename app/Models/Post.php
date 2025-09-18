@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 use Carbon\Carbon;
 
 class Post extends Model
@@ -11,82 +12,52 @@ class Post extends Model
     use HasFactory;
 
     protected $fillable = [
-        'contenu',
-        'user_id',
-        'typepost_id',
-        'date_post'
+        'contenu', 'image', 'titre', 'user_id', 'typepost_id',
+        'date_post', 'lieu_evenement', 'date_evenement_debut',
+        'date_evenement_fin', 'niveau_competition', 'resultats'
     ];
 
     protected $casts = [
-        'date_post' => 'datetime'
+        'date_post' => 'datetime',
+        'date_evenement_debut' => 'datetime',
+        'date_evenement_fin' => 'datetime',
     ];
 
-    // Relations
     public function user()
     {
         return $this->belongsTo(User::class);
     }
 
-    public function typepost()
+    public function typePost()
     {
-        return $this->belongsTo(TypePost::class);
+        return $this->belongsTo(TypePost::class, 'typepost_id');
     }
 
-    // Accesseurs
-    public function getContenuExtraitAttribute()
+    // NOUVELLES MÉTHODES AJOUTÉES
+    public function isEvent()
     {
-        return strlen($this->contenu) > 100 
-            ? substr($this->contenu, 0, 100) . '...' 
-            : $this->contenu;
+        return !is_null($this->date_evenement_debut) || 
+               !is_null($this->lieu_evenement) ||
+               in_array($this->typePost->nom ?? '', ['Événement', 'Compétition']);
     }
 
-    public function getDatePostFormatteeAttribute()
+    public function isUpcoming()
     {
-        return $this->date_post->format('d/m/Y à H:i');
+        if (!$this->date_evenement_debut) {
+            return false;
+        }
+        return $this->date_evenement_debut->isFuture();
     }
 
-    public function getDatePostHumainAttribute()
+    public function scopeEvents($query)
     {
-        return $this->date_post->diffForHumans();
+        return $query->whereNotNull('date_evenement_debut')
+                    ->orWhereNotNull('lieu_evenement');
     }
 
-    // Scopes
-    public function scopeParType($query, $typeId)
+    public function scopeUpcoming($query)
     {
-        return $query->where('typepost_id', $typeId);
-    }
-
-    public function scopeParAuteur($query, $userId)
-    {
-        return $query->where('user_id', $userId);
-    }
-
-    public function scopeRecents($query)
-    {
-        return $query->orderBy('date_post', 'desc');
-    }
-
-    public function scopePubliesAujourdhui($query)
-    {
-        return $query->whereDate('date_post', today());
-    }
-
-    public function scopePubliesCetteSemaine($query)
-    {
-        return $query->whereBetween('date_post', [
-            now()->startOfWeek(),
-            now()->endOfWeek()
-        ]);
-    }
-
-    public function scopeRecherche($query, $terme)
-    {
-        return $query->where('contenu', 'like', "%{$terme}%");
-    }
-
-    // Mutateurs
-    public function setDatePostAttribute($value)
-    {
-        $this->attributes['date_post'] = $value ?: now();
+        return $query->whereNotNull('date_evenement_debut')
+                    ->where('date_evenement_debut', '>', now());
     }
 }

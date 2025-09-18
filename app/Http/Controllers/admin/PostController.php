@@ -4,137 +4,238 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Post;
-use App\Models\User;
 use App\Models\TypePost;
 use Illuminate\Http\Request;
-use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
+use Exception;
 
 class PostController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function index(Request $request)
     {
-        $query = Post::with(['user', 'typepost']);
+        try {
+            $query = Post::with(['user', 'typePost']);
 
-        // Filtres
-        if ($request->filled('search')) {
-            $search = $request->search;
-            $query->where(function($q) use ($search) {
-                $q->where('contenu', 'like', "%{$search}%")
-                  ->orWhereHas('user', function($userQuery) use ($search) {
-                      $userQuery->where('name', 'like', "%{$search}%")
-                               ->orWhere('email', 'like', "%{$search}%");
-                  });
-            });
+            if ($request->filled('type')) {
+                $query->where('typepost_id', $request->type);
+            }
+
+            if ($request->filled('search')) {
+                $search = $request->search;
+                $query->where(function($q) use ($search) {
+                    $q->where('titre', 'like', "%{$search}%")
+                      ->orWhere('contenu', 'like', "%{$search}%")
+                      ->orWhere('lieu_evenement', 'like', "%{$search}%");
+                });
+            }
+
+            if ($request->filled('date_from')) {
+                $query->where('date_post', '>=', $request->date_from);
+            }
+
+            if ($request->filled('date_to')) {
+                $query->where('date_post', '<=', $request->date_to);
+            }
+
+            $posts = $query->latest('date_post')->paginate(15);
+            $typesPosts = TypePost::all();
+
+            return view('admin.post.index', compact('posts', 'typesPosts'));
+            
+        } catch (Exception $e) {
+            Log::error('Erreur lors du chargement des posts: ' . $e->getMessage());
+            return redirect()->back()->with('error', 'Erreur lors du chargement des posts.');
         }
-
-        if ($request->filled('typepost_id')) {
-            $query->where('typepost_id', $request->typepost_id);
-        }
-
-        if ($request->filled('user_id')) {
-            $query->where('user_id', $request->user_id);
-        }
-
-        if ($request->filled('date_debut')) {
-            $query->whereDate('date_post', '>=', $request->date_debut);
-        }
-
-        if ($request->filled('date_fin')) {
-            $query->whereDate('date_post', '<=', $request->date_fin);
-        }
-
-        // Tri par défaut : posts les plus récents
-        $posts = $query->orderBy('date_post', 'desc')->paginate(15);
-
-        // Données pour les filtres
-        $typeposts = TypePost::orderBy('nom')->get();
-        $users = User::orderBy('name')->get();
-
-        return view('admin.post.index', compact('posts', 'typeposts', 'users'));
     }
 
     public function create()
     {
-        $typeposts = TypePost::orderBy('nom')->get();
-        $users = User::orderBy('name')->get();
-
-        return view('admin.post.create', compact('typeposts', 'users'));
+        try {
+            $typesPosts = TypePost::all();
+            return view('admin.post.create', compact('typesPosts'));
+        } catch (Exception $e) {
+            Log::error('Erreur lors du chargement de la page de création: ' . $e->getMessage());
+            return redirect()->route('admin.posts.index')->with('error', 'Erreur lors du chargement de la page.');
+        }
     }
 
     public function store(Request $request)
     {
-        $validated = $request->validate([
-            'contenu' => 'required|string|min:10',
-            'user_id' => 'required|exists:users,id',
-            'typepost_id' => 'required|exists:type_posts,id',
-            'date_post' => 'nullable|date'
-        ]);
+        try {
+            $validatedData = $request->validate([
+                'titre' => 'required|string|max:255',
+                'contenu' => 'required|string',
+                'typepost_id' => 'required|exists:type_posts,id',
+                'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:5120',
+                'date_post' => 'required|date',
+                'lieu_evenement' => 'nullable|string|max:255',
+                'date_evenement_debut' => 'nullable|date',
+                'date_evenement_fin' => 'nullable|date|after_or_equal:date_evenement_debut',
+                'niveau_competition' => 'nullable|in:Local,National,International',
+                'resultats' => 'nullable|string',
+            ]);
 
-        // Si aucune date n'est fournie, utiliser maintenant
-        if (!$validated['date_post']) {
-            $validated['date_post'] = now();
+            if ($request->hasFile('image')) {
+                $imagePath = $request->file('image')->store('posts', 'public');
+                $validatedData['image'] = $imagePath;
+            }
+
+            $validatedData['user_id'] = Auth::id();
+
+            $post = Post::create($validatedData);
+
+            return redirect()->route('admin.posts.index')
+                            ->with('success', 'Post créé avec succès!');
+                            
+        } catch (Exception $e) {
+            Log::error('Erreur lors de la création du post: ' . $e->getMessage());
+            return redirect()->back()
+                           ->withInput()
+                           ->with('error', 'Erreur lors de la création du post: ' . $e->getMessage());
         }
-
-        Post::create($validated);
-
-        return redirect()->route('admin.posts.index')
-                        ->with('success', 'Post créé avec succès.');
     }
 
     public function show(Post $post)
     {
-        $post->load(['user', 'typepost']);
-        
-        return view('admin.post.show', compact('post'));
+        try {
+            $post->load(['user', 'typePost']);
+            return view('admin.post.show', compact('post'));
+        } catch (Exception $e) {
+            Log::error('Erreur lors de l\'affichage du post: ' . $e->getMessage());
+            return redirect()->route('admin.posts.index')->with('error', 'Post introuvable.');
+        }
     }
 
     public function edit(Post $post)
     {
-        $typeposts = TypePost::orderBy('nom')->get();
-        $users = User::orderBy('name')->get();
-
-        return view('admin.post.edit', compact('post', 'typeposts', 'users'));
+        try {
+            $typesPosts = TypePost::all();
+            return view('admin.post.edit', compact('post', 'typesPosts'));
+        } catch (Exception $e) {
+            Log::error('Erreur lors du chargement de la page d\'édition: ' . $e->getMessage());
+            return redirect()->route('admin.posts.index')->with('error', 'Erreur lors du chargement de la page.');
+        }
     }
 
     public function update(Request $request, Post $post)
     {
-        $validated = $request->validate([
-            'contenu' => 'required|string|min:10',
-            'user_id' => 'required|exists:users,id',
-            'typepost_id' => 'required|exists:type_posts,id',
-            'date_post' => 'required|date'
-        ]);
+        try {
+            $validatedData = $request->validate([
+                'titre' => 'required|string|max:255',
+                'contenu' => 'required|string',
+                'typepost_id' => 'required|exists:type_posts,id',
+                'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:5120',
+                'date_post' => 'required|date',
+                'lieu_evenement' => 'nullable|string|max:255',
+                'date_evenement_debut' => 'nullable|date',
+                'date_evenement_fin' => 'nullable|date|after_or_equal:date_evenement_debut',
+                'niveau_competition' => 'nullable|in:Local,National,International',
+                'resultats' => 'nullable|string',
+            ]);
 
-        $post->update($validated);
+            if ($request->hasFile('image')) {
+                if ($post->image && Storage::disk('public')->exists($post->image)) {
+                    Storage::disk('public')->delete($post->image);
+                }
+                
+                $imagePath = $request->file('image')->store('posts', 'public');
+                $validatedData['image'] = $imagePath;
+            }
 
-        return redirect()->route('admin.posts.index')
-                        ->with('success', 'Post modifié avec succès.');
+            $post->update($validatedData);
+
+            return redirect()->route('admin.posts.index')
+                            ->with('success', 'Post mis à jour avec succès!');
+                            
+        } catch (Exception $e) {
+            Log::error('Erreur lors de la mise à jour du post: ' . $e->getMessage());
+            return redirect()->back()
+                           ->withInput()
+                           ->with('error', 'Erreur lors de la mise à jour du post: ' . $e->getMessage());
+        }
     }
 
     public function destroy(Post $post)
     {
         try {
+            Log::info('Tentative de suppression du post ID: ' . $post->id);
+            
+            // Supprimer l'image si elle existe
+            if ($post->image && Storage::disk('public')->exists($post->image)) {
+                Storage::disk('public')->delete($post->image);
+                Log::info('Image supprimée: ' . $post->image);
+            }
+
+            // Supprimer le post
             $post->delete();
             
+            Log::info('Post supprimé avec succès: ' . $post->id);
+
             return redirect()->route('admin.posts.index')
-                            ->with('success', 'Post supprimé avec succès.');
-        } catch (\Exception $e) {
+                            ->with('success', 'Post supprimé avec succès!');
+                            
+        } catch (Exception $e) {
+            Log::error('Erreur lors de la suppression du post: ' . $e->getMessage());
+            Log::error('Stack trace: ' . $e->getTraceAsString());
+            
             return redirect()->route('admin.posts.index')
-                            ->with('error', 'Erreur lors de la suppression du post.');
+                           ->with('error', 'Erreur lors de la suppression du post: ' . $e->getMessage());
         }
     }
 
-    public function statistics()
+    public function bulkDelete(Request $request)
     {
-        $stats = [
-            'total_posts' => Post::count(),
-            'posts_aujourd_hui' => Post::publiesAujourdhui()->count(),
-            'posts_cette_semaine' => Post::publiesCetteSemaine()->count(),
-            'posts_par_type' => TypePost::withCount('posts')->get(),
-            'auteurs_actifs' => User::has('posts')->withCount('posts')->orderBy('posts_count', 'desc')->take(10)->get(),
-            'posts_recents' => Post::with(['user', 'typepost'])->recents()->take(5)->get()
-        ];
+        try {
+            $request->validate([
+                'ids' => 'required|array',
+                'ids.*' => 'exists:posts,id'
+            ]);
 
-        return view('admin.posts.statistics', compact('stats'));
+            $posts = Post::whereIn('id', $request->ids)->get();
+            $deletedCount = 0;
+
+            foreach ($posts as $post) {
+                // Supprimer l'image si elle existe
+                if ($post->image && Storage::disk('public')->exists($post->image)) {
+                    Storage::disk('public')->delete($post->image);
+                }
+                
+                $post->delete();
+                $deletedCount++;
+            }
+
+            return redirect()->route('admin.posts.index')
+                           ->with('success', "{$deletedCount} post(s) supprimé(s) avec succès!");
+                           
+        } catch (Exception $e) {
+            Log::error('Erreur lors de la suppression multiple: ' . $e->getMessage());
+            return redirect()->route('admin.posts.index')
+                           ->with('error', 'Erreur lors de la suppression: ' . $e->getMessage());
+        }
+    }
+
+    public function removeImage(Post $post)
+    {
+        try {
+            if ($post->image && Storage::disk('public')->exists($post->image)) {
+                Storage::disk('public')->delete($post->image);
+                $post->update(['image' => null]);
+                
+                return redirect()->back()->with('success', 'Image supprimée avec succès!');
+            }
+            
+            return redirect()->back()->with('error', 'Aucune image à supprimer.');
+            
+        } catch (Exception $e) {
+            Log::error('Erreur lors de la suppression de l\'image: ' . $e->getMessage());
+            return redirect()->back()->with('error', 'Erreur lors de la suppression de l\'image.');
+        }
     }
 }
