@@ -1,118 +1,181 @@
 @extends('layouts.admin')
 
 @section('title', 'Modifier le Type de Post')
+@section('page-title', 'Modifier le Type de Post')
 
 @section('content')
-<div class="container-fluid">
-    <div class="row mb-4">
+    <div class="row justify-content-center">
         <div class="col-md-8">
-            <h1 class="h3 mb-1">Modifier le type de post</h1>
-            <p class="text-muted mb-0">{{ $typePost->nom }}</p>
-        </div>
-        <div class="col-md-4 text-end">
-            <a href="{{ route('admin.type-posts.show', $typePost) }}" class="btn btn-info me-2">
-                <i class="fas fa-eye me-2"></i>Voir
-            </a>
-            <a href="{{ route('admin.type-posts.index') }}" class="btn btn-secondary">
-                <i class="fas fa-arrow-left me-2"></i>Retour
-            </a>
-        </div>
-    </div>
-
-    @if($errors->any())
-        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-            <i class="fas fa-exclamation-circle me-2"></i>
-            <strong>Erreurs de validation :</strong>
-            <ul class="mb-0 mt-2">
-                @foreach($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-        </div>
-    @endif
-
-    <div class="row">
-        <div class="col-lg-8">
             <div class="card">
-                <div class="card-header">
-                    <h5 class="card-title mb-0">
-                        <i class="fas fa-edit me-2"></i>Modifier les informations
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0">
+                        <i class="fas fa-edit me-2 text-primary"></i>Modifier : {{ $typePost->nom }}
                     </h5>
+                    <div>
+                        <a href="{{ route('admin.type-posts.show', $typePost) }}" class="btn btn-outline-info me-2">
+                            <i class="fas fa-eye me-2"></i>Voir les détails
+                        </a>
+                        <a href="{{ route('admin.type-posts.index') }}" class="btn btn-outline-secondary">
+                            <i class="fas fa-arrow-left me-2"></i>Retour
+                        </a>
+                    </div>
                 </div>
                 <div class="card-body">
-                    <form method="POST" action="{{ route('admin.type-posts.update', $typePost) }}">
+                    <!-- Informations actuelles -->
+                    <div class="alert alert-info mb-4">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <strong>Articles utilisant ce type :</strong> 
+                                <span class="badge bg-primary">{{ $typePost->posts_count }}</span>
+                            </div>
+                            <div class="col-md-6">
+                                <strong>Créé le :</strong> {{ $typePost->created_at->format('d/m/Y à H:i') }}
+                            </div>
+                        </div>
+                        @if($typePost->posts_count > 0)
+                            <hr class="my-2">
+                            <small>
+                                <i class="fas fa-info-circle me-1"></i>
+                                Attention : La modification affectera tous les articles existants de ce type.
+                            </small>
+                        @endif
+                    </div>
+
+                    <form action="{{ route('admin.type-posts.update', $typePost) }}" method="POST">
                         @csrf
                         @method('PUT')
                         
-                        <div class="mb-3">
-                            <label for="nom" class="form-label">Nom du type *</label>
-                            <input type="text" class="form-control @error('nom') is-invalid @enderror" 
+                        <div class="form-group mb-4">
+                            <label for="nom" class="form-label">
+                                Nom du Type <span class="text-danger">*</span>
+                            </label>
+                            <input type="text" class="form-control form-control-lg @error('nom') is-invalid @enderror" 
                                    id="nom" name="nom" value="{{ old('nom', $typePost->nom) }}" required>
                             @error('nom')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
+                            @if($typePost->posts_count > 0)
+                                <div class="form-text text-warning">
+                                    <i class="fas fa-exclamation-triangle me-1"></i>
+                                    {{ $typePost->posts_count }} article(s) utilisent actuellement ce nom
+                                </div>
+                            @endif
                         </div>
 
-                        <div class="mb-4">
+                        <div class="form-group mb-4">
                             <label for="description" class="form-label">Description</label>
                             <textarea class="form-control @error('description') is-invalid @enderror" 
                                       id="description" name="description" rows="4">{{ old('description', $typePost->description) }}</textarea>
                             @error('description')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
+                            <div class="form-text">
+                                Décrivez l'usage recommandé pour ce type d'article
+                            </div>
                         </div>
 
-                        <div class="d-flex gap-2">
-                            <button type="submit" class="btn btn-primary">
-                                <i class="fas fa-save me-2"></i>Sauvegarder les modifications
-                            </button>
-                            <a href="{{ route('admin.type-posts.show', $typePost) }}" class="btn btn-info">
-                                <i class="fas fa-eye me-2"></i>Voir le type
-                            </a>
+                        <!-- Aperçu des changements -->
+                        <div class="card bg-light mb-4" id="previewChanges" style="display: none;">
+                            <div class="card-header">
+                                <h6 class="mb-0">
+                                    <i class="fas fa-eye me-2"></i>Aperçu des modifications
+                                </h6>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <strong>Avant :</strong>
+                                        <div class="p-2 bg-white rounded border">
+                                            <strong>{{ $typePost->nom }}</strong><br>
+                                            <small class="text-muted">{{ $typePost->description ?: 'Aucune description' }}</small>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <strong>Après :</strong>
+                                        <div class="p-2 bg-white rounded border">
+                                            <strong id="previewNom">{{ $typePost->nom }}</strong><br>
+                                            <small class="text-muted" id="previewDescription">{{ $typePost->description ?: 'Aucune description' }}</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Articles liés -->
+                        @if($typePost->posts_count > 0)
+                            <div class="card border-warning mb-4">
+                                <div class="card-header bg-warning bg-opacity-10">
+                                    <h6 class="mb-0">
+                                        <i class="fas fa-link me-2"></i>Articles utilisant ce type ({{ $typePost->posts_count }})
+                                    </h6>
+                                </div>
+                                <div class="card-body">
+                                    <p class="mb-2">Derniers articles publiés avec ce type :</p>
+                                    <div class="list-group list-group-flush">
+                                        @foreach($typePost->posts()->latest()->limit(5)->get() as $post)
+                                            <div class="list-group-item d-flex justify-content-between align-items-center">
+                                                <div>
+                                                    <strong>{{ $post->titre }}</strong><br>
+                                                    <small class="text-muted">{{ $post->date_post->format('d/m/Y') }}</small>
+                                                </div>
+                                                <a href="{{ route('admin.posts.show', $post) }}" 
+                                                   class="btn btn-sm btn-outline-primary">
+                                                    Voir
+                                                </a>
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                    @if($typePost->posts_count > 5)
+                                        <div class="mt-2">
+                                            <small class="text-muted">
+                                                ... et {{ $typePost->posts_count - 5 }} autre(s) article(s)
+                                            </small>
+                                        </div>
+                                    @endif
+                                </div>
+                            </div>
+                        @endif
+
+                        <div class="d-flex justify-content-end gap-2">
                             <a href="{{ route('admin.type-posts.index') }}" class="btn btn-secondary">
-                                Annuler
+                                <i class="fas fa-times me-2"></i>Annuler
                             </a>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save me-2"></i>Mettre à jour
+                            </button>
                         </div>
                     </form>
                 </div>
             </div>
         </div>
-
-        <div class="col-lg-4">
-            <div class="card">
-                <div class="card-header">
-                    <h5 class="card-title mb-0">
-                        <i class="fas fa-info-circle me-2"></i>Informations
-                    </h5>
-                </div>
-                <div class="card-body">
-                    <div class="mb-3">
-                        <h6 class="text-muted mb-1">Posts de ce type</h6>
-                        <p class="h4 text-success mb-0">{{ $typePost->posts_count }}</p>
-                    </div>
-
-                    <div class="mb-3">
-                        <h6 class="text-muted mb-1">Date de création</h6>
-                        <p class="mb-0">{{ $typePost->created_at->format('d/m/Y à H:i') }}</p>
-                    </div>
-
-                    @if($typePost->updated_at != $typePost->created_at)
-                        <div class="mb-3">
-                            <h6 class="text-muted mb-1">Dernière modification</h6>
-                            <p class="mb-0">{{ $typePost->updated_at->format('d/m/Y à H:i') }}</p>
-                        </div>
-                    @endif
-
-                    @if($typePost->posts_count > 0)
-                        <div class="alert alert-info">
-                            <i class="fas fa-info-circle me-2"></i>
-                            <small>Ce type contient des posts. Modifiez avec précaution.</small>
-                        </div>
-                    @endif
-                </div>
-            </div>
-        </div>
     </div>
-</div>
 @endsection
+
+@push('scripts')
+<script>
+    // Aperçu en temps réel des modifications
+    function updatePreview() {
+        const nom = document.getElementById('nom').value;
+        const description = document.getElementById('description').value;
+        
+        document.getElementById('previewNom').textContent = nom || '{{ $typePost->nom }}';
+        document.getElementById('previewDescription').textContent = description || 'Aucune description';
+        
+        // Afficher l'aperçu si des changements sont détectés
+        const hasChanges = nom !== '{{ $typePost->nom }}' || description !== '{{ $typePost->description ?? '' }}';
+        document.getElementById('previewChanges').style.display = hasChanges ? 'block' : 'none';
+    }
+
+    document.getElementById('nom').addEventListener('input', updatePreview);
+    document.getElementById('description').addEventListener('input', updatePreview);
+
+    // Confirmation avant modification si beaucoup d'articles
+    @if($typePost->posts_count > 10)
+    document.querySelector('form').addEventListener('submit', function(e) {
+        if (!confirm('Ce type est utilisé par {{ $typePost->posts_count }} articles. Êtes-vous sûr de vouloir le modifier ?')) {
+            e.preventDefault();
+        }
+    });
+    @endif
+</script>
+@endpush

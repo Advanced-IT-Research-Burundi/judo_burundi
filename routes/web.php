@@ -19,16 +19,6 @@ use App\Http\Controllers\ElementController;
 use App\Http\Controllers\admin\CountrieController;
 use App\Http\Controllers\ServiceController;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group. Make something great!
-|
-*/
 
 // Routes publiques
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -49,45 +39,34 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-// Routes d'administration
-Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () {
-    
-    // Dashboard
+
+Route::prefix('admin')->name('admin.')->middleware(['auth'])->group(function () {
+
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
-    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
-    
-    // API Stats pour le dashboard
-    Route::get('/api/stats', [DashboardController::class, 'apiStats'])->name('api.stats');
-    Route::get('/api/entity-stats/{entity}', [DashboardController::class, 'entityStats'])->name('api.entity.stats');
 
-    // Posts
-    Route::resource('posts', PostController::class);
-    Route::delete('posts/{post}/remove-image', [PostController::class, 'removeImage'])->name('posts.removeImage');
-    Route::post('posts/bulk-delete', [PostController::class, 'bulkDelete'])->name('posts.bulkDelete');
-
-    // Catégories
-    Route::resource('categories', CategorieController::class);
-    
-    // Types de posts
-    Route::resource('type-posts', TypePostController::class);
-
-    // Joueurs
     Route::resource('joueurs', JoueurController::class);
-    Route::post('joueurs/bulk-delete', [JoueurController::class, 'bulkDelete'])->name('joueurs.bulkDelete');
-    Route::get('joueurs/export', [JoueurController::class, 'export'])->name('joueurs.export');
+    Route::get('joueurs/{joueur}/export', [JoueurController::class, 'exportPdf'])->name('joueurs.export');
+    Route::resource('categories', CategorieController::class);
+    Route::resource('type-posts', TypePostController::class);
+    Route::resource('posts', PostController::class);
+    Route::patch('posts/{post}/toggle-status', [PostController::class, 'toggleStatus'])->name('posts.toggle-status');
+    Route::get('posts/{post}/preview', [PostController::class, 'preview'])->name('posts.preview');
 
-    // Localisation
-    Route::resource('countries', CountrieController::class);
-    Route::resource('provinces', ProvinceController::class);
-    Route::resource('communes', CommuneController::class);
-    Route::resource('zones', ZoneController::class);
-    Route::resource('quartiers', QuartierController::class);
+    // API Routes for AJAX calls
+    Route::prefix('api')->name('api.')->group(function () {
+        Route::get('stats', [DashboardController::class, 'getStats'])->name('stats');
+        Route::get('joueurs/search', [JoueurController::class, 'search'])->name('joueurs.search');
+        Route::get('posts/search', [PostController::class, 'search'])->name('posts.search');
+    });
 });
 
-// Routes de fallback pour les erreurs 404
-// Route::fallback(function () {
-//     if (request()->is('admin/*')) {
-//         return response()->view('admin.errors.404', [], 404);
-//     }
-//     return response()->view('errors.404', [], 404);
-// });
+// // Route pour afficher les actualités publiques
+// Route::get('actualites', [App\Http\Controllers\ActualiteController::class, 'index'])->name('actualites.index');
+// Route::get('actualites/{post}', [App\Http\Controllers\ActualiteController::class, 'show'])->name('actualites.show');
+
+// Localisation
+Route::resource('countries', CountrieController::class);
+Route::resource('provinces', ProvinceController::class);
+Route::resource('communes', CommuneController::class);
+Route::resource('zones', ZoneController::class);
+Route::resource('quartiers', QuartierController::class);

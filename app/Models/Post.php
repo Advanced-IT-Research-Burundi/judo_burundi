@@ -11,18 +11,20 @@ class Post extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'contenu', 'image', 'titre', 'user_id', 'typepost_id',
-        'date_post', 'lieu_evenement', 'date_evenement_debut',
-        'date_evenement_fin', 'niveau_competition', 'resultats'
-    ];
+    protected $table = 'posts';
+
+    protected $guarded = [''];
 
     protected $casts = [
         'date_post' => 'datetime',
         'date_evenement_debut' => 'datetime',
         'date_evenement_fin' => 'datetime',
+        'is_featured' => 'boolean',
     ];
 
+    protected $dates = ['deleted_at'];
+
+    // Relations
     public function user()
     {
         return $this->belongsTo(User::class);
@@ -33,31 +35,55 @@ class Post extends Model
         return $this->belongsTo(TypePost::class, 'typepost_id');
     }
 
-    // NOUVELLES MÉTHODES AJOUTÉES
-    public function isEvent()
+    // Accessors
+    public function getExtraitAttribute()
     {
-        return !is_null($this->date_evenement_debut) || 
-               !is_null($this->lieu_evenement) ||
-               in_array($this->typePost->nom ?? '', ['Événement', 'Compétition']);
+        return \Str::limit(strip_tags($this->contenu), 150);
     }
 
-    public function isUpcoming()
+    public function getDatePostFormateeAttribute()
     {
-        if (!$this->date_evenement_debut) {
-            return false;
+        return $this->date_post->format('d/m/Y à H:i');
+    }
+
+    public function getDureeEvenementAttribute()
+    {
+        if (!$this->date_evenement_debut || !$this->date_evenement_fin) {
+            return null;
         }
-        return $this->date_evenement_debut->isFuture();
+        
+        $debut = Carbon::parse($this->date_evenement_debut);
+        $fin = Carbon::parse($this->date_evenement_fin);
+        
+        return $debut->diffInDays($fin) + 1;
     }
 
-    public function scopeEvents($query)
+    public function scopeFeatured($query)
     {
-        return $query->whereNotNull('date_evenement_debut')
-                    ->orWhereNotNull('lieu_evenement');
+        return $query->where('is_featured', true);
+    }
+
+    public function scopeByType($query, $typeId)
+    {
+        return $query->where('typepost_id', $typeId);
     }
 
     public function scopeUpcoming($query)
     {
-        return $query->whereNotNull('date_evenement_debut')
-                    ->where('date_evenement_debut', '>', now());
+        return $query->where('date_evenement_debut', '>=', now());
+    }
+
+    public function scopePast($query)
+    {
+        return $query->where('date_evenement_fin', '<', now());
+    }
+
+    public function scopeSearch($query, $search)
+    {
+        return $query->where(function ($q) use ($search) {
+            $q->where('titre', 'like', "%{$search}%")
+              ->orWhere('contenu', 'like', "%{$search}%")
+              ->orWhere('lieu_evenement', 'like', "%{$search}%");
+        });
     }
 }

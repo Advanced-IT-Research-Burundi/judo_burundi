@@ -10,34 +10,28 @@ class TypePost extends Model
 {
     use HasFactory;
 
+    protected $table = 'type_posts';
+
     protected $fillable = [
         'nom',
-        'description'
+        'description',
     ];
 
-    // Relation avec les posts
+    // Relations
     public function posts()
     {
         return $this->hasMany(Post::class, 'typepost_id');
     }
 
-    // Scope pour recherche
-    public function scopeSearch($query, $search)
-    {
-        return $query->where('nom', 'like', "%{$search}%")
-                    ->orWhere('description', 'like', "%{$search}%");
-    }
-
-    // Accesseur pour le nombre de posts
-    public function getPostsCountAttribute()
+    // Accessors
+    public function getNombrePostsAttribute()
     {
         return $this->posts()->count();
     }
 
-    // Accesseur pour le slug
-    public function getSlugAttribute()
+    // Scopes
+    public function scopeWithPostsCount($query)
     {
-        return Str::slug($this->nom);
+        return $query->withCount('posts');
     }
 }
-

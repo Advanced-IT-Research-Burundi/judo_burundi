@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Martial Arts Academy</title>
+    <title>JUDO-BURUNDI</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
         * {
@@ -81,7 +81,7 @@
 
         /* Hero Section */
         .hero {
-            background: linear-gradient(135deg, #1a365d 0%, #2d5a87 100%);
+            background: url('/images/judoimage1.jpg') no-repeat center center/cover;
             color: white;
             padding: 120px 0 80px;
             text-align: center;
@@ -676,7 +676,7 @@
     <header class="header">
         <div class="container">
             <nav class="nav">
-                <div class="logo">Martial Arts</div>
+                <div class="logo">JUDO</div>
                 <ul class="nav-links">
                     <li><a href="#home">Accueil</a></li>
                     <li><a href="#about">À propos</a></li>
@@ -694,8 +694,9 @@
     <section class="hero" id="home">
         <div class="container">
             <h1>ENTRAÎNEZ-VOUS AVEC LES MEILLEURS</h1>
-            <p>Découvrez l'art martial traditionnel avec nos instructeurs légendaires</p>
+            <p>Découvrez JUDO traditionnel avec nos instructeurs légendaires</p>
             <div class="hero-buttons">
+                
                 <button class="btn-primary" onclick="openModal()">Commencer maintenant</button>
                 <button class="btn-secondary">En savoir plus</button>
             </div>
@@ -740,14 +741,15 @@
                 </div>
                 <div class="welcome-image">
                     <div style="height: 400px; background: #ddd; border-radius: 10px; display: flex; align-items: center; justify-content: center; color: #666;">
-                        <i class="fas fa-image" style="font-size: 4rem;"></i>
+                        {{-- <i class="fas fa-image" style="font-size: 4rem;"></i> --}}
+                        <img src="/images/judo2.jpg" alt="Welcome Image" style="height: 100%; width: auto; border-radius: 10px;">
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Instructors Section -->
+    {{-- <!-- Instructors Section -->
     <section class="instructors" id="instructors">
         <div class="container">
             <div class="section-title">
@@ -790,33 +792,9 @@
                 </div>
             </div>
         </div>
-    </section>
+    </section> --}}
 
-    {{-- <!-- Stats Section -->
-    <section class="stats">
-        <div class="container">
-            <div class="stats-grid">
-                <div class="stat-item">
-                    <h3>500+</h3>
-                    <p>Élèves formés</p>
-                </div>
-                <div class="stat-item">
-                    <h3>15+</h3>
-                    <p>Années d'expérience</p>
-                </div>
-                <div class="stat-item">
-                    <h3>50+</h3>
-                    <p>Compétitions gagnées</p>
-                </div>
-                <div class="stat-item">
-                    <h3>10+</h3>
-                    <p>Instructeurs certifiés</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Gallery Section -->
+  <!-- Gallery Section -->
     <section class="gallery" id="gallery">
         <div class="container">
             <div class="section-title">
@@ -826,37 +804,45 @@
             <div class="gallery-grid">
                 <div class="gallery-item">
                     <div style="height: 100%; background: #ddd; display: flex; align-items: center; justify-content: center; color: #666;">
-                        <i class="fas fa-image" style="font-size: 2rem;"></i>
+                        {{-- <i class="fas fa-image" style="font-size: 2rem;"></i> --}}
+                        <img src="/images/judo3.jpg" alt="Gallery Image" style="height: 100%; width: auto; border-radius: 10px;">
                     </div>
                 </div>
                 <div class="gallery-item">
                     <div style="height: 100%; background: #ddd; display: flex; align-items: center; justify-content: center; color: #666;">
-                        <i class="fas fa-image" style="font-size: 2rem;"></i>
+                        {{-- <i class="fas fa-image" style="font-size: 2rem;"></i> --}}
+                        <img src="/images/judo4.jpg" alt="Gallery Image" style="height: 100%; width: auto; border-radius: 10px;">
                     </div>
                 </div>
                 <div class="gallery-item">
                     <div style="height: 100%; background: #ddd; display: flex; align-items: center; justify-content: center; color: #666;">
-                        <i class="fas fa-image" style="font-size: 2rem;"></i>
+                        {{-- <i class="fas fa-image" style="font-size: 2rem;"></i> --}}
+                        <img src="/images/judo5.jpg" alt="Gallery Image" style="height: 100%; width: auto; border-radius: 10px;">
+
                     </div>
                 </div>
                 <div class="gallery-item">
                     <div style="height: 100%; background: #ddd; display: flex; align-items: center; justify-content: center; color: #666;">
-                        <i class="fas fa-image" style="font-size: 2rem;"></i>
+                        {{-- <i class="fas fa-image" style="font-size: 2rem;"></i> --}}
+                        <img src="/images/judo6.jpg" alt="Gallery Image" style="height: 100%; width: auto; border-radius: 10px;">
+
                     </div>
                 </div>
                 <div class="gallery-item">
                     <div style="height: 100%; background: #ddd; display: flex; align-items: center; justify-content: center; color: #666;">
-                        <i class="fas fa-image" style="font-size: 2rem;"></i>
+                        {{-- <i class="fas fa-image" style="font-size: 2rem;"></i> --}}
+                        <img src="/images/judoimage1.jpg" alt="Gallery Image" style="height: 100%; width: auto; border-radius: 10px;">
                     </div>
                 </div>
                 <div class="gallery-item">
                     <div style="height: 100%; background: #ddd; display: flex; align-items: center; justify-content: center; color: #666;">
-                        <i class="fas fa-image" style="font-size: 2rem;"></i>
+                        {{-- <i class="fas fa-image" style="font-size: 2rem;"></i> --}}
+                        <img src="/images/judoimage1.jpg" alt="Gallery Image" style="height: 100%; width: auto; border-radius: 10px;">
                     </div>
                 </div>
             </div>
         </div>
-    </section> --}}
+    </section>
 
     <!-- News Section -->
     <section class="news" id="news">
@@ -866,9 +852,9 @@
                     <h2>Actualités</h2>
                     <p>Restez informés de toutes nos actualités</p>
                 </div>
-                <button class="btn-toggle-form" onclick="toggleAddPostForm()">
+                {{-- <button class="btn-toggle-form" onclick="toggleAddPostForm()">
                     <i class="fas fa-plus"></i> Ajouter un article
-                </button>
+                </button> --}}
             </div>
 
             <!-- Add Post Form -->

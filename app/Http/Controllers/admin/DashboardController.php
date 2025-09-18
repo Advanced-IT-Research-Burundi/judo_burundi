@@ -14,45 +14,63 @@ use App\Models\Contact;
 
 class DashboardController extends Controller
 {
-    public function index()
+  public function index()
     {
-        // Statistiques principales
-        $stats = [
-            'total_joueurs' => Joueur::count(),
-            'total_posts' => Post::count(),
-            'total_categories' => Categorie::count(),
-            'total_contacts' => Contact::count(),
-            'nouveaux_joueurs_semaine' => Joueur::where('created_at', '>=', Carbon::now()->subWeek())->count(),
-            'events_a_venir' => Post::upcoming()->count(),
+        $stats = $this->getStats();
+        $recentJoueurs = Joueur::with('categorie', 'colline')
+            ->latest()
+            ->limit(5)
+            ->get();
+            
+        $recentPosts = Post::with('typePost', 'user')
+            ->latest()
+            ->limit(5)
+            ->get();
+
+        return view('admin.dashboard', compact('stats', 'recentJoueurs', 'recentPosts'));
+    }
+
+    public function getStats()
+    {
+        $totalJoueurs = Joueur::count();
+        $totalCategories = Categorie::count();
+        $totalPosts = Post::count();
+        $totalCompetitions = Post::whereHas('typePost', function ($query) {
+            $query->where('nom', 'Compétition');
+        })->count();
+
+        // Statistiques mensuelles
+        $joueursParMois = Joueur::selectRaw('MONTH(created_at) as mois, COUNT(*) as total')
+            ->whereYear('created_at', Carbon::now()->year)
+            ->groupBy('mois')
+            ->orderBy('mois')
+            ->get();
+
+        // Répartition par catégorie
+        $repartitionCategories = Categorie::withCount('joueurs')
+            ->get()
+            ->map(function ($categorie) {
+                return [
+                    'nom' => $categorie->nom,
+                    'total' => $categorie->joueurs_count
+                ];
+            });
+
+        // Événements à venir
+        $evenementsAVenir = Post::whereNotNull('date_evenement_debut')
+            ->where('date_evenement_debut', '>=', Carbon::now())
+            ->orderBy('date_evenement_debut')
+            ->limit(3)
+            ->get();
+
+        return [
+            'totalJoueurs' => $totalJoueurs,
+            'totalCategories' => $totalCategories,
+            'totalPosts' => $totalPosts,
+            'totalCompetitions' => $totalCompetitions,
+            'joueursParMois' => $joueursParMois,
+            'repartitionCategories' => $repartitionCategories,
+            'evenementsAVenir' => $evenementsAVenir,
         ];
-
-        // Données récentes
-        $stats['posts_recents'] = Post::with(['user', 'typePost'])
-            ->latest()
-            ->take(5)
-            ->get();
-
-        $stats['joueurs_recents'] = Joueur::with(['categorie', 'colline'])
-            ->latest()
-            ->take(5)
-            ->get();
-
-        $stats['events_prochains'] = Post::upcoming()
-            ->with(['user', 'typePost'])
-            ->orderBy('date_evenement_debut', 'asc')
-            ->take(5)
-            ->get();
-
-        // Statistiques par catégorie
-        $stats['joueurs_par_categorie'] = Categorie::withCount('joueurs')
-            ->orderBy('joueurs_count', 'desc')
-            ->get();
-
-        // Statistiques par type de post
-        $stats['posts_par_type'] = TypePost::withCount('posts')
-            ->orderBy('posts_count', 'desc')
-            ->get();
-
-        return view('admin.dashboard', compact('stats'));
     }
 }

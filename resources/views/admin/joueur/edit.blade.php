@@ -1,232 +1,179 @@
 @extends('layouts.admin')
 
 @section('title', 'Modifier le Joueur')
+@section('page-title', 'Modifier le Joueur')
 
 @section('content')
-<div class="container-fluid">
-    <div class="row mb-4">
-        <div class="col-md-8">
-            <h1 class="h3 mb-1">Modifier le joueur</h1>
-            <p class="text-muted mb-0">{{ $joueur->nom_complet }}</p>
-        </div>
-        <div class="col-md-4 text-end">
-            <a href="{{ route('admin.joueurs.show', $joueur) }}" class="btn btn-info me-2">
-                <i class="fas fa-eye me-2"></i>Voir
-            </a>
-            <a href="{{ route('admin.joueurs.index') }}" class="btn btn-secondary">
-                <i class="fas fa-arrow-left me-2"></i>Retour
-            </a>
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0">Modifier : {{ $joueur->nom_complet }}</h5>
+                    <div>
+                        <a href="{{ route('admin.joueurs.show', $joueur) }}" class="btn btn-outline-info me-2">
+                            <i class="fas fa-eye me-2"></i>Voir
+                        </a>
+                        <a href="{{ route('admin.joueurs.index') }}" class="btn btn-outline-secondary">
+                            <i class="fas fa-arrow-left me-2"></i>Retour
+                        </a>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <form action="{{ route('admin.joueurs.update', $joueur) }}" method="POST">
+                        @csrf
+                        @method('PUT')
+                        
+                        <!-- Informations personnelles -->
+                        <div class="row mb-4">
+                            <div class="col-12">
+                                <h6 class="text-primary border-bottom pb-2 mb-3">
+                                    <i class="fas fa-user me-2"></i>Informations Personnelles
+                                </h6>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group mb-3">
+                                    <label for="nom" class="form-label">Nom <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control @error('nom') is-invalid @enderror" 
+                                           id="nom" name="nom" value="{{ old('nom', $joueur->nom) }}" required>
+                                    @error('nom')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group mb-3">
+                                    <label for="prenom" class="form-label">Prénom <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control @error('prenom') is-invalid @enderror" 
+                                           id="prenom" name="prenom" value="{{ old('prenom', $joueur->prenom) }}" required>
+                                    @error('prenom')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group mb-3">
+                                    <label for="date_naissance" class="form-label">Date de Naissance</label>
+                                    <input type="date" class="form-control @error('date_naissance') is-invalid @enderror" 
+                                           id="date_naissance" name="date_naissance" 
+                                           value="{{ old('date_naissance', $joueur->date_naissance?->format('Y-m-d')) }}">
+                                    @error('date_naissance')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group mb-3">
+                                    <label for="sexe" class="form-label">Sexe</label>
+                                    <select class="form-select @error('sexe') is-invalid @enderror" id="sexe" name="sexe">
+                                        <option value="">Choisir...</option>
+                                        <option value="M" {{ old('sexe', $joueur->sexe) === 'M' ? 'selected' : '' }}>Masculin</option>
+                                        <option value="F" {{ old('sexe', $joueur->sexe) === 'F' ? 'selected' : '' }}>Féminin</option>
+                                    </select>
+                                    @error('sexe')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group mb-3">
+                                    <label for="lieu_naissance" class="form-label">Lieu de Naissance</label>
+                                    <input type="text" class="form-control @error('lieu_naissance') is-invalid @enderror" 
+                                           id="lieu_naissance" name="lieu_naissance" 
+                                           value="{{ old('lieu_naissance', $joueur->lieu_naissance) }}">
+                                    @error('lieu_naissance')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Informations de contact -->
+                        <div class="row mb-4">
+                            <div class="col-12">
+                                <h6 class="text-primary border-bottom pb-2 mb-3">
+                                    <i class="fas fa-phone me-2"></i>Informations de Contact
+                                </h6>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group mb-3">
+                                    <label for="telephone" class="form-label">Téléphone</label>
+                                    <input type="tel" class="form-control @error('telephone') is-invalid @enderror" 
+                                           id="telephone" name="telephone" 
+                                           value="{{ old('telephone', $joueur->telephone) }}">
+                                    @error('telephone')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group mb-3">
+                                    <label for="email" class="form-label">Email</label>
+                                    <input type="email" class="form-control @error('email') is-invalid @enderror" 
+                                           id="email" name="email" value="{{ old('email', $joueur->email) }}">
+                                    @error('email')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Informations sportives -->
+                        <div class="row mb-4">
+                            <div class="col-12">
+                                <h6 class="text-primary border-bottom pb-2 mb-3">
+                                    <i class="fas fa-medal me-2"></i>Informations Sportives
+                                </h6>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group mb-3">
+                                    <label for="colline_id" class="form-label">Colline/Quartier <span class="text-danger">*</span></label>
+                                    <select class="form-select @error('colline_id') is-invalid @enderror" 
+                                            id="colline_id" name="colline_id" required>
+                                        <option value="">Choisir...</option>
+                                        @foreach($collines as $colline)
+                                            <option value="{{ $colline->id }}" 
+                                                    {{ old('colline_id', $joueur->colline_id) == $colline->id ? 'selected' : '' }}>
+                                                {{ $colline->nom }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                    @error('colline_id')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group mb-3">
+                                    <label for="categorie_id" class="form-label">Catégorie <span class="text-danger">*</span></label>
+                                    <select class="form-select @error('categorie_id') is-invalid @enderror" 
+                                            id="categorie_id" name="categorie_id" required>
+                                        <option value="">Choisir...</option>
+                                        @foreach($categories as $categorie)
+                                            <option value="{{ $categorie->id }}" 
+                                                    {{ old('categorie_id', $joueur->categorie_id) == $categorie->id ? 'selected' : '' }}>
+                                                {{ $categorie->nom }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                    @error('categorie_id')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Boutons d'action -->
+                        <div class="d-flex justify-content-end gap-2">
+                            <a href="{{ route('admin.joueurs.index') }}" class="btn btn-secondary">
+                                <i class="fas fa-times me-2"></i>Annuler
+                            </a>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save me-2"></i>Mettre à jour
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
     </div>
-
-    @if($errors->any())
-        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-            <i class="fas fa-exclamation-circle me-2"></i>
-            <strong>Erreurs de validation :</strong>
-            <ul class="mb-0 mt-2">
-                @foreach($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-        </div>
-    @endif
-
-    <form method="POST" action="{{ route('admin.joueurs.update', $joueur) }}">
-        @csrf
-        @method('PUT')
-        
-        <div class="row">
-            <div class="col-lg-8">
-                <!-- Informations personnelles -->
-                <div class="card mb-4">
-                    <div class="card-header">
-                        <h5 class="card-title mb-0">
-                            <i class="fas fa-user me-2"></i>Informations personnelles
-                        </h5>
-                    </div>
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label for="nom" class="form-label">Nom *</label>
-                                <input type="text" class="form-control @error('nom') is-invalid @enderror" 
-                                       id="nom" name="nom" value="{{ old('nom', $joueur->nom) }}" required>
-                                @error('nom')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
-                            </div>
-
-                            <div class="col-md-6 mb-3">
-                                <label for="prenom" class="form-label">Prénom *</label>
-                                <input type="text" class="form-control @error('prenom') is-invalid @enderror" 
-                                       id="prenom" name="prenom" value="{{ old('prenom', $joueur->prenom) }}" required>
-                                @error('prenom')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label for="date_naissance" class="form-label">Date de naissance</label>
-                                <input type="date" class="form-control @error('date_naissance') is-invalid @enderror" 
-                                       id="date_naissance" name="date_naissance" 
-                                       value="{{ old('date_naissance', $joueur->date_naissance?->format('Y-m-d')) }}">
-                                @error('date_naissance')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
-                            </div>
-
-                            <div class="col-md-6 mb-3">
-                                <label for="sexe" class="form-label">Sexe</label>
-                                <select class="form-select @error('sexe') is-invalid @enderror" id="sexe" name="sexe">
-                                    <option value="">Sélectionner</option>
-                                    <option value="M" {{ old('sexe', $joueur->sexe) == 'M' ? 'selected' : '' }}>Masculin</option>
-                                    <option value="F" {{ old('sexe', $joueur->sexe) == 'F' ? 'selected' : '' }}>Féminin</option>
-                                </select>
-                                @error('sexe')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
-                            </div>
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="lieu_naissance" class="form-label">Lieu de naissance</label>
-                            <input type="text" class="form-control @error('lieu_naissance') is-invalid @enderror" 
-                                   id="lieu_naissance" name="lieu_naissance" 
-                                   value="{{ old('lieu_naissance', $joueur->lieu_naissance) }}">
-                            @error('lieu_naissance')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Informations de contact -->
-                <div class="card mb-4">
-                    <div class="card-header">
-                        <h5 class="card-title mb-0">
-                            <i class="fas fa-address-book me-2"></i>Informations de contact
-                        </h5>
-                    </div>
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label for="telephone" class="form-label">Téléphone</label>
-                                <input type="tel" class="form-control @error('telephone') is-invalid @enderror" 
-                                       id="telephone" name="telephone" value="{{ old('telephone', $joueur->telephone) }}">
-                                @error('telephone')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
-                            </div>
-
-                            <div class="col-md-6 mb-3">
-                                <label for="email" class="form-label">Email</label>
-                                <input type="email" class="form-control @error('email') is-invalid @enderror" 
-                                       id="email" name="email" value="{{ old('email', $joueur->email) }}">
-                                @error('email')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-lg-4">
-                <!-- Affiliation -->
-                <div class="card mb-4">
-                    <div class="card-header">
-                        <h5 class="card-title mb-0">
-                            <i class="fas fa-map-marker-alt me-2"></i>Affiliation
-                        </h5>
-                    </div>
-                    <div class="card-body">
-                        <div class="mb-3">
-                            <label for="categorie_id" class="form-label">Catégorie *</label>
-                            <select class="form-select @error('categorie_id') is-invalid @enderror" 
-                                    id="categorie_id" name="categorie_id" required>
-                                <option value="">Sélectionner une catégorie</option>
-                                @foreach($categories as $categorie)
-                                    <option value="{{ $categorie->id }}" 
-                                            {{ old('categorie_id', $joueur->categorie_id) == $categorie->id ? 'selected' : '' }}>
-                                        {{ $categorie->nom }}
-                                    </option>
-                                @endforeach
-                            </select>
-                            @error('categorie_id')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="colline_id" class="form-label">Colline *</label>
-                            <select class="form-select @error('colline_id') is-invalid @enderror" 
-                                    id="colline_id" name="colline_id" required>
-                                <option value="">Sélectionner une colline</option>
-                                @foreach($collines as $colline)
-                                    <option value="{{ $colline->id }}" 
-                                            {{ old('colline_id', $joueur->colline_id) == $colline->id ? 'selected' : '' }}>
-                                        {{ $colline->nom }}
-                                        @if($colline->zone)
-                                            ({{ $colline->zone->nom }})
-                                        @endif
-                                    </option>
-                                @endforeach
-                            </select>
-                            @error('colline_id')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Informations système -->
-                <div class="card mb-4">
-                    <div class="card-header">
-                        <h5 class="card-title mb-0">
-                            <i class="fas fa-info-circle me-2"></i>Informations
-                        </h5>
-                    </div>
-                    <div class="card-body">
-                        <div class="mb-2">
-                            <h6 class="text-muted mb-1">Date d'inscription</h6>
-                            <p class="mb-0">{{ $joueur->created_at->format('d/m/Y à H:i') }}</p>
-                        </div>
-
-                        @if($joueur->updated_at != $joueur->created_at)
-                            <div class="mb-2">
-                                <h6 class="text-muted mb-1">Dernière modification</h6>
-                                <p class="mb-0">{{ $joueur->updated_at->format('d/m/Y à H:i') }}</p>
-                            </div>
-                        @endif
-
-                        @if($joueur->age)
-                            <div class="mb-2">
-                                <h6 class="text-muted mb-1">Âge actuel</h6>
-                                <p class="mb-0">{{ $joueur->age }} ans</p>
-                            </div>
-                        @endif
-                    </div>
-                </div>
-
-                <!-- Actions -->
-                <div class="card">
-                    <div class="card-body">
-                        <div class="d-grid gap-2">
-                            <button type="submit" class="btn btn-primary">
-                                <i class="fas fa-save me-2"></i>Sauvegarder les modifications
-                            </button>
-                            <a href="{{ route('admin.joueurs.show', $joueur) }}" class="btn btn-info">
-                                <i class="fas fa-eye me-2"></i>Voir le joueur
-                            </a>
-                            <a href="{{ route('admin.joueurs.index') }}" class="btn btn-secondary">
-                                Annuler
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </form>
-</div>
+@endsection
