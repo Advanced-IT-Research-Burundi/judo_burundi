@@ -79,14 +79,14 @@
                 <div class="card mb-4">
                     <div class="card-header d-flex justify-content-between align-items-center">
                         <h5 class="mb-0">Informations d'événement</h5>
-                        <div class="form-check form-switch">
+                        {{-- <div class="form-check form-switch">
                             <input class="form-check-input" type="checkbox" id="isEvent" 
                                    {{ $post->isEvent() ? 'checked' : '' }}>
                             <label class="form-check-label" for="isEvent">C'est un événement</label>
-                        </div>
+                        </div> --}}
                     </div>
                     <div class="card-body" id="eventFields" 
-                         style="{{ $post->isEvent() ? '' : 'display: none;' }}">
+                    >
                         <div class="row">
                             <!-- Lieu -->
                             <div class="col-md-6">
@@ -207,7 +207,7 @@
                             <select class="form-select @error('typepost_id') is-invalid @enderror" 
                                     id="typepost_id" name="typepost_id" required>
                                 <option value="">Sélectionner un type</option>
-                                @foreach($typesPosts as $type)
+                                @foreach($typePosts as $type)
                                     <option value="{{ $type->id }}" 
                                             {{ old('typepost_id', $post->typepost_id) == $type->id ? 'selected' : '' }}>
                                         {{ $type->nom }}

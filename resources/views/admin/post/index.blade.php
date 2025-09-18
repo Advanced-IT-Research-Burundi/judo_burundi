@@ -103,7 +103,7 @@
                                class="btn btn-outline-primary btn-sm">
                                 <i class="fas fa-edit"></i>
                             </a>
-                            @if($post->status === 'draft')
+                            {{-- @if($post->status === 'draft')
                                 <button class="btn btn-outline-success btn-sm" 
                                         onclick="toggleStatus({{ $post->id }}, '{{ $post->status }}')"
                                         title="Publier">
@@ -115,7 +115,7 @@
                                         title="Mettre en brouillon">
                                     <i class="fas fa-archive"></i>
                                 </button>
-                            @endif
+                            @endif --}}
                             <button class="btn btn-outline-danger btn-sm" 
                                     onclick="confirmDelete({{ $post->id }}, '{{ $post->titre }}')">
                                 <i class="fas fa-trash"></i>

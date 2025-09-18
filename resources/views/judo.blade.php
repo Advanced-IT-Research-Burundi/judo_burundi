@@ -171,264 +171,195 @@
     </section>
 
     <!-- News Section -->
-    <section class="news" id="news">
-        <div class="container">
-            <div class="news-header">
-                <div class="section-title" style="text-align: left; margin-bottom: 0;">
-                    <h2>Actualités</h2>
-                    <p>Restez informés de toutes nos actualités</p>
-                </div>
-                {{-- <button class="btn-toggle-form" onclick="toggleAddPostForm()">
-                    <i class="fas fa-plus"></i> Ajouter un article
-                </button> --}}
-            </div>
-
-            <!-- Add Post Form -->
-            <div id="addPostForm" class="add-post-form">
-                <h3><i class="fas fa-edit"></i> Publier un nouvel article</h3>
-                <form id="postForm">
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="postTitle">Titre de l'article *</label>
-                            <input type="text" id="postTitle" name="postTitle" required placeholder="Entrez le titre...">
-                        </div>
-                        <div class="form-group">
-                            <label for="postCategory">Catégorie *</label>
-                            <select id="postCategory" name="postCategory" required>
-                                <option value="">Choisir...</option>
-                                <option value="Compétition">Compétition</option>
-                                <option value="Événement">Événement</option>
-                                <option value="Formation">Formation</option>
-                                <option value="Résultats">Résultats</option>
-                                <option value="Annonce">Annonce</option>
-                                <option value="Actualités">Actualités</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="postExcerpt">Résumé *</label>
-                        <textarea id="postExcerpt" name="postExcerpt" required placeholder="Écrivez un bref résumé de l'article..."></textarea>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="postContent">Contenu complet *</label>
-                        <textarea id="postContent" name="postContent" required placeholder="Rédigez le contenu complet de l'article..."
-                            style="min-height: 120px;"></textarea>
-                    </div>
-
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="postAuthor">Auteur *</label>
-                            <input type="text" id="postAuthor" name="postAuthor" required
-                                placeholder="Nom de l'auteur">
-                        </div>
-                        <div class="form-group">
-                            <label for="postDate">Date de publication</label>
-                            <input type="date" id="postDate" name="postDate">
-                        </div>
-                    </div>
-
-                    <div style="text-align: center; margin-top: 1.5rem;">
-                        <button type="submit" class="btn-add-post">
-                            <i class="fas fa-paper-plane"></i> Publier l'article
-                        </button>
-                        <button type="button" class="btn-secondary" onclick="toggleAddPostForm()"
-                            style="margin-left: 1rem;">
-                            Annuler
-                        </button>
-                    </div>
-                </form>
-            </div>
-
-            <!-- News Grid -->
-            <div id="newsGrid" class="news-grid">
-                <div class="news-card">
-                    <div class="news-image">
-                        {{-- <i class="fas fa-trophy"></i> --}}
-                        <img src="/images/judo3.jpg" alt="News Image"
-                            style="height: 120%; width: auto; border-radius: 10px;">
-                    </div>
-                    <div class="news-content">
-                        <div class="news-meta">
-                            <span class="news-date">15 Sep 2025</span>
-                            <span class="news-category">Compétition</span>
-                        </div>
-                        <h3 class="news-title">Championnat National de Karaté 2025</h3>
-                        <p class="news-excerpt">Nos élèves ont brillé lors du championnat national avec 15 médailles
-                            remportées. Une performance exceptionnelle qui témoigne de la qualité de notre formation.</p>
-                        <div class="news-author">
-                            <i class="fas fa-user"></i>
-                            <span>Maître Karim</span>
-                        </div>
-                        <button class="read-more" onclick="readMore(this)">Lire plus</button>
-                    </div>
-                </div>
-
-                <div class="news-card">
-                    <div class="news-image">
-                        {{-- <i class="fas fa-calendar-alt"></i> --}}
-                        <img src="/images/judo4.jpg" alt="News Image"
-                            style="height: 123%; width: auto; border-radius: 10px;">
-                    </div>
-                    <div class="news-content">
-                        <div class="news-meta">
-                            <span class="news-date">10 Sep 2025</span>
-                            <span class="news-category">Événement</span>
-                        </div>
-                        <h3 class="news-title">Journée Portes Ouvertes</h3>
-                        <p class="news-excerpt">Venez découvrir notre académie lors de notre journée portes ouvertes le 25
-                            septembre. Démonstrations, cours d'essai gratuits et rencontre avec nos instructeurs.</p>
-                        <div class="news-author">
-                            <i class="fas fa-user"></i>
-                            <span>Équipe JUDO-BURUNDI</span>
-                        </div>
-                        <button class="read-more" onclick="readMore(this)">Lire plus</button>
-                    </div>
-                </div>
-
-                <div class="news-card">
-                    <div class="news-image">
-                        {{-- <i class="fas fa-graduation-cap"></i> --}}
-                        <img src="/images/judo5.jpg" alt="News Image"
-                            style="height: 120%; width: auto; border-radius: 10px;">
-                    </div>
-                    <div class="news-content">
-                        <div class="news-meta">
-                            <span class="news-date">5 Sep 2025</span>
-                            <span class="news-category">Formation</span>
-                        </div>
-                        <h3 class="news-title">Nouveau Programme pour Enfants</h3>
-                        <p class="news-excerpt">Lancement de notre nouveau programme spécialement conçu pour les enfants de
-                            6 à 12 ans. Apprentissage ludique et sécuritaire des arts martiaux.</p>
-                        <div class="news-author">
-                            <i class="fas fa-user"></i>
-                            <span>Maître Sarah</span>
-                        </div>
-                        <button class="read-more" onclick="readMore(this)">Lire plus</button>
-                    </div>
-                </div>
+<section class="news" id="news">
+    <div class="container">
+        <div class="news-header">
+            <div class="section-title" style="text-align: left; margin-bottom: 0;">
+                <h2>Actualités</h2>
+                <p>Restez informés de toutes nos actualités</p>
             </div>
         </div>
-    </section>
+
+        <!-- News Grid -->
+        <div id="newsGrid" class="news-grid">
+            @forelse($actualites as $actualite)
+                <div class="news-card">
+                    <div class="news-image">
+                        @if($actualite->image && file_exists(public_path('storage/' . $actualite->image)))
+                            <img src="{{ asset('storage/' . $actualite->image) }}" alt="{{ $actualite->titre }}"
+                                style="height: 100%; width: 100%; object-fit: cover; border-radius: 10px;">
+                        @else
+                            <!-- Image par défaut selon le type -->
+                            @switch($actualite->typePost->nom ?? 'default')
+                                @case('Compétition')
+                                    <img src="/images/judo3.jpg" alt="Compétition"
+                                        style="height: 100%; width: 100%; object-fit: cover; border-radius: 10px;">
+                                    @break
+                                @case('Événement')
+                                    <img src="/images/judo4.jpg" alt="Événement"
+                                        style="height: 100%; width: 100%; object-fit: cover; border-radius: 10px;">
+                                    @break
+                                @case('Formation')
+                                    <img src="/images/judo5.jpg" alt="Formation"
+                                        style="height: 100%; width: 100%; object-fit: cover; border-radius: 10px;">
+                                    @break
+                                @default
+                                    <img src="/images/judo6.jpg" alt="Actualité"
+                                        style="height: 100%; width: 100%; object-fit: cover; border-radius: 10px;">
+                            @endswitch
+                        @endif
+                    </div>
+                    <div class="news-content">
+                        <div class="news-meta">
+                            <span class="news-date">{{ $actualite->date_post->format('d M Y') }}</span>
+                            <span class="news-category">{{ $actualite->typePost->nom ?? 'Actualité' }}</span>
+                        </div>
+                        <h3 class="news-title">{{ Str::limit($actualite->titre, 60) }}</h3>
+                        <p class="news-excerpt">{{ $actualite->extrait ?? Str::limit(strip_tags($actualite->contenu), 120) }}</p>
+                        <div class="news-author">
+                            <i class="fas fa-user"></i>
+                            <span>{{ $actualite->user->name ?? 'Fédération de Judo' }}</span>
+                        </div>
+                        <button class="read-more" onclick="readMoreActualite({{ $actualite->id }}, '{{ addslashes($actualite->titre) }}', '{{ addslashes(strip_tags($actualite->contenu)) }}', '{{ $actualite->date_post->format('d/m/Y') }}', '{{ $actualite->user->name ?? 'Fédération de Judo' }}', '{{ $actualite->typePost->nom ?? 'Actualité' }}')">
+                            Lire plus
+                        </button>
+                    </div>
+                </div>
+            @empty
+                <!-- Affichage si aucune actualité -->
+                <div class="col-12 text-center py-5">
+                    <i class="fas fa-newspaper fa-3x text-muted mb-3"></i>
+                    <h5 class="text-muted">Aucune actualité pour le moment</h5>
+                    <p class="text-muted">Revenez bientôt pour découvrir nos dernières nouvelles !</p>
+                </div>
+            @endforelse
+        </div>
+
+        <!-- Voir plus d'actualités -->
+        @if($actualites->count() >= 6)
+            <div class="text-center mt-4">
+                <a href="{{ route('actualites.index') }}" class="btn-primary">
+                    <i class="fas fa-plus-circle"></i> Voir toutes les actualités
+                </a>
+            </div>
+        @endif
+    </div>
+</section>
 
     <!-- Registration Section -->
-    <section class="registration">
-        <div class="container">
-            <div class="registration-container">
-                <div class="registration-info">
-                    <h2>Rejoignez Notre Académie</h2>
-                    <p>Inscrivez-vous dès aujourd'hui pour commencer votre parcours martial. Nos programmes sont adaptés à
-                        tous les âges et tous les niveaux.</p>
+<section class="registration" id="registration">
+    <div class="container">
+        <div class="registration-container">
+            <div class="registration-info">
+                <h2>Rejoignez Notre Académie</h2>
+                <p>Inscrivez-vous dès aujourd'hui pour commencer votre parcours martial. Nos programmes sont adaptés à
+                    tous les âges et tous les niveaux.</p>
 
-                    <div style="margin: 2rem 0;">
-                        <h3 style="color: #7CB342; margin-bottom: 1rem;">Avantages de l'inscription :</h3>
-                        <ul style="color: #666; line-height: 2;">
-                            <li>Accès illimité aux cours</li>
-                            <li>Suivi personnalisé</li>
-                            <li>Équipement fourni</li>
-                            <li>Participation aux compétitions</li>
-                            <li>Certificats officiels</li>
-                        </ul>
-                    </div>
-
-                    <div
-                        style="background: #7CB342; color: white; padding: 1rem; border-radius: 10px; text-align: center;">
-                        <h3>Offre spéciale !</h3>
-                        <p>Premier mois gratuit pour toute nouvelle inscription</p>
-                    </div>
+                <div style="margin: 2rem 0;">
+                    <h3 style="color: #7CB342; margin-bottom: 1rem;">Avantages de l'inscription :</h3>
+                    <ul style="color: #666; line-height: 2;">
+                        <li>Accès illimité aux cours</li>
+                        <li>Suivi personnalisé</li>
+                        <li>Équipement fourni</li>
+                        <li>Participation aux compétitions</li>
+                        <li>Certificats officiels</li>
+                    </ul>
                 </div>
-                <div class="registration-form">
-                    <h3 style="margin-bottom: 1.5rem; color: #1a365d;">Formulaire d'inscription</h3>
-                    <form id="registrationForm">
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="nom">Nom *</label>
-                                <input type="text" id="nom" name="nom" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="prenom">Prénom *</label>
-                                <input type="text" id="prenom" name="prenom" required>
-                            </div>
-                        </div>
 
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="date_naissance">Date de naissance</label>
-                                <input type="date" id="date_naissance" name="date_naissance">
-                            </div>
-                            <div class="form-group">
-                                <label for="sexe">Sexe</label>
-                                <select id="sexe" name="sexe">
-                                    <option value="">Choisir...</option>
-                                    <option value="M">Masculin</option>
-                                    <option value="F">Féminin</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="lieu_naissance">Lieu de naissance</label>
-                            <input type="text" id="lieu_naissance" name="lieu_naissance">
-                        </div>
-
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="telephone">Téléphone</label>
-                                <input type="tel" id="telephone" name="telephone">
-                            </div>
-                            <div class="form-group">
-                                <label for="email">Email *</label>
-                                <input type="email" id="email" name="email" required>
-                            </div>
-                        </div>
-
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="colline_id">Colline/Quartier *</label>
-                                <select id="colline_id" name="colline_id" required>
-                                    <option value="">Choisir...</option>
-                                    <option value="1">Bujumbura Mairie</option>
-                                    <option value="2">Mukaza</option>
-                                    <option value="3">Muha</option>
-                                    <option value="4">Ntahangwa</option>
-                                    <option value="5">Rohero</option>
-                                    <option value="6">Nyakabiga</option>
-                                    <option value="7">Kinama</option>
-                                    <option value="8">Kamenge</option>
-                                    <option value="9">Ngagara</option>
-                                    <option value="10">Cibitoke</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="categorie_id">Catégorie/Discipline *</label>
-                                <select id="categorie_id" name="categorie_id" required>
-                                    <option value="">Choisir...</option>
-                                    <option value="1">Karaté - Débutant</option>
-                                    <option value="2">Karaté - Intermédiaire</option>
-                                    <option value="3">Karaté - Avancé</option>
-                                    <option value="4">Taekwondo - Débutant</option>
-                                    <option value="5">Taekwondo - Intermédiaire</option>
-                                    <option value="6">Taekwondo - Avancé</option>
-                                    <option value="7">Judo - Débutant</option>
-                                    <option value="8">Judo - Intermédiaire</option>
-                                    <option value="9">Judo - Avancé</option>
-                                    <option value="10">Kung Fu - Débutant</option>
-                                    <option value="11">Kung Fu - Intermédiaire</option>
-                                    <option value="12">Self-Défense</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <button type="submit" class="btn-primary" style="width: 100%; margin-top: 1rem;">
-                            <i class="fas fa-user-plus"></i> S'inscrire maintenant
-                        </button>
-                    </form>
+                <div style="background: #7CB342; color: white; padding: 1rem; border-radius: 10px; text-align: center;">
+                    <h3>Offre spéciale !</h3>
+                    <p>Premier mois gratuit pour toute nouvelle inscription</p>
                 </div>
             </div>
-        </div>
-    </section>
+            
+            <div class="registration-form">
+                <h3 style="margin-bottom: 1.5rem; color: #1a365d;">Formulaire d'inscription</h3>
+                
+                <!-- Zone des messages -->
+                <div id="messageZone" style="margin-bottom: 1rem;"></div>
+                
+                <form id="" action="{{ route('inscription.store') }}" method="POST">
+                    @csrf
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="nom">Nom *</label>
+                            <input type="text" id="nom" name="nom" required>
+                            <div class="error-message" id="nom-error"></div>
+                        </div>
+                        <div class="form-group">
+                            <label for="prenom">Prénom *</label>
+                            <input type="text" id="prenom" name="prenom" required>
+                            <div class="error-message" id="prenom-error"></div>
+                        </div>
+                    </div>
 
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="date_naissance">Date de naissance</label>
+                            <input type="date" id="date_naissance" name="date_naissance">
+                            <div class="error-message" id="date_naissance-error"></div>
+                        </div>
+                        <div class="form-group">
+                            <label for="sexe">Sexe</label>
+                            <select id="sexe" name="sexe">
+                                <option value="">Choisir...</option>
+                                <option value="M">Masculin</option>
+                                <option value="F">Féminin</option>
+                            </select>
+                            <div class="error-message" id="sexe-error"></div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="lieu_naissance">Lieu de naissance</label>
+                        <input type="text" id="lieu_naissance" name="lieu_naissance">
+                        <div class="error-message" id="lieu_naissance-error"></div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="telephone">Téléphone</label>
+                            <input type="tel" id="telephone" name="telephone" placeholder="+257 79 123 456">
+                            <div class="error-message" id="telephone-error"></div>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" name="email">
+                            <div class="error-message" id="email-error"></div>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="colline_id">Colline/Quartier *</label>
+                            <select id="colline_id" name="colline_id" required>
+                                <option value="">Choisir...</option>
+                                @foreach($collines as $colline)
+                                    <option value="{{ $colline->id }}">{{ $colline->name }}</option>
+                                @endforeach
+                            </select>
+                            <div class="error-message" id="colline_id-error"></div>
+                        </div>
+                        <div class="form-group">
+                            <label for="categorie_id">Catégorie/Discipline *</label>
+                            <select id="categorie_id" name="categorie_id" required>
+                                <option value="">Choisir...</option>
+                                @foreach($categories as $categorie)
+                                    <option value="{{ $categorie->id }}">{{ $categorie->nom }}</option>
+                                @endforeach
+                            </select>
+                            <div class="error-message" id="categorie_id-error"></div>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn-primary" id="submitBtn" style="width: 100%; margin-top: 1rem;">
+                        <i class="fas fa-user-plus"></i> S'inscrire maintenant
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
     <!-- Modal -->
     <div id="registrationModal" class="modal">
         <div class="modal-content">

@@ -3,7 +3,6 @@
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
-use App\Http\Controllers\ContactController;
 use App\Http\Controllers\AboutController;
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\admin\CategorieController;
@@ -22,8 +21,6 @@ use App\Http\Controllers\ServiceController;
 
 // Routes publiques
 Route::get('/', [HomeController::class, 'index'])->name('home');
-Route::get('/contact', [ContactController::class, 'index'])->name('contact.index');
-Route::post('/contact/submit', [ContactController::class, 'submit'])->name('contact.submit');
 Route::get('/about', [AboutController::class, 'index'])->name('about');
 Route::get('/blog', [BlogController::class, 'index'])->name('blog');
 Route::get('/elements', [ElementController::class, 'element'])->name('element');
@@ -61,9 +58,9 @@ Route::prefix('admin')->name('admin.')->middleware(['auth'])->group(function () 
 });
 
 // // Route pour afficher les actualités publiques
-// Route::get('actualites', [App\Http\Controllers\ActualiteController::class, 'index'])->name('actualites.index');
-// Route::get('actualites/{post}', [App\Http\Controllers\ActualiteController::class, 'show'])->name('actualites.show');
-
+Route::get('/actualites', [App\Http\Controllers\ActualiteController::class, 'index'])->name('actualites.index');
+Route::get('/actualites/{post}', [App\Http\Controllers\ActualiteController::class, 'show'])->name('actualites.show');
+Route::post('/inscription', [App\Http\Controllers\HomeController::class, 'storeInscription'])->name('inscription.store');
 // Localisation
 Route::resource('countries', CountrieController::class);
 Route::resource('provinces', ProvinceController::class);

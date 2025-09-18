@@ -3,9 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JUDO-BURUNDI</title>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <title>@yield('title', 'Fédération de Judo du Burundi')</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" href="{{asset('css/user.css')}}">
+    <link rel="stylesheet" href="{{asset('css/form.css')}}">
     {{-- <link rel="icon" type="image/png" href="{{asset('images/logo.png')}}"> --}}
 </head>
 <body>
@@ -65,6 +67,7 @@
 </body>
 </html>
 <script src="{{asset('js/user.js')}}"></script>
+<script src="{{asset('js/form.js')}}"></script>
 
 
 
