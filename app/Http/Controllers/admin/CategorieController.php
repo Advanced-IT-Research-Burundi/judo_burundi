@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Categorie;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
-use App\Http\Requests\CategorieRequest; 
+use App\Http\Requests\CategorieRequest;
 
 class CategorieController extends Controller
 {
@@ -33,38 +33,37 @@ class CategorieController extends Controller
             ->with('success', 'Catégorie créée avec succès.');
     }
 
-    public function show(Categorie $categorie)
+    public function show(Categorie $category)
     {
-        $categorie->load(['joueurs' => function ($query) {
+        $category->load(['joueurs' => function ($query) {
             $query->latest();
         }]);
 
-        return view('admin.categorie.show', compact('categorie'));
+        return view('admin.categorie.show', compact('category'));
     }
 
-    public function edit(Categorie $categorie)
+    public function edit(Categorie $category)
     {
-        return view('admin.categorie.edit', compact('categorie'));
+        return view('admin.categorie.edit', compact('category'));
     }
-
-    public function update(CategorieRequest $request, Categorie $categorie)
+    public function update(CategorieRequest $request, Categorie $category)
     {
-        $categorie->update($request->validated());
+        $category->update($request->validated());
 
         return redirect()
             ->route('admin.categories.index')
             ->with('success', 'Catégorie modifiée avec succès.');
     }
 
-    public function destroy(Categorie $categorie)
+    public function destroy(Categorie $category)
     {
-        if ($categorie->joueurs()->count() > 0) {
+        if ($category->joueurs()->count() > 0) {
             return redirect()
                 ->back()
                 ->with('error', 'Impossible de supprimer cette catégorie car elle contient des joueurs.');
         }
 
-        $categorie->delete();
+        $category->delete();
 
         return redirect()
             ->route('admin.categories.index')

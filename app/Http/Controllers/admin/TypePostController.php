@@ -29,7 +29,7 @@ class TypePostController extends Controller
         $typePost = TypePost::create($request->validated());
 
         return redirect()
-            ->route('admin.typepost.index')
+            ->route('admin.type-posts.index')
             ->with('success', 'Type de post créé avec succès.');
     }
 

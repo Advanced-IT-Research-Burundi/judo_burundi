@@ -84,23 +84,23 @@
                                 @foreach($typePost->posts->take(10) as $post)
                                 <tr>
                                     <td>
-                                        <div>
+                                        {{-- <div>
                                             <h6 class="mb-1">{{ Str::limit($post->titre, 50) }}</h6>
                                             @if($post->isEvent())
                                                 <span class="badge bg-info">Événement</span>
                                             @endif
                                             <p class="text-muted small mb-0">{{ Str::limit($post->excerpt, 60) }}</p>
-                                        </div>
+                                        </div> --}}
                                     </td>
                                     <td>{{ $post->user->name }}</td>
                                     <td>
-                                        @if($post->isEvent())
+                                        {{-- @if($post->isEvent())
                                             <i class="fas fa-calendar text-info me-1"></i>
                                         @else
                                             <i class="fas fa-newspaper text-secondary me-1"></i>
                                         @endif
                                         {{ $post->isEvent() ? 'Événement' : 'Article' }}
-                                    </td>
+                                    </td> --}}
                                     <td>
                                         <small class="text-muted">{{ $post->date_post->format('d/m/Y') }}</small>
                                     </td>

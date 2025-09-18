@@ -14,6 +14,21 @@
         </a>
     </div>
 
+    <!-- Messages de session -->
+    @if(session('success'))
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <i class="fas fa-check-circle me-2"></i>{{ session('success') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    @endif
+
+    @if(session('error'))
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <i class="fas fa-exclamation-circle me-2"></i>{{ session('error') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    @endif
+
     <!-- Filtres -->
     <div class="card mb-4">
         <div class="card-body">
@@ -80,7 +95,7 @@
                             @foreach($joueurs as $joueur)
                                 <tr>
                                     <td>
-                                        <div class="avatar">
+                                        <div class="avatar bg-primary text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 40px; height: 40px; font-size: 14px; font-weight: bold;">
                                             {{ strtoupper(substr($joueur->prenom, 0, 1) . substr($joueur->nom, 0, 1)) }}
                                         </div>
                                     </td>
@@ -99,10 +114,10 @@
                                     </td>
                                     <td>
                                         @if($joueur->email)
-                                            <div><i class="fas fa-envelope me-1"></i>{{ $joueur->email }}</div>
+                                            <div><i class="fas fa-envelope me-1 text-muted"></i>{{ $joueur->email }}</div>
                                         @endif
                                         @if($joueur->telephone)
-                                            <div><i class="fas fa-phone me-1"></i>{{ $joueur->telephone }}</div>
+                                            <div><i class="fas fa-phone me-1 text-muted"></i>{{ $joueur->telephone }}</div>
                                         @endif
                                     </td>
                                     <td>
@@ -124,11 +139,16 @@
                                                class="btn btn-sm btn-outline-primary" title="Modifier">
                                                 <i class="fas fa-edit"></i>
                                             </a>
-                                            <button type="button" class="btn btn-sm btn-outline-danger" 
-                                                    onclick="confirmDelete({{ $joueur->id }}, '{{ $joueur->nom_complet }}')" 
-                                                    title="Supprimer">
-                                                <i class="fas fa-trash"></i>
-                                            </button>
+                                            <form method="POST" 
+                                                  action="{{ route('admin.joueurs.destroy', $joueur) }}" 
+                                                  style="display: inline-block;"
+                                                  onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer {{ $joueur->nom_complet }} ? Cette action est irréversible.')">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-sm btn-outline-danger" title="Supprimer">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
+                                            </form>
                                         </div>
                                     </td>
                                 </tr>
@@ -145,46 +165,86 @@
                 <div class="text-center py-5">
                     <i class="fas fa-users fa-3x text-muted mb-3"></i>
                     <h5 class="text-muted">Aucun joueur trouvé</h5>
-                    <p class="text-muted">Commencez par ajouter votre premier joueur</p>
-                    <a href="{{ route('admin.joueurs.create') }}" class="btn btn-primary">
-                        <i class="fas fa-plus me-2"></i>Ajouter un Joueur
-                    </a>
+                    <p class="text-muted">
+                        @if(request()->hasAny(['search', 'categorie_id', 'sexe']))
+                            Aucun joueur ne correspond à vos critères de recherche.
+                        @else
+                            Commencez par ajouter votre premier joueur.
+                        @endif
+                    </p>
+                    <div class="mt-3">
+                        <a href="{{ route('admin.joueurs.create') }}" class="btn btn-primary">
+                            <i class="fas fa-plus me-2"></i>Ajouter un Joueur
+                        </a>
+                        @if(request()->hasAny(['search', 'categorie_id', 'sexe']))
+                            <a href="{{ route('admin.joueurs.index') }}" class="btn btn-outline-secondary ms-2">
+                                <i class="fas fa-times me-2"></i>Effacer les filtres
+                            </a>
+                        @endif
+                    </div>
                 </div>
             @endif
         </div>
     </div>
 
-    <!-- Modal de confirmation de suppression -->
-    <div class="modal fade" id="deleteModal" tabindex="-1">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Confirmer la suppression</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                </div>
-                <div class="modal-body">
-                    <p>Êtes-vous sûr de vouloir supprimer le joueur <strong id="joueurName"></strong> ?</p>
-                    <p class="text-danger"><small>Cette action est irréversible.</small></p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
-                    <form id="deleteForm" method="POST" style="display: inline;">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" class="btn btn-danger">Supprimer</button>
-                    </form>
+    <!-- Actions en lot (optionnel) -->
+    @if($joueurs->count() > 0)
+        <div class="card mt-4">
+            <div class="card-header">
+                <h6 class="mb-0">Actions rapides</h6>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-3">
+                        {{-- <a href="{{ route('admin.joueurs.export') }}" class="btn btn-outline-success w-100">
+                            <i class="fas fa-download me-2"></i>Exporter la liste
+                        </a> --}}
+                    </div>
+                    {{-- <div class="col-md-3">
+                        <button type="button" class="btn btn-outline-primary w-100" data-bs-toggle="modal" data-bs-target="#importModal">
+                            <i class="fas fa-upload me-2"></i>Importer des joueurs
+                        </button>
+                    </div> --}}
+                    <div class="col-md-3">
+                        <a href="{{ route('admin.categories.index') }}" class="btn btn-outline-info w-100">
+                            <i class="fas fa-tags me-2"></i>Gérer les catégories
+                        </a>
+                    </div>
+                    <div class="col-md-3">
+                        {{-- <a href="{{ route('admin.collines.index') }}" class="btn btn-outline-warning w-100">
+                            <i class="fas fa-map-marker-alt me-2"></i>Gérer les collines
+                        </a> --}}
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
+    @endif
 @endsection
 
-@push('scripts')
-<script>
-    function confirmDelete(id, name) {
-        document.getElementById('joueurName').textContent = name;
-        document.getElementById('deleteForm').action = `/admin/joueurs/${id}`;
-        new bootstrap.Modal(document.getElementById('deleteModal')).show();
-    }
-</script>
+@push('styles')
+<style>
+.avatar {
+    width: 40px;
+    height: 40px;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.badge.bg-pink {
+    background-color: #e91e63 !important;
+}
+
+.table td {
+    vertical-align: middle;
+}
+
+.btn-group .btn {
+    border-radius: 0.25rem;
+    margin-right: 2px;
+}
+
+.btn-group .btn:last-child {
+    margin-right: 0;
+}
+</style>
 @endpush
