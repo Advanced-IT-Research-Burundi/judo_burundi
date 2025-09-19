@@ -15,9 +15,10 @@ use App\Http\Controllers\admin\CommuneController;
 use App\Http\Controllers\admin\ZoneController;
 use App\Http\Controllers\admin\QuartierController;
 use App\Http\Controllers\admin\CountrieController;
-use App\Http\Controllers\admin\ActualiteController;
-use App\Http\Controllers\admin\GalerieController;
+use App\Http\Controllers\admin\GalleryImageController;
 use App\Http\Controllers\ContactController;
+use App\Http\Controller\GalerieController;
+
 
 
 
@@ -27,14 +28,20 @@ Route::get('/about', [AboutController::class, 'index'])->name('about');
 Route::get('/blog', [BlogController::class, 'index'])->name('blog');
 Route::get('/galerie', [App\Http\Controllers\GalerieController::class, 'index'])->name('galerie');
 Route::get('/contact', [ContactController::class, 'index'])->name('contact');
+Route::post('/contact', [ContactController::class, 'store'])->name('contact.store');
 
+Route::get('/actualites/{post}', [BlogController::class, 'show'])->name('actualites.show');
+
+// Route::post('/gallery/{galleryImage}/toggle-status', [App\Http\Controllers\Admin\GalleryImageController::class, 'toggleStatus'])->name('gallery.toggle-status');
+// Route::post('/gallery/bulk-action', [App\Http\Controllers\Admin\GalleryImageController::class, 'bulkAction'])->name('gallery.bulk-action');
+// Route::post('/gallery/update-order', [App\Http\Controllers\Admin\GalleryImageController::class, 'updateOrder'])->name('gallery.update-order');
 
 // Routes d'authentification
 require __DIR__ . '/auth.php';
 
 // Routes de profil
 Route::middleware('auth')->group(function () {
-    Route::get('/dashboard', [DashboardController::class, 'index'] )->name('dashboard');
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
@@ -52,6 +59,8 @@ Route::prefix('admin')->name('admin.')->middleware(['auth'])->group(function () 
     Route::resource('posts', PostController::class);
     Route::patch('posts/{post}/toggle-status', [PostController::class, 'toggleStatus'])->name('posts.toggle-status');
     Route::get('posts/{post}/preview', [PostController::class, 'preview'])->name('posts.preview');
+    Route::resource('gallery-images', GalleryImageController::class);
+
 
     // API Routes for AJAX calls
     Route::prefix('api')->name('api.')->group(function () {
@@ -61,9 +70,6 @@ Route::prefix('admin')->name('admin.')->middleware(['auth'])->group(function () 
     });
 });
 
-// // Route pour afficher les actualités publiques
-Route::get('/actualites', [App\Http\Controllers\ActualiteController::class, 'index'])->name('actualites.index');
-Route::get('/actualites/{post}', [App\Http\Controllers\ActualiteController::class, 'show'])->name('actualites.show');
 Route::post('/inscription', [App\Http\Controllers\HomeController::class, 'storeInscription'])->name('inscription.store');
 // Localisation
 Route::resource('countries', CountrieController::class);

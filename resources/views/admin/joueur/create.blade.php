@@ -172,9 +172,9 @@
                                         @foreach($collines as $colline)
                                             <option value="{{ $colline->id }}" 
                                                     {{ old('colline_id') == $colline->id ? 'selected' : '' }}>
-                                                {{ $colline->nom }}
+                                                {{ $colline->name }}
                                                 @if($colline->zone)
-                                                    ({{ $colline->zone->nom }})
+                                                    ({{ $colline->zone->name }})
                                                 @endif
                                             </option>
                                         @endforeach
@@ -198,9 +198,9 @@
                                             <option value="{{ $categorie->id }}" 
                                                     {{ old('categorie_id') == $categorie->id ? 'selected' : '' }}>
                                                 {{ $categorie->nom }}
-                                                @if($categorie->description)
+                                                {{-- @if($categorie->description)
                                                     - {{ $categorie->description }}
-                                                @endif
+                                                @endif --}}
                                             </option>
                                         @endforeach
                                     </select>
@@ -277,9 +277,6 @@
                                 <a href="{{ route('admin.joueurs.index') }}" class="btn btn-secondary">
                                     <i class="fas fa-times me-2"></i>Annuler
                                 </a>
-                                <button type="reset" class="btn btn-outline-warning">
-                                    <i class="fas fa-undo me-2"></i>Réinitialiser
-                                </button>
                                 <button type="submit" class="btn btn-primary">
                                     <i class="fas fa-save me-2"></i>Enregistrer le joueur
                                 </button>
@@ -317,52 +314,10 @@
                         <a href="{{ route('admin.categories.create') }}" class="btn btn-sm btn-outline-info">
                             <i class="fas fa-plus me-1"></i>Nouvelle catégorie
                         </a>
-                        {{-- <a href="" class="btn btn-sm btn-outline-info">
+                        <a href="" class="btn btn-sm btn-outline-info">
                             <i class="fas fa-plus me-1"></i>Nouvelle colline
                         </a>
                     </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="card bg-light">
-                <div class="card-body">
-                    <h6 class="card-title">
-                        <i class="fas fa-question-circle me-2 text-success"></i>Besoin d'aide ?
-                    </h6>
-                    <p class="mb-2 small">Contactez l'administrateur si vous rencontrez des difficultés.</p>
-                    <button type="button" class="btn btn-sm btn-outline-success" data-bs-toggle="modal" data-bs-target="#helpModal">
-                        <i class="fas fa-envelope me-1"></i>Contacter le support
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal d'aide -->
-    <div class="modal fade" id="helpModal" tabindex="-1">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Contacter le Support</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                </div>
-                <div class="modal-body">
-                    <form method="POST" action="">
-                        @csrf
-                        <div class="mb-3">
-                            <label for="subject" class="form-label">Sujet</label>
-                            <input type="text" class="form-control" id="subject" name="subject" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="message" class="form-label">Message</label>
-                            <textarea class="form-control" id="message" name="message" rows="4" required></textarea>
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
-                    <button type="submit" class="btn btn-primary">Envoyer</button>
                 </div>
             </div>
         </div>

@@ -8,66 +8,62 @@ use Illuminate\Support\Facades\Validator;
 
 class ContactController extends Controller
 {
+    /**
+     * Afficher la page de contact
+     */
     public function index()
     {
-        // Affiche la page de contact
         return view('pages.contact');
     }
 
-    public function submit(Request $request)
+    /**
+     * Enregistrer le message de contact
+     */
+    public function store(Request $request)
     {
+        // Validation des données
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|max:255',
+            'sujet' => 'required|string|max:255',
+            'message' => 'required|string|max:2000'
+        ], [
+            'name.required' => 'Le nom est obligatoire.',
+            'name.max' => 'Le nom ne peut pas dépasser 255 caractères.',
+            'email.required' => 'L\'email est obligatoire.',
+            'email.email' => 'L\'email doit être valide.',
+            'email.max' => 'L\'email ne peut pas dépasser 255 caractères.',
+            'sujet.required' => 'Le sujet est obligatoire.',
+            'sujet.max' => 'Le sujet ne peut pas dépasser 255 caractères.',
+            'message.required' => 'Le message est obligatoire.',
+            'message.max' => 'Le message ne peut pas dépasser 2000 caractères.'
+        ]);
+
+        // Si la validation échoue
+        if ($validator->fails()) {
+            return redirect()->back()
+                            ->withErrors($validator)
+                            ->withInput();
+        }
+
         try {
-            // Validation des données
-            $validator = Validator::make($request->all(), [
-                'name' => 'required|string',
-                'email' => 'required|email',
-                'sujet' => 'required|string',
-                'message' => 'required|string',
-            ], [
-                'name.required' => 'Le nom est obligatoire.',
-                'name.min' => 'Le nom doit contenir au moins 2 caractères.',
-                'email.required' => 'L\'email est obligatoire.',
-                'email.email' => 'Veuillez entrer un email valide.',
-                'sujet.required' => 'Le sujet est obligatoire.',
-                'sujet.min' => 'Le sujet doit contenir au moins 3 caractères.',
-                'message.required' => 'Le message est obligatoire.',
-                'message.min' => 'Le message doit contenir au moins 10 caractères.',
-                'message.max' => 'Le message ne peut pas dépasser 1000 caractères.'
+            // Créer le contact
+            Contact::create([
+                'name' => $request->name,
+                'email' => $request->email,
+                'sujet' => $request->sujet,
+                'message' => $request->message
             ]);
 
-            if ($validator->fails()) {
-                return redirect()->back()
-                    ->withErrors($validator)
-                    ->withInput()
-                    ->with('contact_error', 'Veuillez corriger les erreurs dans le formulaire.');
-            }
-
-            // Vérifier si l'email existe déjà (optionnel)
-            $existingContact = Contact::where('email', $request->email)->first();
-            if ($existingContact) {
-                // Mettre à jour le contact existant
-                $existingContact->update([
-                    'name' => $request->name,
-                    'sujet' => $request->sujet,
-                    'message' => $request->message,
-                ]);
-            } else {
-                // Créer un nouveau contact
-                Contact::create([
-                    'name' => $request->name,
-                    'email' => $request->email,
-                    'sujet' => $request->sujet,
-                    'message' => $request->message,
-                ]);
-            }
-
-
-            return redirect()->back();
-
+            // Rediriger avec message de succès
+            return redirect()->route('contact')
+                            ->with('success', 'Votre message a été envoyé avec succès ! Nous vous répondrons dans les plus brefs délais.');
 
         } catch (\Exception $e) {
+            // En cas d'erreur
             return redirect()->back()
-                ->withInput();
+                            ->with('error', 'Une erreur s\'est produite lors de l\'envoi de votre message. Veuillez réessayer.')
+                            ->withInput();
         }
     }
 }

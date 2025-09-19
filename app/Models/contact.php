@@ -9,11 +9,22 @@ class Contact extends Model
 {
     use HasFactory;
 
-    protected $table = 'contacts';
-    protected $guarded = [];
+    protected $fillable = [
+        'name',
+        'email',
+        'sujet',
+        'message'
+    ];
 
-    public function getCreatedAtAttribute($value)
+    // Scope pour les messages récents
+    public function scopeRecent($query)
     {
-        return \Carbon\Carbon::parse($value)->format('d/m/Y à H:i');
+        return $query->orderBy('created_at', 'desc');
+    }
+
+    // Accessor pour formater la date
+    public function getDateEnvoiAttribute()
+    {
+        return $this->created_at->format('d/m/Y à H:i');
     }
 }

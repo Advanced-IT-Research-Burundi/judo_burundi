@@ -5,7 +5,7 @@
 <!-- Hero Section -->
 <section class="hero" id="home">
     <div class="container">
-        <h1>ENTRAÎNEZ-VOUS AVEC LES MEILLEURS</h1>
+        <h1>A Propos de Nous</h1>
         <p>Découvrez JUDO traditionnel avec nos instructeurs légendaires</p>
         <div class="hero-buttons">
 
@@ -41,7 +41,7 @@
 <section class="instructors" id="instructors">
     <div class="container">
         <div class="section-title">
-            <h2>Nos Instructeurs</h2>
+            <h2>Notre equipe</h2>
             <p>Rencontrez nos maîtres expérimentés</p>
         </div>
         <div class="instructors-grid">
