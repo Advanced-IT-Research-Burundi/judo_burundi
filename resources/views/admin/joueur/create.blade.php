@@ -317,9 +317,9 @@
                         <a href="{{ route('admin.categories.create') }}" class="btn btn-sm btn-outline-info">
                             <i class="fas fa-plus me-1"></i>Nouvelle catégorie
                         </a>
-                        <a href="{{ route('admin.collines.create') }}" class="btn btn-sm btn-outline-info">
+                        {{-- <a href="{{ route('admin.collines.create') }}" class="btn btn-sm btn-outline-info">
                             <i class="fas fa-plus me-1"></i>Nouvelle colline
-                        </a>
+                        </a> --}}
                     </div>
                 </div>
             </div>
