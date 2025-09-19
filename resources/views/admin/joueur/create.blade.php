@@ -19,7 +19,7 @@
                         <div class="alert alert-danger">
                             <i class="fas fa-exclamation-circle me-2"></i>
                             <strong>Erreurs de validation :</strong>
-                            <ul class="mb-0 mt-2">
+                            <ul class="mt-2 mb-0">
                                 @foreach($errors->all() as $error)
                                     <li>{{ $error }}</li>
                                 @endforeach
@@ -31,14 +31,14 @@
                         @csrf
                         
                         <!-- Informations personnelles -->
-                        <div class="row mb-4">
+                        <div class="mb-4 row">
                             <div class="col-12">
-                                <h6 class="text-primary border-bottom pb-2 mb-3">
+                                <h6 class="pb-2 mb-3 text-primary border-bottom">
                                     <i class="fas fa-user me-2"></i>Informations Personnelles
                                 </h6>
                             </div>
                             <div class="col-md-6">
-                                <div class="form-group mb-3">
+                                <div class="mb-3 form-group">
                                     <label for="nom" class="form-label">
                                         Nom <span class="text-danger">*</span>
                                     </label>
@@ -55,7 +55,7 @@
                                 </div>
                             </div>
                             <div class="col-md-6">
-                                <div class="form-group mb-3">
+                                <div class="mb-3 form-group">
                                     <label for="prenom" class="form-label">
                                         Prénom <span class="text-danger">*</span>
                                     </label>
@@ -72,7 +72,7 @@
                                 </div>
                             </div>
                             <div class="col-md-6">
-                                <div class="form-group mb-3">
+                                <div class="mb-3 form-group">
                                     <label for="date_naissance" class="form-label">Date de Naissance</label>
                                     <input type="date" 
                                            class="form-control @error('date_naissance') is-invalid @enderror" 
@@ -87,7 +87,7 @@
                                 </div>
                             </div>
                             <div class="col-md-6">
-                                <div class="form-group mb-3">
+                                <div class="mb-3 form-group">
                                     <label for="sexe" class="form-label">Sexe</label>
                                     <select class="form-select @error('sexe') is-invalid @enderror" id="sexe" name="sexe">
                                         <option value="">Choisir...</option>
@@ -100,7 +100,7 @@
                                 </div>
                             </div>
                             <div class="col-md-12">
-                                <div class="form-group mb-3">
+                                <div class="mb-3 form-group">
                                     <label for="lieu_naissance" class="form-label">Lieu de Naissance</label>
                                     <input type="text" 
                                            class="form-control @error('lieu_naissance') is-invalid @enderror" 
@@ -116,14 +116,14 @@
                         </div>
 
                         <!-- Informations de contact -->
-                        <div class="row mb-4">
+                        <div class="mb-4 row">
                             <div class="col-12">
-                                <h6 class="text-primary border-bottom pb-2 mb-3">
+                                <h6 class="pb-2 mb-3 text-primary border-bottom">
                                     <i class="fas fa-phone me-2"></i>Informations de Contact
                                 </h6>
                             </div>
                             <div class="col-md-6">
-                                <div class="form-group mb-3">
+                                <div class="mb-3 form-group">
                                     <label for="telephone" class="form-label">Téléphone</label>
                                     <input type="tel" 
                                            class="form-control @error('telephone') is-invalid @enderror" 
@@ -137,7 +137,7 @@
                                 </div>
                             </div>
                             <div class="col-md-6">
-                                <div class="form-group mb-3">
+                                <div class="mb-3 form-group">
                                     <label for="email" class="form-label">Email</label>
                                     <input type="email" 
                                            class="form-control @error('email') is-invalid @enderror" 
@@ -153,14 +153,14 @@
                         </div>
 
                         <!-- Informations sportives -->
-                        <div class="row mb-4">
+                        <div class="mb-4 row">
                             <div class="col-12">
-                                <h6 class="text-primary border-bottom pb-2 mb-3">
+                                <h6 class="pb-2 mb-3 text-primary border-bottom">
                                     <i class="fas fa-medal me-2"></i>Informations Sportives
                                 </h6>
                             </div>
                             <div class="col-md-6">
-                                <div class="form-group mb-3">
+                                <div class="mb-3 form-group">
                                     <label for="colline_id" class="form-label">
                                         Colline/Quartier <span class="text-danger">*</span>
                                     </label>
@@ -185,7 +185,7 @@
                                 </div>
                             </div>
                             <div class="col-md-6">
-                                <div class="form-group mb-3">
+                                <div class="mb-3 form-group">
                                     <label for="categorie_id" class="form-label">
                                         Catégorie <span class="text-danger">*</span>
                                     </label>
@@ -212,14 +212,14 @@
                         </div>
 
                         <!-- Informations complémentaires (optionnel) -->
-                        <div class="row mb-4">
+                        <div class="mb-4 row">
                             <div class="col-12">
-                                <h6 class="text-primary border-bottom pb-2 mb-3">
+                                <h6 class="pb-2 mb-3 text-primary border-bottom">
                                     <i class="fas fa-info-circle me-2"></i>Informations Complémentaires (Optionnel)
                                 </h6>
                             </div>
                             <div class="col-md-6">
-                                <div class="form-group mb-3">
+                                <div class="mb-3 form-group">
                                     <label for="poids" class="form-label">Poids (kg)</label>
                                     <input type="number" 
                                            class="form-control @error('poids') is-invalid @enderror" 
@@ -235,7 +235,7 @@
                                 </div>
                             </div>
                             <div class="col-md-6">
-                                <div class="form-group mb-3">
+                                <div class="mb-3 form-group">
                                     <label for="taille" class="form-label">Taille (cm)</label>
                                     <input type="number" 
                                            class="form-control @error('taille') is-invalid @enderror" 
@@ -251,7 +251,7 @@
                                 </div>
                             </div>
                             <div class="col-md-12">
-                                <div class="form-group mb-3">
+                                <div class="mb-3 form-group">
                                     <label for="notes" class="form-label">Notes</label>
                                     <textarea class="form-control @error('notes') is-invalid @enderror" 
                                               id="notes" 
@@ -273,7 +273,7 @@
                                     Les champs marqués d'un * sont obligatoires
                                 </small>
                             </div>
-                            <div class="d-flex gap-2">
+                            <div class="gap-2 d-flex">
                                 <a href="{{ route('admin.joueurs.index') }}" class="btn btn-secondary">
                                     <i class="fas fa-times me-2"></i>Annuler
                                 </a>
@@ -292,14 +292,14 @@
     </div>
 
     <!-- Aide contextuelle -->
-    <div class="row mt-4">
+    <div class="mt-4 row">
         <div class="col-md-4">
             <div class="card bg-light">
                 <div class="card-body">
                     <h6 class="card-title">
                         <i class="fas fa-lightbulb me-2 text-warning"></i>Conseils
                     </h6>
-                    <ul class="small mb-0">
+                    <ul class="mb-0 small">
                         <li>Vérifiez l'orthographe des noms et prénoms</li>
                         <li>La date de naissance aide à calculer automatiquement l'âge</li>
                         <li>Choisissez la catégorie selon l'âge du joueur</li>
@@ -313,11 +313,11 @@
                     <h6 class="card-title">
                         <i class="fas fa-users me-2 text-info"></i>Actions rapides
                     </h6>
-                    <div class="d-grid gap-2">
+                    <div class="gap-2 d-grid">
                         <a href="{{ route('admin.categories.create') }}" class="btn btn-sm btn-outline-info">
                             <i class="fas fa-plus me-1"></i>Nouvelle catégorie
                         </a>
-                        <a href="{{ route('admin.collines.create') }}" class="btn btn-sm btn-outline-info">
+                        <a href="" class="btn btn-sm btn-outline-info">
                             <i class="fas fa-plus me-1"></i>Nouvelle colline
                         </a>
                     </div>
@@ -330,7 +330,7 @@
                     <h6 class="card-title">
                         <i class="fas fa-question-circle me-2 text-success"></i>Besoin d'aide ?
                     </h6>
-                    <p class="small mb-2">Contactez l'administrateur si vous rencontrez des difficultés.</p>
+                    <p class="mb-2 small">Contactez l'administrateur si vous rencontrez des difficultés.</p>
                     <button type="button" class="btn btn-sm btn-outline-success" data-bs-toggle="modal" data-bs-target="#helpModal">
                         <i class="fas fa-envelope me-1"></i>Contacter le support
                     </button>
@@ -348,7 +348,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
-                    <form method="POST" action="{{ route('admin.support.contact') }}">
+                    <form method="POST" action="">
                         @csrf
                         <div class="mb-3">
                             <label for="subject" class="form-label">Sujet</label>
