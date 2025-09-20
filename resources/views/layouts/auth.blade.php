@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>Inscription - Fédération de Judo du Burundi</title>
+    <title>@yield('title', 'Authentification - Fédération de Judo du Burundi')</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     
     <style>
@@ -105,7 +105,7 @@
         }
 
         .auth-form-section {
-            padding: 2.5rem;
+            padding: 3rem;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -114,24 +114,23 @@
 
         .form-header {
             text-align: center;
-            margin-bottom: 1.5rem;
+            margin-bottom: 2rem;
         }
 
         .form-title {
-            font-size: 1.8rem;
+            font-size: 2rem;
             color: #1a365d;
-            margin-bottom: 0.3rem;
+            margin-bottom: 0.5rem;
             font-weight: 600;
         }
 
         .form-subtitle {
             color: #666;
             font-size: 1rem;
-            margin-bottom: 1rem;
         }
 
         .form-group {
-            margin-bottom: 1.2rem;
+            margin-bottom: 1.5rem;
             position: relative;
         }
 
@@ -189,18 +188,37 @@
             transform: translateY(0);
         }
 
+        .form-options {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 1rem 0;
+            font-size: 0.9rem;
+        }
+
         .remember-me {
             display: flex;
             align-items: center;
             gap: 0.5rem;
             cursor: pointer;
-            margin-bottom: 1rem;
         }
 
         .remember-me input[type="checkbox"] {
             width: auto;
             margin: 0;
             accent-color: #7CB342;
+        }
+
+        .forgot-password {
+            color: #7CB342;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .forgot-password:hover {
+            color: #689F3A;
+            text-decoration: underline;
         }
 
         .btn-primary {
@@ -256,10 +274,34 @@
             to { transform: rotate(360deg); }
         }
 
+        .divider {
+            text-align: center;
+            margin: 1.5rem 0;
+            position: relative;
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .divider::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: #e2e8f0;
+        }
+
+        .divider span {
+            background: white;
+            padding: 0 1rem;
+            position: relative;
+        }
+
         .auth-switch {
             text-align: center;
-            margin-top: 1.5rem;
-            padding-top: 1.5rem;
+            margin-top: 2rem;
+            padding-top: 2rem;
             border-top: 1px solid #e2e8f0;
             color: #666;
             font-size: 0.9rem;
@@ -274,6 +316,25 @@
 
         .auth-switch a:hover {
             text-decoration: underline;
+        }
+
+        .back-home {
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: none;
+            padding: 0.7rem;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 3;
+        }
+
+        .back-home:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
         }
 
         .status-message {
@@ -307,7 +368,13 @@
             }
 
             .form-title {
-                font-size: 1.6rem;
+                font-size: 1.8rem;
+            }
+
+            .form-options {
+                flex-direction: column;
+                gap: 1rem;
+                align-items: stretch;
             }
         }
 
@@ -317,7 +384,7 @@
             }
 
             .form-title {
-                font-size: 1.5rem;
+                font-size: 1.6rem;
             }
         }
 
@@ -352,11 +419,17 @@
             }
         }
     </style>
+
+    @stack('styles')
 </head>
 <body>
     <div class="auth-container fade-in">
         <!-- Visual Side -->
         <div class="auth-visual">
+            <a href="{{ route('home') }}" class="back-home" title="Retour à l'accueil">
+                <i class="fas fa-arrow-left"></i>
+            </a>
+            
             <div class="visual-content">
                 <div class="logo">JUDO</div>
                 <div class="tagline">Fédération du Burundi</div>
@@ -392,132 +465,19 @@
 
         <!-- Form Side -->
         <div class="auth-form-section slide-in-right">
-            <div class="form-header">
-                <h1 class="form-title">Inscription</h1>
-                <p class="form-subtitle">Rejoignez la famille du judo burundais</p>
-            </div>
-
-            <form method="POST" action="{{ route('register') }}" id="registerForm">
-                @csrf
-
-                {{-- Nom complet --}}
-                <div class="form-group">
-                    <label for="name">Nom complet</label>
-                    <input 
-                        type="text" 
-                        id="name" 
-                        name="name" 
-                        value="{{ old('name') }}" 
-                        required 
-                        autocomplete="name"
-                        autofocus
-                        placeholder="Votre nom complet"
-                    >
-                    <i class="fas fa-user input-icon"></i>
-                    @error('name')
-                        <span class="error-message">{{ $message }}</span>
-                    @else
-                        <span class="error-message"></span>
-                    @enderror
-                </div>
-
-                {{-- Email --}}
-                <div class="form-group">
-                    <label for="email">Adresse email</label>
-                    <input 
-                        type="email" 
-                        id="email" 
-                        name="email" 
-                        value="{{ old('email') }}" 
-                        required 
-                        autocomplete="email"
-                        placeholder="votre.email@example.com"
-                    >
-                    <i class="fas fa-envelope input-icon"></i>
-                    @error('email')
-                        <span class="error-message">{{ $message }}</span>
-                    @else
-                        <span class="error-message"></span>
-                    @enderror
-                </div>
-
-                {{-- Mot de passe --}}
-                <div class="form-group">
-                    <label for="password">Mot de passe</label>
-                    <input 
-                        type="password" 
-                        id="password" 
-                        name="password" 
-                        required 
-                        autocomplete="new-password"
-                        placeholder="Minimum 8 caractères"
-                    >
-                    <i class="fas fa-lock input-icon"></i>
-                    @error('password')
-                        <span class="error-message">{{ $message }}</span>
-                    @else
-                        <span class="error-message"></span>
-                    @enderror
-                </div>
-
-                {{-- Confirmation du mot de passe --}}
-                <div class="form-group">
-                    <label for="password_confirmation">Confirmer le mot de passe</label>
-                    <input 
-                        type="password" 
-                        id="password_confirmation" 
-                        name="password_confirmation" 
-                        required 
-                        autocomplete="new-password"
-                        placeholder="Confirmez votre mot de passe"
-                    >
-                    <i class="fas fa-lock input-icon"></i>
-                    @error('password_confirmation')
-                        <span class="error-message">{{ $message }}</span>
-                    @else
-                        <span class="error-message"></span>
-                    @enderror
-                </div>
-
-                {{-- Conditions d'utilisation --}}
-                <div class="form-group">
-                    <label class="remember-me">
-                        <input type="checkbox" name="terms" required {{ old('terms') ? 'checked' : '' }}>
-                        <span>J'accepte les <a href="#" style="color: #7CB342; text-decoration: underline;">conditions d'utilisation</a> et la <a href="#" style="color: #7CB342; text-decoration: underline;">politique de confidentialité</a></span>
-                    </label>
-                    @error('terms')
-                        <span class="error-message">{{ $message }}</span>
-                    @else
-                        <span class="error-message"></span>
-                    @enderror
-                </div>
-
-                {{-- Bouton d'inscription --}}
-                <button type="submit" class="btn-primary">
-                    Créer mon compte
-                </button>
-            </form>
-
-            {{-- Lien vers la connexion --}}
-            <div class="auth-switch">
-                Déjà un compte ?
-                <a href="{{ route('login') }}">Se connecter</a>
-            </div>
+            @yield('content')
         </div>
     </div>
 
+    {{-- Scripts globaux --}}
     <script>
         // Enhanced form handling
         document.addEventListener('DOMContentLoaded', function() {
-            const form = document.getElementById('registerForm');
-            const nameInput = document.getElementById('name');
-            const emailInput = document.getElementById('email');
-            const passwordInput = document.getElementById('password');
-            const passwordConfirmationInput = document.getElementById('password_confirmation');
-            const termsCheckbox = document.querySelector('input[name="terms"]');
-
             // Auto-focus on first input
-            setTimeout(() => nameInput.focus(), 100);
+            const firstInput = document.querySelector('input:not([type="hidden"])');
+            if (firstInput) {
+                setTimeout(() => firstInput.focus(), 100);
+            }
 
             // Real-time form validation
             const inputs = document.querySelectorAll('input[required]');
@@ -526,104 +486,16 @@
                 input.addEventListener('input', clearError);
             });
 
-            // Validation du nom
-            nameInput.addEventListener('blur', function() {
-                const value = this.value.trim();
-                if (value && value.length < 2) {
-                    showFieldError(this, 'Le nom doit contenir au moins 2 caractères');
-                } else if (value && !/^[a-zA-ZÀ-ÿ\s-']+$/.test(value)) {
-                    showFieldError(this, 'Seules les lettres, espaces et tirets sont autorisés');
-                }
-            });
-
-            // Validation de l'email
-            emailInput.addEventListener('blur', function() {
-                const email = this.value.trim();
-                if (email && !isValidEmail(email)) {
-                    showFieldError(this, 'Veuillez entrer une adresse email valide');
-                }
-            });
-
-            // Validation du mot de passe
-            passwordInput.addEventListener('blur', function() {
-                const password = this.value;
-                if (password && password.length < 8) {
-                    showFieldError(this, 'Le mot de passe doit contenir au moins 8 caractères');
-                } else if (password && !/(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/.test(password)) {
-                    showFieldError(this, 'Le mot de passe doit contenir au moins une majuscule, une minuscule et un chiffre');
-                }
-            });
-
-            // Validation de la confirmation du mot de passe
-            passwordConfirmationInput.addEventListener('blur', function() {
-                if (this.value && this.value !== passwordInput.value) {
-                    showFieldError(this, 'Les mots de passe ne correspondent pas');
-                }
-            });
-
-            // Revalidation lors de la modification du mot de passe principal
-            passwordInput.addEventListener('input', function() {
-                if (passwordConfirmationInput.value && passwordConfirmationInput.value !== this.value) {
-                    showFieldError(passwordConfirmationInput, 'Les mots de passe ne correspondent pas');
-                } else if (passwordConfirmationInput.value && passwordConfirmationInput.value === this.value) {
-                    showFieldError(passwordConfirmationInput, '');
-                }
-            });
-
             // Form submission handling
-            form.addEventListener('submit', function(e) {
-                const submitBtn = this.querySelector('.btn-primary');
-                let hasErrors = false;
-
-                // Validation finale de tous les champs
-                const requiredFields = [
-                    { input: nameInput, message: 'Le nom est requis' },
-                    { input: emailInput, message: 'L\'adresse email est requise' },
-                    { input: passwordInput, message: 'Le mot de passe est requis' },
-                    { input: passwordConfirmationInput, message: 'La confirmation du mot de passe est requise' }
-                ];
-
-                requiredFields.forEach(field => {
-                    if (!field.input.value.trim()) {
-                        showFieldError(field.input, field.message);
-                        hasErrors = true;
+            const forms = document.querySelectorAll('form');
+            forms.forEach(form => {
+                form.addEventListener('submit', function(e) {
+                    const submitBtn = this.querySelector('.btn-primary');
+                    if (submitBtn && !submitBtn.disabled) {
+                        submitBtn.classList.add('loading');
+                        submitBtn.disabled = true;
                     }
                 });
-
-                // Vérification de l'email
-                if (emailInput.value && !isValidEmail(emailInput.value)) {
-                    showFieldError(emailInput, 'Adresse email invalide');
-                    hasErrors = true;
-                }
-
-                // Vérification des mots de passe
-                if (passwordInput.value && passwordInput.value.length < 8) {
-                    showFieldError(passwordInput, 'Le mot de passe doit contenir au moins 8 caractères');
-                    hasErrors = true;
-                }
-
-                if (passwordInput.value !== passwordConfirmationInput.value) {
-                    showFieldError(passwordConfirmationInput, 'Les mots de passe ne correspondent pas');
-                    hasErrors = true;
-                }
-
-                // Vérification des conditions
-                if (!termsCheckbox.checked) {
-                    showFieldError(termsCheckbox, 'Vous devez accepter les conditions d\'utilisation');
-                    hasErrors = true;
-                }
-
-                if (hasErrors) {
-                    e.preventDefault();
-                    const firstError = form.querySelector('.error-message:not(:empty)');
-                    if (firstError) {
-                        const input = firstError.parentNode.querySelector('input');
-                        if (input) input.focus();
-                    }
-                } else if (submitBtn && !submitBtn.disabled) {
-                    submitBtn.classList.add('loading');
-                    submitBtn.disabled = true;
-                }
             });
         });
 
@@ -639,9 +511,9 @@
             } else if (field.type === 'email' && value && !isValidEmail(value)) {
                 isValid = false;
                 errorMessage = 'Adresse email invalide';
-            } else if (field.name === 'password' && value && value.length < 8) {
+            } else if (field.name === 'password' && value && value.length < 6) {
                 isValid = false;
-                errorMessage = 'Le mot de passe doit contenir au moins 8 caractères';
+                errorMessage = 'Le mot de passe doit contenir au moins 6 caractères';
             }
 
             showFieldError(field, isValid ? '' : errorMessage);
@@ -699,20 +571,25 @@
                 setTimeout(() => notification.remove(), 300);
             }, 4000);
         }
+    </script>
 
-        // Messages de session
-        @if(session('success'))
+    @stack('scripts')
+
+    {{-- Messages de session --}}
+    @if(session('success'))
+        <script>
             document.addEventListener('DOMContentLoaded', function() {
                 showNotification(@json(session('success')), 'success');
             });
-        @endif
+        </script>
+    @endif
 
-        @if(session('error'))
+    @if(session('error'))
+        <script>
             document.addEventListener('DOMContentLoaded', function() {
                 showNotification(@json(session('error')), 'error');
             });
-            
-        @endif
-    </script>
+        </script>
+    @endif
 </body>
 </html>
