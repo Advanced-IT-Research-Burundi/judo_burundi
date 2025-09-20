@@ -5,12 +5,12 @@
 <!-- Hero Section -->
 <section class="hero" id="home">
     <div class="container">
-        <h1>A Propos de Nous</h1>
+        <h1>A PROPOS DE NOUS</h1>
         <p>Découvrez JUDO traditionnel avec nos instructeurs légendaires</p>
         <div class="hero-buttons">
 
             <button class="btn-primary" onclick="openModal()">Commencer maintenant</button>
-            <button class="btn-secondary">En savoir plus</button>
+            <a href="{{route('contact.store')}}">En savoir Plus</a>
         </div>
     </div>
 </section>

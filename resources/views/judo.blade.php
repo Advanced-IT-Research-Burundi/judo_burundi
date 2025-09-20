@@ -12,7 +12,7 @@
             <p>Découvrez JUDO traditionnel avec nos instructeurs légendaires</p>
             <div class="hero-buttons">
                 <button class="btn-primary" onclick="openModal()">Commencer maintenant</button>
-                <button class="btn-secondary">En savoir plus</button>
+                <a href="{{route('contact.store')}}">En savoir Plus</a>
             </div>
         </div>
     </section>
@@ -169,7 +169,7 @@
                                 {{ $actualite->extrait ?? Str::limit(strip_tags($actualite->contenu), 120) }}</p>
 
                             <!-- BOUTON LIRE PLUS AMÉLIORÉ -->
-                            <button> <a href="{{ route('actualites.show', $actualite->id) }}" class="read-more">
+                            <button> <a href="{{route('actualites',$actualite->id)}}" class="read-more">
                                 <i class="fas fa-arrow-right"></i> Lire plus
                                 </a>
                             </button>

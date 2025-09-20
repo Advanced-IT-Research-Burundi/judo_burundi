@@ -30,7 +30,7 @@ Route::get('/galerie', [App\Http\Controllers\GalerieController::class, 'index'])
 Route::get('/contact', [ContactController::class, 'index'])->name('contact');
 Route::post('/contact', [ContactController::class, 'store'])->name('contact.store');
 
-Route::get('/actualites/{post}', [BlogController::class, 'show'])->name('actualites.show');
+Route::get('/actualites/{post}', [BlogController::class, 'show'])->name('actualites');
 
 // Route::post('/gallery/{galleryImage}/toggle-status', [App\Http\Controllers\Admin\GalleryImageController::class, 'toggleStatus'])->name('gallery.toggle-status');
 // Route::post('/gallery/bulk-action', [App\Http\Controllers\Admin\GalleryImageController::class, 'bulkAction'])->name('gallery.bulk-action');

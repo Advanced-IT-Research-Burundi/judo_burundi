@@ -9,6 +9,9 @@
     <link rel="stylesheet" href="{{asset('css/user.css')}}">
     <link rel="stylesheet" href="{{asset('css/form.css')}}">
     {{-- <link rel="icon" type="image/png" href="{{asset('images/logo.png')}}"> --}}
+    
+    {{-- Section pour les styles personnalisés --}}
+    @stack('styles')
 </head>
 <body>
     <!-- Header -->
@@ -27,11 +30,13 @@
             </nav>
         </div>
     </header>
+
     <!-- Content -->
     <main>
         @yield('content')
     </main>
-        <!-- Footer -->
+        
+    <!-- Footer -->
     <footer class="footer" id="contact">
         <div class="container">
             <div class="footer-content">
@@ -63,10 +68,12 @@
             </div>
         </div>
     </footer>
+
+    {{-- Scripts de base --}}
+    <script src="{{asset('js/user.js')}}"></script>
+    <script src="{{asset('js/form.js')}}"></script>
+    
+    {{-- Section pour les scripts personnalisés --}}
+    @stack('scripts')
 </body>
 </html>
-<script src="{{asset('js/user.js')}}"></script>
-<script src="{{asset('js/form.js')}}"></script>
-
-
-

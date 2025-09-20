@@ -44,6 +44,23 @@ class BlogController extends Controller
         // Charger les relations nécessaires
         $post->load(['user', 'typePost']);
         
-        return view('pages.actualite', compact('post'));
+        // Récupérer des articles liés de la même catégorie
+        $articlesLies = Post::with(['user', 'typePost'])
+            ->where('id', '!=', $post->id)
+            ->where('typepost_id', $post->typepost_id)
+            ->orderBy('date_post', 'desc')
+            ->limit(3)
+            ->get();
+
+        // Incrémenter le nombre de vues si la colonne existe
+        // if (schema()->hasColumn('posts', 'vues')) {
+        //     $post->increment('vues');
+        // }
+
+        // SOLUTION : Passer $post comme $actualite pour correspondre à votre vue
+        return view('actualites.index', [
+            'actualite' => $post,
+            'articlesLies' => $articlesLies
+        ]);
     }
 }

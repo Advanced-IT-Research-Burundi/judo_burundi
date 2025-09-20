@@ -9,7 +9,7 @@
         <div class="hero-buttons">
 
             <button class="btn-primary" onclick="openModal()">Commencer maintenant</button>
-            <button class="btn-secondary">En savoir plus</button>
+            <a href="{{route('contact.store')}}">En savoir Plus</a>
         </div>
     </div>
 </section>
@@ -67,10 +67,10 @@
                             <i class="fas fa-user"></i>
                             <span>{{ $actualite->user->name ?? 'Fédération de Judo' }}</span>
                         </div>
-                        <button class="read-more"
-                            onclick="readMoreActualite({{ $actualite->id }}, '{{ addslashes($actualite->titre) }}', '{{ addslashes(strip_tags($actualite->contenu)) }}', '{{ $actualite->date_post->format('d/m/Y') }}', '{{ $actualite->user->name ?? 'Fédération de Judo' }}', '{{ $actualite->typePost->nom ?? 'Actualité' }}')">
-                            Lire plus
-                        </button>
+                            <button> <a href="{{route('actualites',$actualite->id)}}" class="read-more">
+                                <i class="fas fa-arrow-right"></i> Lire plus
+                                </a>
+                            </button>
                     </div>
                 </div>
                 @empty

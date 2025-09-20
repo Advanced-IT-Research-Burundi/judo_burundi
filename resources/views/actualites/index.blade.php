@@ -1,149 +1,190 @@
 @extends('layouts.user')
 
-@section('title', 'Toutes les Actualités')
+@section('title', ($actualite->titre ?? 'Actualité') . ' - Fédération de Judo du Burundi')
 
-@section('content')
-    <!-- Header -->
-    <div class="bg-primary text-white py-5">
+@push('styles')
+    <link rel="stylesheet" href="{{ asset('css/actualite.css') }}">
+@endpush
+    <section class="hero" id="home">
         <div class="container">
-            <h1 class="display-4 mb-3">Actualités</h1>
-            <p class="lead">Découvrez toutes les actualités de la Fédération de Judo du Burundi</p>
-        </div>
-    </div>
-
-    <div class="container py-5">
-        <!-- Filtres et recherche -->
-        <div class="row mb-4">
-            <div class="col-md-8">
-                <form method="GET" class="row g-3">
-                    <div class="col-md-6">
-                        <input type="text" class="form-control" name="search" 
-                               value="{{ request('search') }}" 
-                               placeholder="Rechercher dans les actualités...">
-                    </div>
-                    <div class="col-md-4">
-                        <select name="type" class="form-select">
-                            <option value="">Tous les types</option>
-                            @foreach($typePosts as $typePost)
-                                <option value="{{ $typePost->nom }}" {{ request('type') === $typePost->nom ? 'selected' : '' }}>
-                                    {{ $typePost->nom }}
-                                </option>
-                            @endforeach
-                        </select>
-                    </div>
-                    <div class="col-md-2">
-                        <button type="submit" class="btn btn-primary w-100">Filtrer</button>
-                    </div>
-                </form>
+            <h1>Nos Actualites</h1>
+            <p>Découvrez JUDO traditionnel avec nos instructeurs légendaires</p>
+            <div class="hero-buttons">
+                <button class="btn-primary" onclick="openModal()">Commencer maintenant</button>
+               <a href="{{route('contact.store')}}">En savoir Plus</a>
             </div>
         </div>
+    </section>
+@section('content')
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <!-- Breadcrumb -->
+            {{-- <div class="breadcrumb">
+                <nav class="breadcrumb-nav">
+                    <a href="{{ route('home') }}">Accueil</a>
+                    <i class="fas fa-chevron-right"></i>
+                    <a href="{{ route('blog') }}">Actualités</a>
+                    <i class="fas fa-chevron-right"></i>
+                    <span>{{ Str::limit($actualite->titre ?? 'Actualité', 50) }}</span>
+                </nav>
+            </div> --}}
 
-        <!-- Actualités -->
-        <div class="news-grid">
-            @foreach($actualites as $actualite)
-                <div class="news-card">
-                    <div class="news-image">
-                        @if($actualite->image)
-                            <img src="{{ asset('storage/' . $actualite->image) }}" alt="{{ $actualite->titre }}"
-                                style="height: 100%; width: 100%; object-fit: cover;">
+            <!-- Back Navigation -->
+            <div class="back-navigation">
+                <a href="{{ route('blog') }}" class="back-btn">
+                    <i class="fas fa-arrow-left"></i>
+                    Retour aux actualités
+                </a>
+            </div>
+
+            <!-- Article Layout -->
+            <div class="article-layout">
+                <!-- Article Main -->
+                <article class="article-main">
+                    <!-- Article Image -->
+                    <div class="article-image">
+                        @if($actualite->image && file_exists(public_path('storage/' . $actualite->image)))
+                            <img src="{{ asset('storage/' . $actualite->image) }}" alt="{{ $actualite->titre }}">
                         @else
-                            <img src="/images/judo{{ rand(3,6) }}.jpg" alt="{{ $actualite->titre }}"
-                                style="height: 100%; width: 100%; object-fit: cover;">
+                            @php
+                                $icons = [
+                                    'Compétition' => 'fas fa-trophy',
+                                    'Événement' => 'fas fa-calendar-alt',
+                                    'Formation' => 'fas fa-graduation-cap',
+                                    'Résultats' => 'fas fa-chart-line',
+                                    'Annonce' => 'fas fa-bullhorn'
+                                ];
+                                $categoryName = $actualite->typePost->nom ?? 'Actualité';
+                                $icon = $icons[$categoryName] ?? 'fas fa-newspaper';
+                            @endphp
+                            <i class="{{ $icon }} default-icon"></i>
                         @endif
                     </div>
-                    <div class="news-content">
-                        <div class="news-meta">
-                            <span class="news-date">{{ $actualite->date_post->format('d M Y') }}</span>
-                            <span class="news-category">{{ $actualite->typePost->nom }}</span>
-                        </div>
-                        <h3 class="news-title">{{ $actualite->titre }}</h3>
-                        <p class="news-excerpt">{{ Str::limit(strip_tags($actualite->contenu), 150) }}</p>
-                        <div class="news-author">
-                            <i class="fas fa-user"></i>
-                            <span>{{ $actualite->user->name ?? 'Fédération de Judo' }}</span>
-                        </div>
-                        <a href="{{ route('actualites.show', $actualite) }}" class="read-more">Lire l'article</a>
-                    </div>
-                </div>
-            @endforeach
-        </div>
 
-        <!-- Pagination -->
-        @if($actualites->hasPages())
-            <div class="d-flex justify-content-center mt-5">
-                {{ $actualites->appends(request()->query())->links() }}
+                    <!-- Article Content -->
+                    <div class="article-content">
+                        <!-- Article Header -->
+                        <header class="article-header">
+                            <div class="article-meta">
+                                <div class="meta-item">
+                                    <span class="meta-date">
+                                        {{ $actualite->date_post ? \Carbon\Carbon::parse($actualite->date_post)->format('d M Y') : now()->format('d M Y') }}
+                                    </span>
+                                </div>
+                                <div class="meta-item">
+                                    <span class="meta-category">
+                                        {{ $actualite->typePost->nom ?? 'Actualité' }}
+                                    </span>
+                                </div>
+                                <div class="meta-item">
+                                    <i class="fas fa-user"></i>
+                                    <span>{{ $actualite->user->name ?? $actualite->auteur ?? 'Admin JUDO' }}</span>
+                                </div>
+                                @if(isset($actualite->vues))
+                                    <div class="meta-item">
+                                        <i class="fas fa-eye"></i>
+                                        <span>{{ $actualite->vues ?? '0' }} vues</span>
+                                    </div>
+                                @endif
+                            </div>
+
+                            <h1 class="article-title">
+                                {{ $actualite->titre ?? 'Titre de l\'actualité' }}
+                            </h1>
+
+                            @if($actualite->extrait)
+                                <div class="article-excerpt">
+                                    {{ $actualite->extrait }}
+                                </div>
+                            @endif
+                        </header>
+
+                        <!-- Article Body -->
+                        <div class="article-body">
+                            {!! $actualite->contenu ?? '<p>Contenu de l\'actualité non disponible.</p>' !!}
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Sidebar -->
+                <aside class="sidebar">
+                    <!-- Share Widget -->
+                    <div class="sidebar-widget">
+                        <h3><i class="fas fa-share-alt"></i> Partager</h3>
+                        <div class="share-buttons">
+                            <a href="#" class="share-btn share-facebook">
+                                <i class="fab fa-facebook-f"></i>
+                                Facebook
+                            </a>
+                            <a href="#" class="share-btn share-twitter">
+                                <i class="fab fa-twitter"></i>
+                                Twitter
+                            </a>
+                            <a href="#" class="share-btn share-linkedin">
+                                <i class="fab fa-linkedin-in"></i>
+                                LinkedIn
+                            </a>
+                            <a href="#" class="share-btn share-whatsapp">
+                                <i class="fab fa-whatsapp"></i>
+                                WhatsApp
+                            </a>
+                        </div>
+                    </div>
+
+                    {{-- <!-- Related Articles -->
+                    @if(isset($articlesLies) && $articlesLies->count() > 0)
+                        <div class="sidebar-widget">
+                            <h3><i class="fas fa-newspaper"></i> Articles Liés</h3>
+                            <div class="related-articles">
+                                @foreach($articlesLies as $articleLie)
+                                    <div class="related-article">
+                                        <div class="related-image">
+                                            @php
+                                                $categoryName = $articleLie->typePost->nom ?? 'Actualité';
+                                                $icon = $icons[$categoryName] ?? 'fas fa-newspaper';
+                                            @endphp
+                                            <i class="{{ $icon }}"></i>
+                                        </div>
+                                        <div class="related-content">
+                                            <h4>
+                                                <a href="{{ route('blog.show', $articleLie) }}">
+                                                    {{ Str::limit($articleLie->titre, 60) }}
+                                                </a>
+                                            </h4>
+                                            <div class="related-date">
+                                                {{ \Carbon\Carbon::parse($articleLie->date_post)->format('d M Y') }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endforeach
+                            </div>
+                        </div>
+                    @endif --}}
+
+                    <!-- Quick Info -->
+                    <div class="sidebar-widget">
+                        <h3><i class="fas fa-info-circle"></i> Informations</h3>
+                        <div style="color: #666; line-height: 1.6;">
+                            <p><strong>Publié le :</strong> {{ $actualite->date_post ? \Carbon\Carbon::parse($actualite->date_post)->format('d/m/Y') : 'Non spécifié' }}</p>
+                            <p><strong>Catégorie :</strong> {{ $actualite->typePost->nom ?? 'Non classé' }}</p>
+                            <p><strong>Auteur :</strong> {{ $actualite->user->name ?? $actualite->auteur ?? 'Admin JUDO' }}</p>
+                            @if(isset($actualite->vues))
+                                <p><strong>Vues :</strong> {{ $actualite->vues ?? '0' }}</p>
+                            @endif
+                        </div>
+                        <div style="margin-top: 1rem;">
+                            <a href="{{ route('contact') }}" class="back-btn" style="display: block; text-align: center; text-decoration: none;">
+                                Plus d'infos
+                            </a>
+                        </div>
+                    </div>
+                </aside>
             </div>
-        @endif
-    </div>
+        </div>
+    </main>
 @endsection
 
-<script>
-// JavaScript pour la page d'accueil - Fonction readMoreActualite améliorée
-function readMoreActualite(id, titre, contenu, date, auteur, type) {
-    // Créer une modal pour afficher l'article complet
-    const modalHTML = `
-        <div class="modal-overlay" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 10000; display: flex; align-items: center; justify-content: center;" onclick="this.remove()">
-            <div class="modal-article" style="background: white; max-width: 800px; max-height: 90vh; overflow-y: auto; border-radius: 15px; margin: 20px;" onclick="event.stopPropagation()">
-                <div class="modal-header" style="padding: 2rem; border-bottom: 1px solid #eee; position: relative;">
-                    <button onclick="document.querySelector('.modal-overlay').remove()" style="position: absolute; top: 1rem; right: 1rem; background: none; border: none; font-size: 1.5rem; cursor: pointer;">&times;</button>
-                    <div class="article-meta" style="margin-bottom: 1rem;">
-                        <span style="background: #7CB342; color: white; padding: 0.3rem 0.8rem; border-radius: 20px; font-size: 0.8rem;">${date}</span>
-                        <span style="color: #7CB342; font-weight: 500; margin-left: 1rem;">${type}</span>
-                    </div>
-                    <h2 style="color: #1a365d; margin-bottom: 0.5rem;">${titre}</h2>
-                    <div style="color: #666;">
-                        <i class="fas fa-user"></i> Par ${auteur}
-                    </div>
-                </div>
-                <div class="modal-body" style="padding: 2rem; line-height: 1.8;">
-                    ${contenu.split('\\n').map(p => `<p style="margin-bottom: 1rem;">${p}</p>`).join('')}
-                </div>
-                <div class="modal-footer" style="padding: 1rem 2rem; text-align: center; border-top: 1px solid #eee;">
-                    <a href="/actualites" style="color: #7CB342; text-decoration: none;">Voir toutes les actualités →</a>
-                </div>
-            </div>
-        </div>
-    `;
-    
-    document.body.insertAdjacentHTML('beforeend', modalHTML);
-}
-
-// Améliorer le formulaire d'inscription
-document.getElementById('registrationForm').addEventListener('submit', function(e) {
-    e.preventDefault();
-    
-    const formData = new FormData(this);
-    const submitButton = this.querySelector('button[type="submit"]');
-    const originalText = submitButton.innerHTML;
-    
-    // Désactiver le bouton et afficher loading
-    submitButton.disabled = true;
-    submitButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Inscription en cours...';
-    
-    // Envoyer les données
-    fetch('/inscription', {
-        method: 'POST',
-        body: formData,
-        headers: {
-            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-        }
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            alert('Inscription réussie ! Nous vous contacterons bientôt.');
-            this.reset();
-        } else {
-            alert(data.message || 'Erreur lors de l\'inscription.');
-        }
-    })
-    .catch(error => {
-        alert('Erreur lors de l\'inscription. Veuillez réessayer.');
-    })
-    .finally(() => {
-        // Réactiver le bouton
-        submitButton.disabled = false;
-        submitButton.innerHTML = originalText;
-    });
-});
-</script>
+@push('scripts')
+    <script src="{{ asset('js/actualite.js') }}"></script>
+@endpush
