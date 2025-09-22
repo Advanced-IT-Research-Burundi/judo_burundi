@@ -2,17 +2,16 @@
 @section('content')
 @section('title', 'Blog & Actualités')
 <!-- Hero Section -->
-<section class="hero" id="home">
-    <div class="container">
-        <h1>NOS ACTUALITES</h1>
-        <p>Découvrez JUDO traditionnel avec nos instructeurs légendaires</p>
-        <div class="hero-buttons">
-
-            <button class="btn-primary" onclick="openModal()">Commencer maintenant</button>
-            <a href="{{route('contact.store')}}">En savoir Plus</a>
+    <section class="hero" id="home">
+        <div class="container">
+            <h1>NOS ACTUALITES</h1>
+            <p>Découvrez JUDO traditionnel avec nos instructeurs légendaires</p>
+            {{-- <div class="hero-buttons">
+                <button class="btn-primary" onclick="openModal()">Commencer maintenant</button>
+                <a href="{{ route('contact.store') }}" class="btn-secondary">En savoir Plus</a>
+            </div> --}}
         </div>
-    </div>
-</section>
+    </section>
 <!-- News Section -->
 <section class="news" id="news">
     <div class="container">
@@ -82,15 +81,6 @@
                     </div>
                 @endforelse
             </div>
-
-            <!-- Voir plus d'actualités -->
-            @if ($actualites->count() >= 6)
-                <div class="text-center mt-4">
-                    <a href="{{ route('actualites.index') }}" class="btn-primary">
-                        <i class="fas fa-plus-circle"></i> Voir toutes les actualités
-                    </a>
-                </div>
-            @endif
         </div>
     </section>
 @endsection

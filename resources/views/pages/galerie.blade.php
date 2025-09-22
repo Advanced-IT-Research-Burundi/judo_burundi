@@ -5,11 +5,10 @@
         <div class="container">
             <h1>NOTRE GALERIE</h1>
             <p>Découvrez JUDO traditionnel avec nos instructeurs légendaires</p>
-            <div class="hero-buttons">
-
+            {{-- <div class="hero-buttons">
                 <button class="btn-primary" onclick="openModal()">Commencer maintenant</button>
-                <button class="btn-secondary">En savoir plus</button>
-            </div>
+                <a href="{{ route('contact.store') }}" class="btn-secondary">En savoir Plus</a>
+            </div> --}}
         </div>
     </section>
     <!-- Gallery Section -->

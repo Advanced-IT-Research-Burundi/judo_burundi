@@ -3,16 +3,16 @@
 
 @section('content')
 <!-- Hero Section -->
-<section class="hero" id="home">
-    <div class="container">
-        <h1>CONTACTEZ-NOUS</h1>
-        <p>Nous sommes là pour répondre à toutes vos questions sur le JUDO</p>
-        <div class="hero-buttons">
-            <button class="btn-primary" onclick="scrollToContact()">Envoyer un message</button>
-            <button class="btn-secondary" onclick="scrollToInfo()">Nos coordonnées</button>
+    <section class="hero" id="home">
+        <div class="container">
+            <h1>CONTACTEZ-VOUS</h1>
+            <p>Découvrez JUDO traditionnel avec nos instructeurs légendaires</p>
+            {{-- <div class="hero-buttons">
+                <button class="btn-primary" onclick="openModal()">Commencer maintenant</button>
+                <a href="{{ route('contact.store') }}" class="btn-secondary">En savoir Plus</a>
+            </div> --}}
         </div>
-    </div>
-</section>
+    </section>
 
 <!-- Messages de succès et d'erreur -->
 @if(session('success'))
