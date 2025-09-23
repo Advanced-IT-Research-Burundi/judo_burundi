@@ -175,7 +175,7 @@
                 <div class="map-info">
                     <h3>Fédération de Judo du Burundi</h3>
                     <p><i class="fas fa-map-marker-alt"></i> Avenue de l'Indépendance, Bujumbura</p>
-                    <button class="btn-secondary">Obtenir l'itinéraire</button>
+                    <a target="_blank" href="https://www.google.com/maps/place/-3.361378,29.359878" class="btn-secondary" style="text-decoration: none">Obtenir l'itinéraire</a>
                 </div>
             </div>
             <div class="map-placeholder">

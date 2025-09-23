@@ -41,7 +41,20 @@
     <main>
         @yield('content')
     </main>
-
+    <!-- Modal de démarrage rapide -->
+    <div id="registrationModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2 style="color: #1a365d; margin-bottom: 1rem;">Inscription rapide</h2>
+            <p>Remplissez ce formulaire pour commencer votre parcours avec nous !</p>
+            <form action="{{route('home')}}#registration" method="get">
+                <button class="btn-primary" type="submit" style="width: 100%; margin-top: 1rem;">
+                Aller au formulaire complet
+            </button>
+            </form>
+            
+        </div>
+    </div>
     <!-- Footer -->
     <footer class="footer" id="contact">
         <div class="container">

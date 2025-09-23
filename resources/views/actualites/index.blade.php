@@ -9,10 +9,6 @@
         <div class="container">
             <h1>Nos Actualites</h1>
             <p>Découvrez JUDO traditionnel avec nos instructeurs légendaires</p>
-            <div class="hero-buttons">
-                <button class="btn-primary" onclick="openModal()">Commencer maintenant</button>
-               <a href="{{route('contact.store')}}">En savoir Plus</a>
-            </div>
         </div>
     </section>
 @section('content')

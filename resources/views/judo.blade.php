@@ -187,11 +187,6 @@
                                 <li>Participation aux compétitions</li>
                             </ul>
                         </div>
-
-                        <div style="background: #7CB342; color: white; padding: 1rem; border-radius: 10px; text-align: center;">
-                            <h3>Offre spéciale !</h3>
-                            <p>Premier mois gratuit pour toute nouvelle inscription</p>
-                        </div>
                     </div>
 
                     <div class="registration-form">
@@ -284,15 +279,4 @@
             </div>
         </section>
 
-        <!-- Modal de démarrage rapide -->
-        <div id="registrationModal" class="modal">
-            <div class="modal-content">
-                <span class="close" onclick="closeModal()">&times;</span>
-                <h2 style="color: #1a365d; margin-bottom: 1rem;">Inscription rapide</h2>
-                <p>Remplissez ce formulaire pour commencer votre parcours avec nous !</p>
-                <button class="btn-primary" onclick="scrollToRegistration()" style="width: 100%; margin-top: 1rem;">
-                    Aller au formulaire complet
-                </button>
-            </div>
-        </div>
     @endsection

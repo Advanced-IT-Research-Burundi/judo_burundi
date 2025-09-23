@@ -4,8 +4,15 @@
 @section('page-title', 'Gestion des Membres')
 
 @section('content')
-<div class="mb-4">
-    <a href="{{ route('admin.equipes.create') }}" class="btn btn-primary"><i class="fas fa-plus"></i> Ajouter un membre</a>
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="h4 mb-0">
+        <i class="fas fa-tags me-2"></i>
+        Liste des Membres
+    </h2>
+    <a href="{{ route('admin.equipes.create') }}" class="btn btn-primary">
+        <i class="fas fa-plus me-1"></i>
+        Nouvelle Membre
+    </a>
 </div>
 
 <div class="row">

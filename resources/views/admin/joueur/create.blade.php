@@ -287,41 +287,6 @@
             </div>
         </div>
     </div>
-
-    <!-- Aide contextuelle -->
-    <div class="mt-4 row">
-        <div class="col-md-4">
-            <div class="card bg-light">
-                <div class="card-body">
-                    <h6 class="card-title">
-                        <i class="fas fa-lightbulb me-2 text-warning"></i>Conseils
-                    </h6>
-                    <ul class="mb-0 small">
-                        <li>Vérifiez l'orthographe des noms et prénoms</li>
-                        <li>La date de naissance aide à calculer automatiquement l'âge</li>
-                        <li>Choisissez la catégorie selon l'âge du membre</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="card bg-light">
-                <div class="card-body">
-                    <h6 class="card-title">
-                        <i class="fas fa-users me-2 text-info"></i>Actions rapides
-                    </h6>
-                    <div class="gap-2 d-grid">
-                        <a href="{{ route('admin.categories.create') }}" class="btn btn-sm btn-outline-info">
-                            <i class="fas fa-plus me-1"></i>Nouvelle catégorie
-                        </a>
-                        <a href="" class="btn btn-sm btn-outline-info">
-                            <i class="fas fa-plus me-1"></i>Nouvelle colline
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
 @endsection
 
 @push('styles')

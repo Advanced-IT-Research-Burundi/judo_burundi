@@ -13,9 +13,9 @@
 
 <div class="row">
     @forelse($images as $gallery)
-        <div class="col-md-3 mb-4">
-            <div class="card shadow-sm">
-                <img src="{{ $gallery->images ? asset('storage/'.$gallery->images) : asset('images/default.png') }}"
+        <div  class="col-md-3 mb-4">
+            <div  class="card shadow-sm">
+                <img height="300" src="{{ $gallery->images ? asset('storage/'.$gallery->images) : asset('images/default.png') }}"
                      class="card-img-top" alt="{{ $gallery->titre }}">
                 <div class="card-body">
                     <h6 class="card-title">{{ $gallery->titre }}</h6>
