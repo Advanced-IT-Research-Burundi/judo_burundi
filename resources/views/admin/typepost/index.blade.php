@@ -6,7 +6,7 @@
 @section('content')
     <div class="d-flex justify-content-between align-items-center mb-4">
         <div>
-            <h4 class="mb-0">Types d'Articles ({{ $typePosts->total() }})</h4>
+            <h4 class="mb-0">Types de post ({{ $typePosts->total() }})</h4>
             <p class="text-muted">Gérez les catégories d'actualités et d'événements</p>
         </div>
         <a href="{{ route('admin.type-posts.create') }}" class="btn btn-primary">
@@ -24,7 +24,7 @@
                                 <th width="50">#</th>
                                 <th>Nom</th>
                                 <th>Description</th>
-                                <th width="150">Nombre d'Articles</th>
+                                <th width="150">Nombre de Post</th>
                                 <th width="120">Date Création</th>
                                 <th width="150" class="text-center">Actions</th>
                             </tr>
@@ -45,8 +45,8 @@
                                         <span class="badge bg-primary fs-6">
                                             {{ $typePost->posts_count }}
                                             {{ $typePost->posts_count > 1
-                                                ? 'art_
-                                            icles'
+                                                ? 'post
+                                            '
                                                 : 'article' }}
                                         </span>
                                     </td>

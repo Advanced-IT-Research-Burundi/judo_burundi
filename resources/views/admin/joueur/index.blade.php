@@ -1,17 +1,17 @@
 @extends('layouts.admin')
 
-@section('title', 'Joueurs')
-@section('page-title', 'Gestion des Joueurs')
+@section('title', 'Membres')
+@section('page-title', 'Gestion des Membres')
 
 @section('content')
 <div class="d-flex justify-content-between align-items-center mb-4">
     <h2 class="h4 mb-0">
         <i class="fas fa-users me-2"></i>
-        Liste des Joueurs
+        Liste des Membres
     </h2>
     <a href="{{ route('admin.joueurs.create') }}" class="btn btn-primary">
         <i class="fas fa-plus me-1"></i>
-        Nouveau Joueur
+        Nouveau Membre
     </a>
 </div>
 

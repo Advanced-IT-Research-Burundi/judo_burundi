@@ -13,7 +13,7 @@
                 </div>
                 <div class="stat-info">
                     <h3>{{ $stats['totalJoueurs'] }}</h3>
-                    <p>Total Joueurs</p>
+                    <p>Total Membres</p>
                 </div>
             </div>
         </div>

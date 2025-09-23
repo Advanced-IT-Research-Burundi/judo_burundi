@@ -18,6 +18,7 @@ use App\Http\Controllers\admin\CountrieController;
 use App\Http\Controllers\admin\GalleryImageController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controller\GalerieController;
+use App\Http\Controllers\admin\EquipeController;
 
 
 
@@ -60,6 +61,8 @@ Route::prefix('admin')->name('admin.')->middleware(['auth'])->group(function () 
     Route::patch('posts/{post}/toggle-status', [PostController::class, 'toggleStatus'])->name('posts.toggle-status');
     Route::get('posts/{post}/preview', [PostController::class, 'preview'])->name('posts.preview');
     Route::resource('gallery', GalleryImageController::class);
+    Route::resource('equipes', EquipeController::class);
+
 
     // API Routes for AJAX calls
     Route::prefix('api')->name('api.')->group(function () {

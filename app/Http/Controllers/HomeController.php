@@ -9,14 +9,15 @@ use App\Models\Colline;
 use App\Models\Joueur;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
+use App\Models\GalleryImage;
+
 
 class HomeController extends Controller
 {
-     public function index()
+    public function index()
     {
         // Récupérer les dernières actualités publiées
         $actualites = Post::with(['typePost', 'user'])
-            // ->where('status', 'published')
             ->latest('date_post')
             ->limit(6)
             ->get();
@@ -25,7 +26,10 @@ class HomeController extends Controller
         $categories = Categorie::all();
         $collines = Colline::all();
 
-        return view('judo', compact('actualites', 'categories', 'collines'));
+        // Récupérer les images de la galerie (par ex. les 12 plus récentes)
+        $galleryImages = GalleryImage::latest()->take(12)->get();
+
+        return view('judo', compact('actualites', 'categories', 'collines', 'galleryImages'));
     }
 
     public function storeInscription(Request $request)
@@ -72,7 +76,7 @@ class HomeController extends Controller
                     'errors' => $validator->errors()
                 ], 422);
             }
-            
+
             return redirect()
                 ->back()
                 ->withErrors($validator)
@@ -94,7 +98,7 @@ class HomeController extends Controller
                 'categorie_id' => (int) $request->categorie_id,
             ];
 
-            
+
 
             // INSERTION EN BASE DE DONNÉES
             $joueur = Joueur::create($cleanData);
@@ -121,7 +125,6 @@ class HomeController extends Controller
             return redirect()
                 ->back()
                 ->with('inscription_success', 'Inscription réussie ! Nous vous contacterons bientôt.');
-
         } catch (\Exception $e) {
 
 
@@ -149,7 +152,7 @@ class HomeController extends Controller
                 '/^[67][0-9]{7}$/',
                 '/^00257[67][0-9]{7}$/',
             ];
-            
+
             $isValid = false;
             foreach ($patterns as $pattern) {
                 if (preg_match($pattern, $phone)) {
@@ -157,7 +160,6 @@ class HomeController extends Controller
                     break;
                 }
             }
-            
         }
     }
 
@@ -170,17 +172,17 @@ class HomeController extends Controller
     private function formatPhoneNumber($phone)
     {
         if (!$phone) return null;
-        
+
         $phone = preg_replace('/[^\d+]/', '', $phone);
-        
+
         if (strlen($phone) === 8 && in_array($phone[0], ['6', '7'])) {
             return '+257' . $phone;
         }
-        
+
         if (str_starts_with($phone, '00257')) {
             return '+' . substr($phone, 2);
         }
-        
+
         return $phone;
     }
 }

@@ -66,6 +66,13 @@
                     <span>Gallerie</span>
                 </a>
             </li>
+            <li>
+                <a href="{{ route('admin.equipes.index') }}"
+                    class="menu-link {{ request()->routeIs('admin.equipe.*') ? 'active' : '' }}">
+                    <i class="fas fa-users"></i>
+                    <span>Equipe</span>
+                </a>
+            </li>
         </ul>
     </nav>
 

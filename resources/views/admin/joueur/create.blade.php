@@ -1,14 +1,14 @@
 @extends('layouts.admin')
 
-@section('title', 'Ajouter un Joueur')
-@section('page-title', 'Ajouter un Joueur')
+@section('title', 'Ajouter un Membre')
+@section('page-title', 'Ajouter un membre')
 
 @section('content')
     <div class="row">
         <div class="col-12">
             <div class="card">
                 <div class="card-header d-flex justify-content-between align-items-center">
-                    <h5 class="mb-0">Informations du Nouveau Joueur</h5>
+                    <h5 class="mb-0">Informations du Nouveau membre</h5>
                     <a href="{{ route('admin.joueurs.index') }}" class="btn btn-outline-secondary">
                         <i class="fas fa-arrow-left me-2"></i>Retour à la liste
                     </a>
@@ -278,7 +278,7 @@
                                     <i class="fas fa-times me-2"></i>Annuler
                                 </a>
                                 <button type="submit" class="btn btn-primary">
-                                    <i class="fas fa-save me-2"></i>Enregistrer le joueur
+                                    <i class="fas fa-save me-2"></i>Enregistrer le membre
                                 </button>
                             </div>
                         </div>
@@ -299,7 +299,7 @@
                     <ul class="mb-0 small">
                         <li>Vérifiez l'orthographe des noms et prénoms</li>
                         <li>La date de naissance aide à calculer automatiquement l'âge</li>
-                        <li>Choisissez la catégorie selon l'âge du joueur</li>
+                        <li>Choisissez la catégorie selon l'âge du membre</li>
                     </ul>
                 </div>
             </div>

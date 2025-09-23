@@ -25,7 +25,7 @@
                             <th>#</th>
                             <th>Nom</th>
                             <th>Description</th>
-                            <th>Joueurs</th>
+                            <th>Membres</th>
                             <th>Date de création</th>
                             <th width="200">Actions</th>
                         </tr>
@@ -46,7 +46,7 @@
                             </td>
                             <td>
                                 <span class="badge bg-info">
-                                    {{ $category->joueurs_count ?? 0 }} joueur(s)
+                                    {{ $category->joueurs_count ?? 0 }} membre(s)
                                 </span>
                             </td>
                             <td>
@@ -69,7 +69,7 @@
                                     @if($category->joueurs_count > 0)
                                         <button type="button" 
                                                 class="btn btn-sm btn-outline-danger" 
-                                                title="Suppression bloquée - Contient des joueurs"
+                                                title="Suppression bloquée - Contient des membres"
                                                 disabled>
                                             <i class="fas fa-ban"></i>
                                         </button>
