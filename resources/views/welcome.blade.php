@@ -418,7 +418,7 @@
         <div class="container">
             <div class="hero-content">
                 <h1>Fédération de Judo du Burundi</h1>
-                <p>Développer l'excellence dans l'art martial du judo à travers tout le Burundi</p>
+                <p>Développer l'excellence dans l'art du judo à travers tout le Burundi</p>
                 <a href="#programmes" class="cta-button">Découvrir nos programmes</a>
             </div>
         </div>
@@ -624,7 +624,7 @@
             <div class="footer-content">
                 <div class="footer-section">
                     <h3>Fédération de Judo du Burundi</h3>
-                    <p>Promouvoir l'excellence dans l'art martial du judo et développer les talents sportifs du Burundi.</p>
+                    <p>Promouvoir l'excellence dans l'art  du judo et développer les talents sportifs du Burundi.</p>
                 </div>
                 
                 <div class="footer-section">

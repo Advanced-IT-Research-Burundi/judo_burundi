@@ -62,14 +62,9 @@
                         <h3 class="news-title">{{ Str::limit($actualite->titre, 60) }}</h3>
                         <p class="news-excerpt">
                             {{ $actualite->extrait ?? Str::limit(strip_tags($actualite->contenu), 120) }}</p>
-                        <div class="news-author">
-                            <i class="fas fa-user"></i>
-                            <span>{{ $actualite->user->name ?? 'Fédération de Judo' }}</span>
-                        </div>
-                            <button> <a href="{{route('actualites',$actualite->id)}}" class="read-more">
+                            <a href="{{ route('actualites', $actualite->id) }}" class="read-more">
                                 <i class="fas fa-arrow-right"></i> Lire plus
-                                </a>
-                            </button>
+                            </a>
                     </div>
                 </div>
                 @empty

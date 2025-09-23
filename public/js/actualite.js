@@ -380,35 +380,6 @@ document.addEventListener('DOMContentLoaded', function() {
     // Initialiser l'accessibilité
     setupAccessibility();
 
-    // Print functionality
-    function setupPrintButton() {
-        const sidebarWidget = document.querySelector('.sidebar-widget');
-        if (sidebarWidget) {
-            const printBtn = document.createElement('button');
-            printBtn.className = 'back-btn';
-            printBtn.style.cssText = `
-                width: 100%;
-                margin-top: 1rem;
-                background: #1a365d;
-                text-align: center;
-                border: none;
-                cursor: pointer;
-            `;
-            printBtn.innerHTML = '<i class="fas fa-print"></i> Imprimer';
-            printBtn.addEventListener('click', function() {
-                window.print();
-            });
-
-            const infoWidget = document.querySelector('.sidebar-widget:last-child .back-btn');
-            if (infoWidget && infoWidget.parentNode) {
-                infoWidget.parentNode.appendChild(printBtn);
-            }
-        }
-    }
-
-    // Initialiser le bouton d'impression
-    setupPrintButton();
-
     // Console log pour déboguer (à supprimer en production)
     console.log('Actualité detail JS chargé avec succès');
 });

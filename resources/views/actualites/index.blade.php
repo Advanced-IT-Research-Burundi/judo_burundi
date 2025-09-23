@@ -131,37 +131,6 @@
                             </a>
                         </div>
                     </div>
-
-                    {{-- <!-- Related Articles -->
-                    @if(isset($articlesLies) && $articlesLies->count() > 0)
-                        <div class="sidebar-widget">
-                            <h3><i class="fas fa-newspaper"></i> Articles Liés</h3>
-                            <div class="related-articles">
-                                @foreach($articlesLies as $articleLie)
-                                    <div class="related-article">
-                                        <div class="related-image">
-                                            @php
-                                                $categoryName = $articleLie->typePost->nom ?? 'Actualité';
-                                                $icon = $icons[$categoryName] ?? 'fas fa-newspaper';
-                                            @endphp
-                                            <i class="{{ $icon }}"></i>
-                                        </div>
-                                        <div class="related-content">
-                                            <h4>
-                                                <a href="{{ route('blog.show', $articleLie) }}">
-                                                    {{ Str::limit($articleLie->titre, 60) }}
-                                                </a>
-                                            </h4>
-                                            <div class="related-date">
-                                                {{ \Carbon\Carbon::parse($articleLie->date_post)->format('d M Y') }}
-                                            </div>
-                                        </div>
-                                    </div>
-                                @endforeach
-                            </div>
-                        </div>
-                    @endif --}}
-
                     <!-- Quick Info -->
                     <div class="sidebar-widget">
                         <h3><i class="fas fa-info-circle"></i> Informations</h3>

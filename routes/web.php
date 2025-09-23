@@ -59,8 +59,7 @@ Route::prefix('admin')->name('admin.')->middleware(['auth'])->group(function () 
     Route::resource('posts', PostController::class);
     Route::patch('posts/{post}/toggle-status', [PostController::class, 'toggleStatus'])->name('posts.toggle-status');
     Route::get('posts/{post}/preview', [PostController::class, 'preview'])->name('posts.preview');
-    Route::resource('gallery-images', GalleryImageController::class);
-
+    Route::resource('gallery', GalleryImageController::class);
 
     // API Routes for AJAX calls
     Route::prefix('api')->name('api.')->group(function () {

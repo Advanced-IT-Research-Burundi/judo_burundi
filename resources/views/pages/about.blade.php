@@ -19,9 +19,9 @@
         <div class="welcome-content">
             <div class="welcome-text">
                 <h2>Bienvenue dans notre Académie</h2>
-                <p>Notre académie d'arts martiaux offre un enseignement de qualité supérieure dans un environnement
+                <p>Notre académie de judo Burundi offre un enseignement de qualité supérieure dans un environnement
                     respectueux et discipliné. Nous accueillons tous les niveaux, des débutants aux avancés.</p>
-                <p>Avec plus de 20 ans d'expérience, nos instructeurs vous guideront dans votre parcours martial, que ce
+                <p>Avec plus de 20 ans d'expérience, nos instructeurs vous guideront dans votre parcours, que ce
                     soit pour la self-défense, la compétition ou le développement personnel.</p>
                 <button class="btn-primary" onclick="openModal()">Rejoignez-nous</button>
             </div>

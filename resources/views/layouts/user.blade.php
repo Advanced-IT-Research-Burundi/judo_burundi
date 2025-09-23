@@ -42,7 +42,7 @@
             <div class="footer-content">
                 <div class="footer-section">
                     <h3>JUDO-BURUNDI</h3>
-                    <p>Votre partenaire pour un parcours martial d'excellence. Nous formons les champions de demain avec passion et dévouement.</p>
+                    <p>Votre partenaire pour un parcours d'excellence. Nous formons les champions de demain avec passion et dévouement.</p>
                 </div>
                 <div class="footer-section">
                     <h3>Contact</h3>

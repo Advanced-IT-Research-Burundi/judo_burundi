@@ -1,17 +1,19 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@yield('title', 'Administration') - Fédération de Judo</title>
-    
+
     <!-- Styles -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="{{ asset('css/admin.css') }}" rel="stylesheet">
     @stack('styles')
 </head>
+
 <body>
     <!-- Sidebar -->
     <nav class="sidebar" id="sidebar">
@@ -23,33 +25,45 @@
         </div>
         <ul class="sidebar-menu">
             <li>
-                <a href="{{ route('admin.dashboard') }}" class="menu-link {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
+                <a href="{{ route('admin.dashboard') }}"
+                    class="menu-link {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
                     <i class="fas fa-tachometer-alt"></i>
                     <span>Dashboard</span>
                 </a>
             </li>
             <li>
-                <a href="{{ route('admin.joueurs.index') }}" class="menu-link {{ request()->routeIs('admin.joueurs.*') ? 'active' : '' }}">
+                <a href="{{ route('admin.joueurs.index') }}"
+                    class="menu-link {{ request()->routeIs('admin.joueurs.*') ? 'active' : '' }}">
                     <i class="fas fa-users"></i>
-                    <span>Joueurs</span>
+                    <span>Membres</span>
                 </a>
             </li>
             <li>
-                <a href="{{ route('admin.categories.index') }}" class="menu-link {{ request()->routeIs('admin.categories.*') ? 'active' : '' }}">
+                <a href="{{ route('admin.categories.index') }}"
+                    class="menu-link {{ request()->routeIs('admin.categories.*') ? 'active' : '' }}">
                     <i class="fas fa-tags"></i>
                     <span>Catégories</span>
                 </a>
             </li>
             <li>
-                <a href="{{ route('admin.posts.index') }}" class="menu-link {{ request()->routeIs('admin.posts.*') ? 'active' : '' }}">
+                <a href="{{ route('admin.posts.index') }}"
+                    class="menu-link {{ request()->routeIs('admin.posts.*') ? 'active' : '' }}">
                     <i class="fas fa-newspaper"></i>
                     <span>Actualités</span>
                 </a>
             </li>
             <li>
-                <a href="{{ route('admin.type-posts.index') }}" class="menu-link {{ request()->routeIs('admin.type-posts.*') ? 'active' : '' }}">
+                <a href="{{ route('admin.type-posts.index') }}"
+                    class="menu-link {{ request()->routeIs('admin.type-posts.*') ? 'active' : '' }}">
                     <i class="fas fa-list"></i>
                     <span>Types de Posts</span>
+                </a>
+            </li>
+            <li>
+                <a href="{{ route('admin.gallery.index') }}"
+                    class="menu-link {{ request()->routeIs('admin.gallery-images.*') ? 'active' : '' }}">
+                    <i class="fas fa-images"></i>
+                    <span>Gallerie</span>
                 </a>
             </li>
         </ul>
@@ -73,7 +87,9 @@
                             <i class="fas fa-chevron-down"></i>
                         </button>
                         <ul class="dropdown-menu">
-                            <li><hr class="dropdown-divider"></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
                             <li>
                                 <form action="{{ route('logout') }}" method="POST">
                                     @csrf
@@ -90,26 +106,26 @@
 
         <!-- Content -->
         <div class="content">
-            @if(session('success'))
+            @if (session('success'))
                 <div class="alert alert-success alert-dismissible fade show" role="alert">
                     <i class="fas fa-check-circle me-2"></i>{{ session('success') }}
                     <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                 </div>
             @endif
 
-            @if(session('error'))
+            @if (session('error'))
                 <div class="alert alert-danger alert-dismissible fade show" role="alert">
                     <i class="fas fa-exclamation-circle me-2"></i>{{ session('error') }}
                     <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                 </div>
             @endif
 
-            @if($errors->any())
+            @if ($errors->any())
                 <div class="alert alert-danger alert-dismissible fade show" role="alert">
                     <i class="fas fa-exclamation-triangle me-2"></i>
                     <strong>Erreurs de validation :</strong>
                     <ul class="mb-0 mt-2">
-                        @foreach($errors->all() as $error)
+                        @foreach ($errors->all() as $error)
                             <li>{{ $error }}</li>
                         @endforeach
                     </ul>
@@ -126,4 +142,5 @@
     <script src="{{ asset('js/admin.js') }}"></script>
     @stack('scripts')
 </body>
+
 </html>
