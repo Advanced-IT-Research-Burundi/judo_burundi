@@ -19,7 +19,7 @@ class HomeController extends Controller
         // Récupérer les dernières actualités publiées
         $actualites = Post::with(['typePost', 'user'])
             ->latest('date_post')
-            ->limit(6)
+            ->limit(3)
             ->get();
 
         // Récupérer les catégories et collines pour le formulaire d'inscription

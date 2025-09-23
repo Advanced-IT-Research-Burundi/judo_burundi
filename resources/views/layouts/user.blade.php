@@ -8,7 +8,6 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" href="{{asset('css/user.css')}}">
     <link rel="stylesheet" href="{{asset('css/form.css')}}">
-    {{-- <link rel="icon" type="image/png" href="{{asset('images/logo.png')}}"> --}}
     
     {{-- Section pour les styles personnalisés --}}
     @stack('styles')
@@ -60,7 +59,7 @@
                     <h3>Suivez-nous</h3>
                     <p><a href="#"><i class="fab fa-facebook"></i> Facebook</a></p>
                     <p><a href="#"><i class="fab fa-instagram"></i> Instagram</a></p>
-                    <p><a href="#"><i class="fab fa-youtube"></i> YouTube</a></p>
+                    <p><a href="#"><i class="fab fa-twitter"></i> Twitter</a></p>
                 </div>
             </div>
             <div class="footer-bottom">
