@@ -25,6 +25,12 @@ body {
     width: 100%;
     z-index: 1000;
 }
+.header .logo img {
+    display: block;
+    max-height: 80px;
+    width: auto;
+}
+
 
 .nav {
     display: flex;

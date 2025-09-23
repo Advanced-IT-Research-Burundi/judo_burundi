@@ -1,29 +1,36 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@yield('title', 'Fédération de Judo du Burundi')</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="{{asset('css/user.css')}}">
-    <link rel="stylesheet" href="{{asset('css/form.css')}}">
-    
+    <link rel="stylesheet" href="{{ asset('css/user.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/form.css') }}">
+
     {{-- Section pour les styles personnalisés --}}
     @stack('styles')
 </head>
+
 <body>
     <!-- Header -->
     <header class="header">
         <div class="container">
             <nav class="nav">
-                <div class="logo">JUDO</div>
+                <div class="logo">
+                    <a href="{{ route('home') }}">
+                        <img src="{{ asset('images/logo.jpeg') }}" alt="Logo" style="height: 50px;">
+                    </a>
+                </div>
+
                 <ul class="nav-links">
-                    <li><a href="{{route('home')}}">Accueil</a></li>
-                    <li><a href="{{route('about')}}">À propos</a></li>
-                    <li><a href="{{route('galerie')}}">Galerie</a></li>
-                    <li><a href="{{route('blog')}}">Actualités</a></li>
-                    <li><a href="{{route('contact')}}">Contact</a></li>
+                    <li><a href="{{ route('home') }}">Accueil</a></li>
+                    <li><a href="{{ route('about') }}">À propos</a></li>
+                    <li><a href="{{ route('galerie') }}">Galerie</a></li>
+                    <li><a href="{{ route('blog') }}">Actualités</a></li>
+                    <li><a href="{{ route('contact') }}">Contact</a></li>
                 </ul>
                 <button class="cta-button" onclick="openModal()">S'inscrire</button>
             </nav>
@@ -34,14 +41,15 @@
     <main>
         @yield('content')
     </main>
-        
+
     <!-- Footer -->
     <footer class="footer" id="contact">
         <div class="container">
             <div class="footer-content">
                 <div class="footer-section">
                     <h3>JUDO-BURUNDI</h3>
-                    <p>Votre partenaire pour un parcours d'excellence. Nous formons les champions de demain avec passion et dévouement.</p>
+                    <p>Votre partenaire pour un parcours d'excellence. Nous formons les champions de demain avec passion
+                        et dévouement.</p>
                 </div>
                 <div class="footer-section">
                     <h3>Contact</h3>
@@ -69,10 +77,11 @@
     </footer>
 
     {{-- Scripts de base --}}
-    <script src="{{asset('js/user.js')}}"></script>
-    <script src="{{asset('js/form.js')}}"></script>
-    
+    <script src="{{ asset('js/user.js') }}"></script>
+    <script src="{{ asset('js/form.js') }}"></script>
+
     {{-- Section pour les scripts personnalisés --}}
     @stack('scripts')
 </body>
+
 </html>

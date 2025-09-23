@@ -272,7 +272,7 @@
         .form-group select:focus,
         .form-group textarea:focus {
             outline: none;
-            border-color: #7CB342;
+            border-color: #4d6434;
             box-shadow: 0 0 0 3px rgba(124, 179, 66, 0.1);
             transform: translateY(-2px);
         }
