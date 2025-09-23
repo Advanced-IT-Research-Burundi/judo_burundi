@@ -36,50 +36,32 @@
         </div>
     </div>
 </section>
-<!-- Instructors Section -->
 <section class="instructors" id="instructors">
     <div class="container">
         <div class="section-title">
-            <h2>Notre equipe</h2>
+            <h2>Notre équipe</h2>
             <p>Rencontrez nos maîtres expérimentés</p>
         </div>
         <div class="instructors-grid">
-            <div class="instructor-card">
-                <div class="instructor-image">
-                    <div
-                        style="height: 100%; background: #ddd; display: flex; align-items: center; justify-content: center; color: #666;">
-                        <i class="fas fa-user" style="font-size: 3rem;"></i>
+            @forelse($equipes as $membre)
+                <div class="instructor-card">
+                    <div class="instructor-image">
+                        <div style="height: 100%; background: #ddd; display: flex; align-items: center; justify-content: center; color: #666;">
+                            @if($membre->photo)
+                                <img src="{{ asset('storage/'.$membre->photo) }}" alt="{{ $membre->fullname }}" style="height: 100%; width: auto; border-radius: 10px;">
+                            @else
+                                <i class="fas fa-user" style="font-size: 3rem;"></i>
+                            @endif
+                        </div>
+                    </div>
+                    <div class="instructor-info">
+                        <h3>{{ $membre->fullname }}</h3>
+                        <p>{{ $membre->poste ?? 'Poste non précisé' }}</p>
                     </div>
                 </div>
-                <div class="instructor-info">
-                    <h3>Maître Karim</h3>
-                    <p>Expert en Karaté</p>
-                </div>
-            </div>
-            <div class="instructor-card">
-                <div class="instructor-image">
-                    <div
-                        style="height: 100%; background: #ddd; display: flex; align-items: center; justify-content: center; color: #666;">
-                        <i class="fas fa-user" style="font-size: 3rem;"></i>
-                    </div>
-                </div>
-                <div class="instructor-info">
-                    <h3>Maître Sarah</h3>
-                    <p>Experte en Taekwondo</p>
-                </div>
-            </div>
-            <div class="instructor-card">
-                <div class="instructor-image">
-                    <div
-                        style="height: 100%; background: #ddd; display: flex; align-items: center; justify-content: center; color: #666;">
-                        <i class="fas fa-user" style="font-size: 3rem;"></i>
-                    </div>
-                </div>
-                <div class="instructor-info">
-                    <h3>Maître Jean</h3>
-                    <p>Expert en Judo</p>
-                </div>
-            </div>
+            @empty
+                <p class="text-muted text-center">Aucun membre trouvé pour le moment.</p>
+            @endforelse
         </div>
     </div>
 </section>

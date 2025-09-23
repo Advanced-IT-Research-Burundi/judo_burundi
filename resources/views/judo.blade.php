@@ -71,51 +71,25 @@
                 <p>Découvrez notre académie en images</p>
             </div>
             <div class="gallery-grid">
-                <div class="gallery-item">
-                    <div
-                        style="height: 100%; background: #ddd; display: flex; align-items: center; justify-content: center; color: #666;">
-                        <img src="/images/judo3.jpg" alt="Gallery Image"
-                            style="height: 100%; width: auto; border-radius: 10px;">
+                @forelse($galleryImages as $image)
+                    <div class="gallery-item">
+                        <div
+                            style="height: 100%; background: #ddd; display: flex; align-items: center; justify-content: center; color: #666;">
+                            @if ($image->images && file_exists(public_path('storage/' . $image->images)))
+                                <img src="{{ asset('storage/' . $image->images) }}" alt="Image de la galerie"
+                                    style="height: 100%; width: auto; border-radius: 10px;">
+                            @else
+                                <i class="fas fa-image" style="font-size: 3rem;"></i>
+                            @endif
+                        </div>
                     </div>
-                </div>
-                <div class="gallery-item">
-                    <div
-                        style="height: 100%; background: #ddd; display: flex; align-items: center; justify-content: center; color: #666;">
-                        <img src="/images/judo4.jpg" alt="Gallery Image"
-                            style="height: 100%; width: auto; border-radius: 10px;">
-                    </div>
-                </div>
-                <div class="gallery-item">
-                    <div
-                        style="height: 100%; background: #ddd; display: flex; align-items: center; justify-content: center; color: #666;">
-                        <img src="/images/judo5.jpg" alt="Gallery Image"
-                            style="height: 100%; width: auto; border-radius: 10px;">
-                    </div>
-                </div>
-                <div class="gallery-item">
-                    <div
-                        style="height: 100%; background: #ddd; display: flex; align-items: center; justify-content: center; color: #666;">
-                        <img src="/images/judo6.jpg" alt="Gallery Image"
-                            style="height: 100%; width: auto; border-radius: 10px;">
-                    </div>
-                </div>
-                <div class="gallery-item">
-                    <div
-                        style="height: 100%; background: #ddd; display: flex; align-items: center; justify-content: center; color: #666;">
-                        <img src="/images/judoimage1.jpg" alt="Gallery Image"
-                            style="height: 100%; width: auto; border-radius: 10px;">
-                    </div>
-                </div>
-                <div class="gallery-item">
-                    <div
-                        style="height: 100%; background: #ddd; display: flex; align-items: center; justify-content: center; color: #666;">
-                        <img src="/images/judoimage1.jpg" alt="Gallery Image"
-                            style="height: 100%; width: auto; border-radius: 10px;">
-                    </div>
-                </div>
+                @empty
+                    <p class="text-muted text-center">Aucune image disponible pour le moment.</p>
+                @endforelse
             </div>
         </div>
     </section>
+
 
     <!-- News Section AMÉLIORÉE -->
     <section class="news" id="news">
@@ -211,12 +185,10 @@
                                 <li>Suivi personnalisé</li>
                                 <li>Équipement fourni</li>
                                 <li>Participation aux compétitions</li>
-                                <li>Certificats officiels</li>
                             </ul>
                         </div>
 
-                        <div
-                            style="background: #7CB342; color: white; padding: 1rem; border-radius: 10px; text-align: center;">
+                        <div style="background: #7CB342; color: white; padding: 1rem; border-radius: 10px; text-align: center;">
                             <h3>Offre spéciale !</h3>
                             <p>Premier mois gratuit pour toute nouvelle inscription</p>
                         </div>
