@@ -23,7 +23,7 @@
                     respectueux et discipliné. Nous accueillons tous les niveaux, des débutants aux avancés.</p>
                 <p>Avec plus de 20 ans d'expérience, nos instructeurs vous guideront dans votre parcours, que ce
                     soit pour la self-défense, la compétition ou le développement personnel.</p>
-                {{-- <button class="btn-primary" onclick="openModal()">Rejoignez-nous</button> --}}
+                <a class="btn-primary" style="text-decoration: none" href="{{route('home')}}#registration">Rejoignez-nous</a>
             </div>
             <div class="welcome-image">
                 <div
