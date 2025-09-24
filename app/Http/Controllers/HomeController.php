@@ -24,7 +24,7 @@ class HomeController extends Controller
 
         // Récupérer les catégories et collines pour le formulaire d'inscription
         $categories = Categorie::all();
-        $collines = Colline::all();
+        // $collines = Colline::all();
 
         // Récupérer les images de la galerie (par ex. les 12 plus récentes)
         $galleryImages = GalleryImage::latest()->take(12)->get();
