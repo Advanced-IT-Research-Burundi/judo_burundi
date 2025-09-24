@@ -18,7 +18,6 @@
             font-family: 'Arial', sans-serif;
             line-height: 1.6;
             color: #333;
-            background: linear-gradient(135deg, #7CB342 0%, #689F3A 100%);
             min-height: 100vh;
             display: flex;
             align-items: center;
