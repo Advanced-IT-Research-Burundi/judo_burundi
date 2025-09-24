@@ -40,16 +40,14 @@ class JoueurController extends Controller
 
         $joueurs = $query->latest()->paginate(15);
         $categories = Categorie::all();
-        $collines = Colline::all();
 
-        return view('admin.joueur.index', compact('joueurs', 'categories', 'collines'));
+        return view('admin.joueur.index', compact('joueurs', 'categories'));
     }
 
     public function create()
     {
         $categories = Categorie::all();
-        $collines = Colline::all();
-        return view('admin.joueur.create', compact('categories', 'collines'));
+        return view('admin.joueur.create', compact('categories'));
     }
 
     public function store(Request $request)
@@ -131,15 +129,14 @@ class JoueurController extends Controller
 
     public function show(Joueur $joueur)
     {
-        $joueur->load('categorie', 'colline');
+        $joueur->load('categorie');
         return view('admin.joueur.show', compact('joueur'));
     }
 
     public function edit(Joueur $joueur)
     {
         $categories = Categorie::all();
-        $collines = Colline::all();
-        return view('admin.joueur.edit', compact('joueur', 'categories', 'collines'));
+        return view('admin.joueur.edit', compact('joueur', 'categories'));
     }
 
     public function update(Request $request, Joueur $joueur)
@@ -253,7 +250,7 @@ class JoueurController extends Controller
             'q' => 'required|string|min:2|max:255',
         ]);
 
-        $query = Joueur::with('categorie', 'colline');
+        $query = Joueur::with('categorie');
 
         if ($request->filled('q')) {
             $query->search($request->q);
