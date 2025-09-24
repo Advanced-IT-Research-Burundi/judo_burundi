@@ -379,14 +379,6 @@ class JoueurController extends Controller
         if ($isFemaleCategory && $request->sexe !== 'F') {
             $validator->errors()->add('sexe', 'Cette catégorie est réservée aux femmes.');
         }
-
-        // Vérifier si une femme est dans une catégorie masculine
-        if (!$isFemaleCategory && $request->sexe === 'F' && !str_contains($categorie->nom, 'Mixte')) {
-            $validator->errors()->add(
-                'categorie_id',
-                'Veuillez sélectionner une catégorie féminine pour une joueuse.'
-            );
-        }
     }
 
     /**

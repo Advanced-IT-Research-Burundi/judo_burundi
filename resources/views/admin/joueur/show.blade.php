@@ -350,11 +350,11 @@
                     <div class="d-grid gap-2">
                         <a href="{{ route('admin.joueurs.edit', $joueur) }}" class="btn btn-warning">
                             <i class="fas fa-edit me-2"></i>
-                            Modifier ce joueur
+                            Modifier ce membre
                         </a>
                         <a href="{{ route('admin.joueurs.create') }}" class="btn btn-outline-primary">
                             <i class="fas fa-user-plus me-2"></i>
-                            Nouveau joueur
+                            Nouveau membre
                         </a>
                         {{-- <hr class="my-2">
                         <div class="alert alert-danger mb-3">

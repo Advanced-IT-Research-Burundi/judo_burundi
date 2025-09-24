@@ -19,9 +19,6 @@
             <a href="{{ route('admin.posts.show', $post) }}" class="btn btn-outline-info">
                 <i class="fas fa-eye"></i> Aperçu
             </a>
-            {{-- <a href="{{ route('admin.posts.duplicate', $post) }}" class="btn btn-outline-secondary">
-                <i class="fas fa-copy"></i> Dupliquer
-            </a> --}}
             <a href="{{ route('admin.posts.index') }}" class="btn btn-outline-secondary">
                 <i class="fas fa-arrow-left"></i> Retour
             </a>
@@ -180,9 +177,9 @@
                             <button type="submit" class="btn btn-primary">
                                 <i class="fas fa-save"></i> Mettre à jour
                             </button>
-                            <button type="submit" name="action" value="draft" class="btn btn-outline-secondary">
+                            {{-- <button type="submit" name="action" value="draft" class="btn btn-outline-secondary">
                                 <i class="fas fa-file-alt"></i> Enregistrer comme brouillon
-                            </button>
+                            </button> --}}
                             <a href="{{ route('admin.posts.show', $post) }}" class="btn btn-outline-info">
                                 <i class="fas fa-eye"></i> Voir l'aperçu
                             </a>

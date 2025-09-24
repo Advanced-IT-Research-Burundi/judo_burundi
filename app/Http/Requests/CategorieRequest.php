@@ -22,7 +22,7 @@ class CategorieRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'nom' => 'required|string|max:255|unique:categories,nom,' . $this->categorie?->id,
+            'nom' => 'required|string|max:255|:categories,nom,' . $this->categorie?->id,
             'description' => 'nullable|string|max:1000',
         ];
     }

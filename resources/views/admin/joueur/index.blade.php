@@ -77,7 +77,7 @@
                             <th>Sexe</th>
                             <th>Contact</th>
                             <th>Catégorie</th>
-                            <th>Colline</th>
+                            {{-- <th>Colline</th> --}}
                             <th>Âge</th>
                             <th width="200">Actions</th>
                         </tr>
@@ -125,13 +125,6 @@
                                 @else
                                     <span class="text-muted">-</span>
                                 @endif
-                            </td>
-                            <td>
-                                {{-- @if($joueur->colline)
-                                    <small>{{ $joueur->colline->nom ?? 'N/A' }}</small>
-                                @else
-                                    <span class="text-muted">-</span>
-                                @endif --}}
                             </td>
                             <td>
                                 @if($joueur->date_naissance)

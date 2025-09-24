@@ -93,10 +93,10 @@
                                     <i class="fas fa-paper-plane me-2"></i>Publier
                                 </button>
                             @else
-                                <button class="btn btn-warning" 
+                                {{-- <button class="btn btn-warning" 
                                         onclick="toggleStatus({{ $post->id }}, '{{ $post->status }}')">
                                     <i class="fas fa-archive me-2"></i>Mettre en brouillon
-                                </button>
+                                </button> --}}
                             @endif
                         </div>
                         <div>

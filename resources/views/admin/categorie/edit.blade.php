@@ -124,44 +124,9 @@
                 <div class="small text-muted">
                     <div class="mb-2">
                         <i class="fas fa-exclamation-triangle text-warning me-1"></i>
-                        <strong>Attention :</strong> La modification du nom peut affecter les joueurs associés.
+                        <strong>Attention :</strong> La modification du nom peut affecter les membres associés.
                     </div>
                 </div>
-            </div>
-        </div>
-
-        <div class="card mt-3">
-            <div class="card-header bg-danger text-white">
-                <h6 class="card-title mb-0">
-                    <i class="fas fa-trash me-2"></i>
-                    Zone de danger
-                </h6>
-            </div>
-            <div class="card-body">
-                @if($category->joueurs()->count() > 0)
-                    <div class="alert alert-warning mb-3">
-                        <i class="fas fa-exclamation-triangle me-1"></i>
-                        <strong>Suppression bloquée :</strong> Cette catégorie contient <strong>{{ $category->joueurs()->count() }} joueur(s)</strong> et ne peut pas être supprimée.
-                    </div>
-                    <button class="btn btn-danger btn-sm w-100" disabled>
-                        <i class="fas fa-ban me-1"></i>
-                        Suppression bloquée
-                    </button>
-                @else
-                    <div class="alert alert-danger mb-3">
-                        <i class="fas fa-exclamation-triangle me-1"></i>
-                        <strong>Attention :</strong> La suppression d'une catégorie est irréversible.
-                    </div>
-                    <form action="{{ route('admin.categories.destroy', $category) }}" 
-                          method="POST">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" class="btn btn-danger btn-sm w-100">
-                            <i class="fas fa-trash me-1"></i>
-                            Supprimer définitivement
-                        </button>
-                    </form>
-                @endif
             </div>
         </div>
     </div>

@@ -120,12 +120,12 @@
                                         id="sexe" 
                                         name="sexe">
                                     <option value="">Sélectionner le sexe</option>
-                                    <option value="Masculin" 
-                                            {{ old('sexe', $joueur->sexe) == 'Masculin' ? 'selected' : '' }}>
+                                    <option value="M" 
+                                            {{ old('sexe', $joueur->sexe) == 'M' ? 'selected' : '' }}>
                                         Masculin
                                     </option>
-                                    <option value="Féminin" 
-                                            {{ old('sexe', $joueur->sexe) == 'Féminin' ? 'selected' : '' }}>
+                                    <option value="F" 
+                                            {{ old('sexe', $joueur->sexe) == 'F' ? 'selected' : '' }}>
                                         Féminin
                                     </option>
                                 </select>

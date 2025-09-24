@@ -62,11 +62,11 @@
                 
                 <div class="row">
                     <div class="col-md-3">
-                        <strong>Nombre de joueurs :</strong>
+                        <strong>Nombre de membres :</strong>
                     </div>
                     <div class="col-md-9">
                         <span class="badge bg-info fs-6">
-                            {{ $category->joueurs->count() }} joueur(s)
+                            {{ $category->joueurs->count() }} membres(s)
                         </span>
                     </div>
                 </div>
@@ -78,7 +78,7 @@
             <div class="card-header">
                 <h5 class="card-title mb-0">
                     <i class="fas fa-users me-2"></i>
-                    Joueurs dans cette catégorie ({{ $category->joueurs->count() }})
+                    membres dans cette catégorie ({{ $category->joueurs->count() }})
                 </h5>
             </div>
             <div class="card-body">
@@ -126,12 +126,12 @@
         <div class="card mt-4">
             <div class="card-body text-center py-5">
                 <i class="fas fa-users fa-3x text-muted mb-3"></i>
-                <h5 class="text-muted">Aucun joueur dans cette catégorie</h5>
-                <p class="text-muted">Cette catégorie ne contient encore aucun joueur.</p>
+                <h5 class="text-muted">Aucun membre dans cette catégorie</h5>
+                <p class="text-muted">Cette catégorie ne contient encore aucun membre.</p>
                 @if(Route::has('admin.joueurs.create'))
                     <a href="{{ route('admin.joueurs.create') }}" class="btn btn-primary">
                         <i class="fas fa-plus me-1"></i>
-                        Ajouter un joueur
+                        Ajouter un membre
                     </a>
                 @endif
             </div>
@@ -173,7 +173,7 @@
                 <div class="mb-0">
                     <small class="text-muted d-block">Statistiques</small>
                     <div class="d-flex justify-content-between">
-                        <span>Joueurs :</span>
+                        <span>membres :</span>
                         <span class="badge bg-info">{{ $category->joueurs->count() }}</span>
                     </div>
                 </div>
@@ -189,23 +189,10 @@
             </div>
             <div class="card-body">
                 <div class="d-grid gap-2">
-                    <a href="{{ route('admin.categories.edit', $category) }}" class="btn btn-warning">
-                        <i class="fas fa-edit me-2"></i>
-                        Modifier cette catégorie
-                    </a>
-                    
                     <a href="{{ route('admin.categories.create') }}" class="btn btn-success">
                         <i class="fas fa-plus me-2"></i>
                         Créer une nouvelle catégorie
-                    </a>
-                    
-                    @if(Route::has('admin.joueurs.create'))
-                        <a href="{{ route('admin.joueurs.create') }}?categorie_id={{ $category->id }}" class="btn btn-info">
-                            <i class="fas fa-user-plus me-2"></i>
-                            Ajouter un joueur
-                        </a>
-                    @endif
-                    
+                    </a>                  
                     <hr class="my-2">
                     
                     @if($category->joueurs->count() > 0)
@@ -218,13 +205,9 @@
                             Suppression bloquée
                         </button>
                         <small class="text-muted text-center d-block mt-1">
-                            {{ $category->joueurs->count() }} joueur(s) dans cette catégorie
+                            {{ $category->joueurs->count() }} membre(s) dans cette catégorie
                         </small>
                     @else
-                        <div class="alert alert-danger mb-3">
-                            <i class="fas fa-exclamation-triangle me-1"></i>
-                            La suppression est irréversible.
-                        </div>
                         <form action="{{ route('admin.categories.destroy', $category) }}" 
                               method="POST">
                             @csrf

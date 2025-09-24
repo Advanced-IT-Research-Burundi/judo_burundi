@@ -61,14 +61,14 @@
             </li>
             <li>
                 <a href="{{ route('admin.gallery.index') }}"
-                    class="menu-link {{ request()->routeIs('admin.gallery-images.*') ? 'active' : '' }}">
+                    class="menu-link {{ request()->routeIs('admin.gallery.*') ? 'active' : '' }}">
                     <i class="fas fa-images"></i>
                     <span>Gallerie</span>
                 </a>
             </li>
             <li>
                 <a href="{{ route('admin.equipes.index') }}"
-                    class="menu-link {{ request()->routeIs('admin.equipe.*') ? 'active' : '' }}">
+                    class="menu-link {{ request()->routeIs('admin.equipes.*') ? 'active' : '' }}">
                     <i class="fas fa-users"></i>
                     <span>Equipe</span>
                 </a>
