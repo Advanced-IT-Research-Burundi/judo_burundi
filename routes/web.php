@@ -63,7 +63,6 @@ Route::prefix('admin')->name('admin.')->middleware(['auth'])->group(function () 
     Route::resource('gallery', GalleryImageController::class);
     Route::resource('equipes', EquipeController::class);
 
-
     // API Routes for AJAX calls
     Route::prefix('api')->name('api.')->group(function () {
         Route::get('stats', [DashboardController::class, 'getStats'])->name('stats');

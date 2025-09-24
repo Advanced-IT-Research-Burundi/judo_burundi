@@ -240,7 +240,7 @@
             </div>
 
             <div class="d-flex gap-2 mt-4">
-                <a href="{{ route('admin.joueurs.update', $joueur) }}" class="btn btn-primary">
+                <button type="submit" class="btn btn-primary">
                     <i class="fas fa-save me-1"></i>
                     Mettre à jour
                 </button>
@@ -303,29 +303,7 @@
                 </div>
             </div>
 
-            <div class="card mt-3">
-                <div class="card-header bg-danger text-white">
-                    <h6 class="card-title mb-0">
-                        <i class="fas fa-trash me-2"></i>
-                        Zone de danger
-                    </h6>
-                </div>
-                <div class="card-body">
-                    {{-- <div class="alert alert-danger mb-3">
-                        <i class="fas fa-exclamation-triangle me-1"></i>
-                        <strong>Attention :</strong> La suppression d'un joueur est irréversible.
-                    </div> --}}
-                    <form action="{{ route('admin.joueurs.destroy', $joueur) }}" 
-                          method="POST">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" class="btn btn-danger btn-sm w-100">
-                            <i class="fas fa-trash me-1"></i>
-                            Supprimer définitivement
-                        </button>
-                    </form>
-                </div>
-            </div>
+            
         </div>
     </div>
 </form>

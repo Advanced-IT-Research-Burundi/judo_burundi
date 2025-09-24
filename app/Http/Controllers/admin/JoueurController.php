@@ -144,7 +144,7 @@ class JoueurController extends Controller
 
     public function update(Request $request, Joueur $joueur)
     {
-        // dd('update');
+        // dd('update...');
         // Validation principale avec ignore pour update
         $validator = Validator::make($request->all(), [
             'nom' => 'required|string|min:2|max:255',
@@ -466,4 +466,5 @@ class JoueurController extends Controller
 
         return $phone;
     }
+
 }
