@@ -44,7 +44,7 @@ class HomeController extends Controller
             'date_naissance' => 'nullable|date|before:today',
             'sexe' => 'nullable|in:M,F',
             'lieu_naissance' => 'nullable|string|max:255',
-            'colline_id' => 'required|exists:collines,id',
+            // 'colline_id' => 'required|exists:collines,id',
             'categorie_id' => 'required|exists:categories,id',
         ], [
             'nom.required' => 'Le nom est obligatoire.',
@@ -55,8 +55,8 @@ class HomeController extends Controller
             'email.unique' => 'Cette adresse email est déjà utilisée.',
             'date_naissance.before' => 'La date de naissance doit être antérieure à aujourd\'hui.',
             'sexe.in' => 'Le sexe doit être M ou F.',
-            'colline_id.required' => 'Veuillez sélectionner votre colline/quartier.',
-            'colline_id.exists' => 'La colline sélectionnée n\'existe pas.',
+            // 'colline_id.required' => 'Veuillez sélectionner votre colline/quartier.',
+            // 'colline_id.exists' => 'La colline sélectionnée n\'existe pas.',
             'categorie_id.required' => 'Veuillez sélectionner une catégorie.',
             'categorie_id.exists' => 'La catégorie sélectionnée n\'existe pas.',
         ]);
@@ -94,7 +94,7 @@ class HomeController extends Controller
                 'date_naissance' => $request->date_naissance,
                 'sexe' => $request->sexe,
                 'lieu_naissance' => $request->lieu_naissance ? $this->cleanName($request->lieu_naissance) : null,
-                'colline_id' => (int) $request->colline_id,
+                // 'colline_id' => (int) $request->colline_id,
                 'categorie_id' => (int) $request->categorie_id,
             ];
 

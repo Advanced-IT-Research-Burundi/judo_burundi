@@ -247,7 +247,7 @@
                             </div>
 
                             <div class="form-row">
-                                <div class="form-group">
+                                {{-- <div class="form-group">
                                     <label for="colline_id">Colline/Quartier *</label>
                                     <select id="colline_id" name="colline_id" required>
                                         <option value="">Choisir...</option>
@@ -256,7 +256,7 @@
                                         @endforeach
                                     </select>
                                     <div class="error-message" id="colline_id-error"></div>
-                                </div>
+                                </div> --}}
                                 <div class="form-group">
                                     <label for="categorie_id">Catégorie/Discipline *</label>
                                     <select id="categorie_id" name="categorie_id" required>
