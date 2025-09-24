@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Post;
 use Illuminate\Http\Request;
 use App\Models\Categorie;
-use App\Models\Colline;
+// use App\Models\Colline;
 use App\Models\Joueur;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
@@ -29,7 +29,7 @@ class HomeController extends Controller
         // Récupérer les images de la galerie (par ex. les 12 plus récentes)
         $galleryImages = GalleryImage::latest()->take(12)->get();
 
-        return view('judo', compact('actualites', 'categories', 'collines', 'galleryImages'));
+        return view('judo', compact('actualites', 'categories',  'galleryImages'));
     }
 
     public function storeInscription(Request $request)
