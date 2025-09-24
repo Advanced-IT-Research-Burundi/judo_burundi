@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('sexe')->nullable();
             $table->string('telephone')->nullable();
             $table->string('email')->nullable();
-            $table->foreignId('colline_id')->constrained()->onDelete('cascade');
+            $table->foreignId('colline_id')->nullable()->constrained()->onDelete('cascade');
             $table->foreignId('categorie_id')->constrained('categories')->onDelete('cascade');
             $table->timestamps();
         });

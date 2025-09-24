@@ -127,11 +127,11 @@
                                 @endif
                             </td>
                             <td>
-                                @if($joueur->colline)
+                                {{-- @if($joueur->colline)
                                     <small>{{ $joueur->colline->nom ?? 'N/A' }}</small>
                                 @else
                                     <span class="text-muted">-</span>
-                                @endif
+                                @endif --}}
                             </td>
                             <td>
                                 @if($joueur->date_naissance)

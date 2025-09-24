@@ -159,7 +159,7 @@
                                     <i class="fas fa-medal me-2"></i>Informations Sportives
                                 </h6>
                             </div>
-                            <div class="col-md-6">
+                            {{-- <div class="col-md-6">
                                 <div class="mb-3 form-group">
                                     <label for="colline_id" class="form-label">
                                         Colline/Quartier <span class="text-danger">*</span>
@@ -169,7 +169,7 @@
                                             name="colline_id" 
                                             required>
                                         <option value="">Choisir une colline...</option>
-                                        @foreach($collines as $colline)
+                                        {{-- @foreach($collines as $colline)
                                             <option value="{{ $colline->id }}" 
                                                     {{ old('colline_id') == $colline->id ? 'selected' : '' }}>
                                                 {{ $colline->name }}
@@ -177,13 +177,13 @@
                                                     ({{ $colline->zone->name }})
                                                 @endif
                                             </option>
-                                        @endforeach
+                                        @endforeach --}}
                                     </select>
                                     @error('colline_id')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
                                 </div>
-                            </div>
+                            {{-- </div> --}}
                             <div class="col-md-6">
                                 <div class="mb-3 form-group">
                                     <label for="categorie_id" class="form-label">

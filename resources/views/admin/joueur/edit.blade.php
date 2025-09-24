@@ -211,7 +211,7 @@
                                 @endif
                             </div>
                         </div>
-                        <div class="col-md-6">
+                        {{-- <div class="col-md-6">
                             <div class="mb-3">
                                 <label for="colline_id" class="form-label">
                                     Colline <span class="text-danger">*</span>
@@ -234,13 +234,13 @@
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                             </div>
-                        </div>
+                        </div> --}}
                     </div>
                 </div>
             </div>
 
             <div class="d-flex gap-2 mt-4">
-                <button type="submit" class="btn btn-primary">
+                <a href="{{ route('admin.joueurs.update', $joueur) }}" class="btn btn-primary">
                     <i class="fas fa-save me-1"></i>
                     Mettre à jour
                 </button>
@@ -311,10 +311,10 @@
                     </h6>
                 </div>
                 <div class="card-body">
-                    <div class="alert alert-danger mb-3">
+                    {{-- <div class="alert alert-danger mb-3">
                         <i class="fas fa-exclamation-triangle me-1"></i>
-                        <strong>Attention :</strong> La suppression d'un joueur est irréversible et supprimera toutes ses données.
-                    </div>
+                        <strong>Attention :</strong> La suppression d'un joueur est irréversible.
+                    </div> --}}
                     <form action="{{ route('admin.joueurs.destroy', $joueur) }}" 
                           method="POST">
                         @csrf

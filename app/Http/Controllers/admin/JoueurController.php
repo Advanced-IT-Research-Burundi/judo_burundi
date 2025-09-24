@@ -63,7 +63,7 @@ class JoueurController extends Controller
             'sexe' => 'nullable|in:M,F',
             'telephone' => 'nullable|string|max:20|unique:joueurs,telephone',
             'email' => 'nullable|email|max:255|unique:joueurs,email',
-            'colline_id' => 'required|exists:collines,id',
+            // 'colline_id' => 'required|exists:collines,id',
             'categorie_id' => 'required|exists:categories,id',
         ], [
             // Messages personnalisés
@@ -82,8 +82,8 @@ class JoueurController extends Controller
             'email.email' => 'L\'adresse email doit être valide.',
             'email.max' => 'L\'email ne peut pas dépasser 255 caractères.',
             'email.unique' => 'Cette adresse email est déjà utilisée par un autre joueur.',
-            'colline_id.required' => 'La colline/quartier est obligatoire.',
-            'colline_id.exists' => 'La colline sélectionnée n\'existe pas.',
+            // 'colline_id.required' => 'La colline/quartier est obligatoire.',
+            // 'colline_id.exists' => 'La colline sélectionnée n\'existe pas.',
             'categorie_id.required' => 'La catégorie est obligatoire.',
             'categorie_id.exists' => 'La catégorie sélectionnée n\'existe pas.',
         ]);
@@ -144,6 +144,7 @@ class JoueurController extends Controller
 
     public function update(Request $request, Joueur $joueur)
     {
+        // dd('update');
         // Validation principale avec ignore pour update
         $validator = Validator::make($request->all(), [
             'nom' => 'required|string|min:2|max:255',
@@ -163,7 +164,7 @@ class JoueurController extends Controller
                 'max:255',
                 Rule::unique('joueurs', 'email')->ignore($joueur->id)
             ],
-            'colline_id' => 'required|exists:collines,id',
+            // 'colline_id' => 'required|exists:collines,id',
             'categorie_id' => 'required|exists:categories,id',
         ], [
             'nom.required' => 'Le nom est obligatoire.',
@@ -175,8 +176,8 @@ class JoueurController extends Controller
             'telephone.unique' => 'Ce numéro de téléphone est déjà utilisé.',
             'email.email' => 'L\'adresse email doit être valide.',
             'email.unique' => 'Cette adresse email est déjà utilisée.',
-            'colline_id.required' => 'La colline est obligatoire.',
-            'colline_id.exists' => 'La colline sélectionnée n\'existe pas.',
+            // 'colline_id.required' => 'La colline est obligatoire.',
+            // 'colline_id.exists' => 'La colline sélectionnée n\'existe pas.',
             'categorie_id.required' => 'La catégorie est obligatoire.',
             'categorie_id.exists' => 'La catégorie sélectionnée n\'existe pas.',
         ]);
@@ -189,6 +190,7 @@ class JoueurController extends Controller
         });
 
         if ($validator->fails()) {
+            dd($validator->errors());
             return redirect()
                 ->back()
                 ->withErrors($validator)
