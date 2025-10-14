@@ -35,12 +35,12 @@
                 </div>
                 <div class="stat-info">
                     <h3>{{ $stats['totalPosts'] }}</h3>
-                    <p>Articles Publiés</p>
+                    <p>Posts Publiés</p>
                 </div>
             </div>
         </div>
         <div class="col-md-3">
-            <div class="stat-card">
+            {{-- <div class="stat-card">
                 <div class="stat-icon purple">
                     <i class="fas fa-trophy"></i>
                 </div>
@@ -48,7 +48,7 @@
                     <h3>{{ $stats['totalCompetitions'] }}</h3>
                     <p>Compétitions</p>
                 </div>
-            </div>
+            </div> --}}
         </div>
     </div>
 
@@ -58,7 +58,7 @@
         <div class="col-md-6">
             <div class="card h-100">
                 <div class="card-header d-flex justify-content-between align-items-center">
-                    <h5><i class="fas fa-users me-2"></i>Derniers Joueurs</h5>
+                    <h5><i class="fas fa-users me-2"></i>Derniers Membres</h5>
                     <a href="{{ route('admin.joueurs.index') }}" class="btn btn-sm btn-outline-primary">Voir tout</a>
                 </div>
                 <div class="card-body">
@@ -79,7 +79,7 @@
                             </a>
                         </div>
                     @empty
-                        <p class="text-muted text-center">Aucun joueur récent</p>
+                        <p class="text-muted text-center">Aucun membres récent</p>
                     @endforelse
                 </div>
             </div>
@@ -89,7 +89,7 @@
         <div class="col-md-6">
             <div class="card h-100">
                 <div class="card-header d-flex justify-content-between align-items-center">
-                    <h5><i class="fas fa-newspaper me-2"></i>Derniers Articles</h5>
+                    <h5><i class="fas fa-newspaper me-2"></i>Derniers Posts</h5>
                     <a href="{{ route('admin.posts.index') }}" class="btn btn-sm btn-outline-primary">Voir tout</a>
                 </div>
                 <div class="card-body">
@@ -110,7 +110,7 @@
                             </a>
                         </div>
                     @empty
-                        <p class="text-muted text-center">Aucun article récent</p>
+                        <p class="text-muted text-center">Aucun Post récent</p>
                     @endforelse
                 </div>
             </div>

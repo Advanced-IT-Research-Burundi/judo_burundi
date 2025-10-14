@@ -7,16 +7,35 @@
 @section('content')
     <!-- Hero Section -->
     <section class="hero" id="home">
-        <div class="container">
-            <h1>ENTRAÎNEZ-VOUS AVEC LES MEILLEURS</h1>
-            <p>Découvrez JUDO traditionnel avec nos instructeurs légendaires</p>
-            <div class="hero-buttons">
-                <button class="btn-primary" onclick="openModal()">Commencer maintenant</button>
-                <a href="{{ route('contact.store') }}" class="btn-secondary" style="text-decoration:none">En savoir Plus</a>
+        <div class="hero-slider">
+            <!-- Slides -->
+            <div class="slide active" style="background-image: url('{{ asset('images/judo1.jpeg') }}');"></div>
+            <div class="slide" style="background-image: url('{{ asset('images/judo2.jpg') }}');"></div>
+            <div class="slide" style="background-image: url('{{ asset('images/judo3.jpg') }}');"></div>
+
+            <!-- Overlay sombre -->
+            <div class="overlay"></div>
+
+            <!-- Contenu du hero -->
+            <div class="hero-content">
+                <h1>ENTRAÎNEZ-VOUS AVEC LES MEILLEURS</h1>
+                <p>Découvrez le JUDO traditionnel avec nos instructeurs légendaires</p>
+                <div class="hero-buttons">
+                    <button class="btn-primary" onclick="openModal()">Commencer maintenant</button>
+                    <a href="{{ route('contact.store') }}" class="btn-secondary">En savoir plus</a>
+                </div>
             </div>
+
+            <!-- Flèches de navigation -->
+            <div class="slider-arrows">
+                <span class="prev">&#10094;</span>
+                <span class="next">&#10095;</span>
+            </div>
+
+            <!-- Indicateurs -->
+            <div class="slider-dots"></div>
         </div>
     </section>
-
     <!-- Features Section -->
     <section class="features">
         <div class="container">
@@ -143,7 +162,8 @@
                                 {{ $actualite->extrait ?? Str::limit(strip_tags($actualite->contenu), 120) }}</p>
 
                             <!-- BOUTON LIRE PLUS AMÉLIORÉ -->
-                            <a href="{{ route('actualites', $actualite->id) }}" class="read-more" style="text-decoration: none">
+                            <a href="{{ route('actualites', $actualite->id) }}" class="read-more"
+                                style="text-decoration: none">
                                 <i class="fas fa-arrow-right"></i> Lire plus
                             </a>
                         </div>
@@ -195,7 +215,7 @@
                         <!-- Zone des messages -->
                         <div id="messageZone" style="margin-bottom: 1rem;"></div>
 
-                        <form id="" action="{{ route('inscription.store') }}" method="POST">
+                        <form id="registrationForm" action="{{ route('inscription.store') }}" method="POST">
                             @csrf
                             <div class="form-row">
                                 <div class="form-group">
@@ -278,5 +298,74 @@
                 </div>
             </div>
         </section>
-
     @endsection
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    const slides = document.querySelectorAll(".slide");
+    const dotsContainer = document.querySelector(".slider-dots");
+    const prevBtn = document.querySelector(".prev");
+    const nextBtn = document.querySelector(".next");
+
+    let index = 0;
+    let timer;
+    let animationIndex = 0;
+
+    // Liste des effets à alterner
+    const animations = ["slide-left", "slide-up", "slide-fade"];
+
+    // Créer les indicateurs
+    slides.forEach((_, i) => {
+        const dot = document.createElement("div");
+        dot.classList.add("dot");
+        if (i === 0) dot.classList.add("active");
+        dot.addEventListener("click", () => showSlide(i, true));
+        dotsContainer.appendChild(dot);
+    });
+
+    const dots = document.querySelectorAll(".dot");
+
+    function showSlide(i, manual = false) {
+        slides.forEach(s => {
+            s.classList.remove("active", "slide-left", "slide-up", "slide-fade");
+        });
+        dots.forEach(d => d.classList.remove("active"));
+
+        const currentSlide = slides[i];
+        const animClass = animations[animationIndex];
+
+        currentSlide.classList.add("active", animClass);
+        dots[i].classList.add("active");
+
+        index = i;
+        animationIndex = (animationIndex + 1) % animations.length;
+
+        if (!manual) resetTimer();
+    }
+
+    function nextSlide() {
+        index = (index + 1) % slides.length;
+        showSlide(index);
+    }
+
+    function prevSlide() {
+        index = (index - 1 + slides.length) % slides.length;
+        showSlide(index);
+    }
+
+    function resetTimer() {
+        clearInterval(timer);
+        timer = setInterval(nextSlide, 3000);
+    }
+
+    prevBtn.addEventListener("click", () => { prevSlide(); resetTimer(); });
+    nextBtn.addEventListener("click", () => { nextSlide(); resetTimer(); });
+
+    // Lancer le slider auto
+    timer = setInterval(nextSlide, 5000);
+});
+</script>
+
+
+
+

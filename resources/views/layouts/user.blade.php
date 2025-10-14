@@ -15,26 +15,53 @@
 </head>
 
 <body>
-    <!-- Header -->
     <header class="header">
-        <div class="container">
-            <nav class="nav">
+        <!-- Bandeau supérieur -->
+        <div class="top-header">
+            <div class="container top-content">
                 <div class="logo">
                     <a href="{{ route('home') }}">
-                        <img src="{{ asset('images/logo.jpeg') }}" alt="Logo" style="height: 50px;">
+                        <img src="{{ asset('images/logo.jpeg') }}" alt="Logo" style="height: 80px;">
                     </a>
                 </div>
-
-                <ul class="nav-links">
-                    <li><a href="{{ route('home') }}">Accueil</a></li>
-                    <li><a href="{{ route('about') }}">À propos</a></li>
-                    <li><a href="{{ route('galerie') }}">Galerie</a></li>
-                    <li><a href="{{ route('blog') }}">Actualités</a></li>
-                    <li><a href="{{ route('contact') }}">Contact</a></li>
-                </ul>
-                <button class="cta-button" onclick="openModal()">S'inscrire</button>
-            </nav>
+                <div class="federation-info">
+                    <h1>Fédération Burundaise de Judo et Disciplines Associées</h1>
+                    <p>Courtoisie, courage, honnêteté, honneur, modestie, respect, maîtrise de soi, amitié</p>
+                </div>
+            </div>
         </div>
+
+        <!-- Barre de navigation -->
+<nav class="main-nav">
+    <ul class="nav-links">
+        <li><a href="{{ route('home') }}" class="active">Accueil</a></li>
+
+        <!-- Menu Fédération -->
+        <li class="dropdown">
+            <a href="{{ route('about') }}">La Fédération</a>
+            <ul class="dropdown-menu">
+                <li><a href="#">Historique</a></li>
+                <li><a href="#">Direction</a></li>
+                <li><a href="#">Judo Burundi</a></li>
+                <li><a href="#">Statuts et Règlements</a></li>
+            </ul>
+        </li>
+
+        <!-- Menu Activités -->
+        <li class="dropdown">
+            <a href="#">Activités</a>
+            <ul class="dropdown-menu">
+                <li><a href="#">Compétitions</a></li>
+                <li><a href="#">Formations</a></li>
+                <li><a href="#">Resultats</a></li>
+                <li><a href="#">Calendrier</a></li>
+            </ul>
+        </li>
+
+        <li><a href="{{ route('galerie') }}">Ligues et Clubs</a></li>
+        <li><a href="{{ route('contact') }}">Contact</a></li>
+    </ul>
+</nav>
     </header>
 
     <!-- Content -->
@@ -47,12 +74,11 @@
             <span class="close" onclick="closeModal()">&times;</span>
             <h2 style="color: #1a365d; margin-bottom: 1rem;">Inscription rapide</h2>
             <p>Remplissez ce formulaire pour commencer votre parcours avec nous !</p>
-            <form action="{{route('home')}}#registration" method="get">
+            <form action="{{ route('home') }}#registration" method="get">
                 <button class="btn-primary" type="submit" style="width: 100%; margin-top: 1rem;">
-                Aller au formulaire complet
-            </button>
+                    Aller au formulaire complet
+                </button>
             </form>
-            
         </div>
     </div>
     <!-- Footer -->
@@ -63,6 +89,7 @@
                     <h3>JUDO-BURUNDI</h3>
                     <p>Votre partenaire pour un parcours d'excellence. Nous formons les champions de demain avec passion
                         et dévouement.</p>
+                    <p><a href="#">sitemap</a></p>
                 </div>
                 <div class="footer-section">
                     <h3>Contact</h3>
@@ -81,6 +108,7 @@
                     <p><a href="#"><i class="fab fa-facebook"></i> Facebook</a></p>
                     <p><a href="#"><i class="fab fa-instagram"></i> Instagram</a></p>
                     <p><a href="#"><i class="fab fa-twitter"></i> Twitter</a></p>
+                    <p><a href="#"><i class=""></i>Email: judoburundi@gmail.com</a></p>
                 </div>
             </div>
             <div class="footer-bottom">
@@ -95,6 +123,9 @@
 
     {{-- Section pour les scripts personnalisés --}}
     @stack('scripts')
+    <button id="backToTop" title="Retour en haut">
+        <i class="fas fa-arrow-up"></i>
+    </button>
 </body>
 
 </html>

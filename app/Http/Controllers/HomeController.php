@@ -182,7 +182,7 @@ class HomeController extends Controller
         if (str_starts_with($phone, '00257')) {
             return '+' . substr($phone, 2);
         }
-
+        
         return $phone;
     }
 }

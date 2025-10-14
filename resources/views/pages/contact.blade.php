@@ -4,13 +4,33 @@
 @section('content')
     <!-- Hero Section -->
     <section class="hero" id="home">
-        <div class="container">
-            <h1>CONTACTEZ-VOUS</h1>
-            <p>Découvrez JUDO traditionnel avec nos instructeurs légendaires</p>
-            {{-- <div class="hero-buttons">
-                <button class="btn-primary" onclick="openModal()">Commencer maintenant</button>
-                <a href="{{ route('contact.store') }}" class="btn-secondary">En savoir Plus</a>
-            </div> --}}
+        <div class="hero-slider">
+            <!-- Slides -->
+            <div class="slide active" style="background-image: url('{{ asset('images/judo1.jpeg') }}');"></div>
+            <div class="slide" style="background-image: url('{{ asset('images/judo2.jpg') }}');"></div>
+            <div class="slide" style="background-image: url('{{ asset('images/judo3.jpg') }}');"></div>
+
+            <!-- Overlay sombre -->
+            <div class="overlay"></div>
+
+            <!-- Contenu du hero -->
+            <div class="hero-content">
+                <h1>ENTRAÎNEZ-VOUS AVEC LES MEILLEURS</h1>
+                <p>Découvrez le JUDO traditionnel avec nos instructeurs légendaires</p>
+                <div class="hero-buttons">
+                    <button class="btn-primary" onclick="openModal()">Commencer maintenant</button>
+                    <a href="{{ route('contact.store') }}" class="btn-secondary">En savoir plus</a>
+                </div>
+            </div>
+
+            <!-- Flèches de navigation -->
+            <div class="slider-arrows">
+                <span class="prev">&#10094;</span>
+                <span class="next">&#10095;</span>
+            </div>
+
+            <!-- Indicateurs -->
+            <div class="slider-dots"></div>
         </div>
     </section>
 
@@ -195,7 +215,7 @@
         }
 
         .alert-success {
-            background: linear-gradient(135deg, #4CAF50, #7CB342);
+            background: linear-gradient(135deg, #b4c3b5, #b4c3b5);
             color: white;
         }
 
@@ -305,7 +325,7 @@
 
         /* Informations de contact */
         .contact-info-wrapper {
-            background: linear-gradient(135deg, #7CB342, #8BC34A);
+            background: linear-gradient(135deg,#9db89f , #9db89f );
             padding: 40px;
             border-radius: 15px;
             color: white;
@@ -428,7 +448,6 @@
 
         .map-background {
             height: 100%;
-            background: linear-gradient(45deg, #7CB342, #4CAF50);
             display: flex;
             align-items: center;
             justify-content: center;
