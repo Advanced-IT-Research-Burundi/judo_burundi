@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="fr">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,7 +12,6 @@
     <link href="{{ asset('css/admin.css') }}" rel="stylesheet">
     @stack('styles')
 </head>
-
 <body>
     <!-- Sidebar -->
     <nav class="sidebar" id="sidebar">
@@ -25,52 +23,51 @@
         </div>
         <ul class="sidebar-menu">
             <li>
-                <a href="{{ route('admin.dashboard') }}"
-                    class="menu-link {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
+                <a href="{{ route('admin.dashboard') }}" class="menu-link {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
                     <i class="fas fa-tachometer-alt"></i>
                     <span>Dashboard</span>
                 </a>
             </li>
             <li>
-                <a href="{{ route('admin.joueurs.index') }}"
-                    class="menu-link {{ request()->routeIs('admin.joueurs.*') ? 'active' : '' }}">
+                <a href="{{ route('admin.joueurs.index') }}" class="menu-link {{ request()->routeIs('admin.joueurs.*') ? 'active' : '' }}">
                     <i class="fas fa-users"></i>
-                    <span>Membres</span>
+                    <span>Joueurs</span>
                 </a>
             </li>
             <li>
-                <a href="{{ route('admin.categories.index') }}"
-                    class="menu-link {{ request()->routeIs('admin.categories.*') ? 'active' : '' }}">
-                    <i class="fas fa-tags"></i>
-                    <span>Catégories</span>
+                <a href="{{ route('admin.clubs.index') }}" class="menu-link {{ request()->routeIs('admin.clubs.*') ? 'active' : '' }}">
+                    <i class="fas fa-building"></i>
+                    <span>Clubs</span>
                 </a>
             </li>
             <li>
-                <a href="{{ route('admin.posts.index') }}"
-                    class="menu-link {{ request()->routeIs('admin.posts.*') ? 'active' : '' }}">
+                <a href="{{ route('admin.competitions.index') }}" class="menu-link {{ request()->routeIs('admin.competitions.*') ? 'active' : '' }}">
+                    <i class="fas fa-trophy"></i>
+                    <span>Compétitions</span>
+                </a>
+            </li>
+            <li>
+                <a href="{{ route('admin.posts.index') }}" class="menu-link {{ request()->routeIs('admin.posts.*') ? 'active' : '' }}">
                     <i class="fas fa-newspaper"></i>
                     <span>Actualités</span>
                 </a>
             </li>
             <li>
-                <a href="{{ route('admin.type-posts.index') }}"
-                    class="menu-link {{ request()->routeIs('admin.type-posts.*') ? 'active' : '' }}">
-                    <i class="fas fa-list"></i>
-                    <span>Types de Posts</span>
+                <a href="{{ route('admin.membres.index') }}" class="menu-link {{ request()->routeIs('admin.membres.*') ? 'active' : '' }}">
+                    <i class="fas fa-id-card"></i>
+                    <span>Membres</span>
                 </a>
             </li>
             <li>
-                <a href="{{ route('admin.gallery.index') }}"
-                    class="menu-link {{ request()->routeIs('admin.gallery.*') ? 'active' : '' }}">
+                <a href="{{ route('admin.gallery.index') }}" class="menu-link {{ request()->routeIs('admin.gallery.*') ? 'active' : '' }}">
                     <i class="fas fa-images"></i>
-                    <span>Gallerie</span>
+                    <span>Galerie</span>
                 </a>
             </li>
             <li>
-                <a href="{{ route('admin.equipes.index') }}"
-                    class="menu-link {{ request()->routeIs('admin.equipes.*') ? 'active' : '' }}">
-                    <i class="fas fa-users"></i>
-                    <span>Equipe</span>
+                <a href="{{ route('admin.equipes.index') }}" class="menu-link {{ request()->routeIs('admin.equipes.*') ? 'active' : '' }}">
+                    <i class="fas fa-users-cog"></i>
+                    <span>Équipe</span>
                 </a>
             </li>
         </ul>
@@ -149,5 +146,4 @@
     <script src="{{ asset('js/admin.js') }}"></script>
     @stack('scripts')
 </body>
-
 </html>

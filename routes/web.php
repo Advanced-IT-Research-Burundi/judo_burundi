@@ -5,12 +5,10 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\AboutController;
 use App\Http\Controllers\BlogController;
-use App\Http\Controllers\admin\CategorieController;
 use App\Http\Controllers\admin\JoueurController;
 use App\Http\Controllers\admin\DashboardController;
 use App\Http\Controllers\admin\ProvinceController;
 use App\Http\Controllers\admin\PostController;
-use App\Http\Controllers\admin\TypePostController;
 use App\Http\Controllers\admin\CommuneController;
 use App\Http\Controllers\admin\ZoneController;
 use App\Http\Controllers\admin\QuartierController;
@@ -19,6 +17,9 @@ use App\Http\Controllers\admin\GalleryImageController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controller\GalerieController;
 use App\Http\Controllers\admin\EquipeController;
+use App\Http\Controllers\admin\MembreController;
+use App\Http\Controllers\admin\ClubController;
+use App\Http\Controllers\admin\CompetitionController;
 
 
 
@@ -32,10 +33,6 @@ Route::get('/contact', [ContactController::class, 'index'])->name('contact');
 Route::post('/contact', [ContactController::class, 'store'])->name('contact.store');
 
 Route::get('/actualites/{post}', [BlogController::class, 'show'])->name('actualites');
-
-// Route::post('/gallery/{galleryImage}/toggle-status', [App\Http\Controllers\Admin\GalleryImageController::class, 'toggleStatus'])->name('gallery.toggle-status');
-// Route::post('/gallery/bulk-action', [App\Http\Controllers\Admin\GalleryImageController::class, 'bulkAction'])->name('gallery.bulk-action');
-// Route::post('/gallery/update-order', [App\Http\Controllers\Admin\GalleryImageController::class, 'updateOrder'])->name('gallery.update-order');
 
 // Routes d'authentification
 require __DIR__ . '/auth.php';
@@ -53,15 +50,17 @@ Route::prefix('admin')->name('admin.')->middleware(['auth'])->group(function () 
 
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
 
-    Route::resource('joueurs', JoueurController::class);
-    Route::get('joueurs/{joueur}/export', [JoueurController::class, 'exportPdf'])->name('joueurs.export');
-    Route::resource('categories', CategorieController::class);
-    Route::resource('type-posts', TypePostController::class);
+    Route::resource('membres', MembreController::class);
+    Route::get('membres/{membre}/export', [MembreController::class, 'exportPdf'])->name('joueurs.export');
     Route::resource('posts', PostController::class);
-    Route::patch('posts/{post}/toggle-status', [PostController::class, 'toggleStatus'])->name('posts.toggle-status');
-    Route::get('posts/{post}/preview', [PostController::class, 'preview'])->name('posts.preview');
+    // Route::patch('posts/{post}/toggle-status', [PostController::class, 'toggleStatus'])->name('posts.toggle-status');
+    // Route::get('posts/{post}/preview', [PostController::class, 'preview'])->name('posts.preview');
     Route::resource('gallery', GalleryImageController::class);
     Route::resource('equipes', EquipeController::class);
+    Route::resource('joueurs', JoueurController::class);
+    Route::resource('clubs', ClubController::class);
+    Route::resource('competitions', CompetitionController::class);
+
 
     // API Routes for AJAX calls
     Route::prefix('api')->name('api.')->group(function () {

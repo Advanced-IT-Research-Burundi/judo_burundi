@@ -1,6 +1,5 @@
 <?php
-
-namespace App\Http\Controllers\admin;
+namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Equipe;
@@ -11,7 +10,7 @@ class EquipeController extends Controller
 {
     public function index()
     {
-        $equipes = Equipe::latest()->paginate(10);
+        $equipes = Equipe::latest()->paginate(15);
         return view('admin.equipe.index', compact('equipes'));
     }
 
@@ -22,21 +21,20 @@ class EquipeController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
+        $validated = $request->validate([
             'fullname' => 'required|string|max:255',
             'poste' => 'nullable|string|max:255',
             'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
-        $data = $request->only('fullname', 'poste');
-
         if ($request->hasFile('photo')) {
-            $data['photo'] = $request->file('photo')->store('equipes', 'public');
+            $validated['photo'] = $request->file('photo')->store('equipes', 'public');
         }
 
-        Equipe::create($data);
+        Equipe::create($validated);
 
-        return redirect()->route('admin.equipes.index')->with('success', 'Membre de l’équipe ajouté avec succès.');
+        return redirect()->route('admin.equipes.index')
+            ->with('success', 'Membre de l\'équipe ajouté avec succès.');
     }
 
     public function show(Equipe $equipe)
@@ -51,24 +49,23 @@ class EquipeController extends Controller
 
     public function update(Request $request, Equipe $equipe)
     {
-        $request->validate([
+        $validated = $request->validate([
             'fullname' => 'required|string|max:255',
             'poste' => 'nullable|string|max:255',
             'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
-        $data = $request->only('fullname', 'poste');
-
         if ($request->hasFile('photo')) {
             if ($equipe->photo) {
                 Storage::disk('public')->delete($equipe->photo);
             }
-            $data['photo'] = $request->file('photo')->store('equipes', 'public');
+            $validated['photo'] = $request->file('photo')->store('equipes', 'public');
         }
 
-        $equipe->update($data);
+        $equipe->update($validated);
 
-        return redirect()->route('admin.equipes.index')->with('success', 'Membre de l’équipe mis à jour avec succès.');
+        return redirect()->route('admin.equipes.index')
+            ->with('success', 'Membre de l\'équipe mis à jour avec succès.');
     }
 
     public function destroy(Equipe $equipe)
@@ -78,6 +75,8 @@ class EquipeController extends Controller
         }
 
         $equipe->delete();
-        return redirect()->route('admin.equipes.index')->with('success', 'Membre de l’équipe supprimé avec succès.');
+
+        return redirect()->route('admin.equipes.index')
+            ->with('success', 'Membre de l\'équipe supprimé avec succès.');
     }
 }

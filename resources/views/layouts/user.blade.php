@@ -38,27 +38,26 @@
 
         <!-- Menu Fédération -->
         <li class="dropdown">
-            <a href="{{ route('about') }}">La Fédération</a>
+            <p>Federation</p>
             <ul class="dropdown-menu">
-                <li><a href="#">Historique</a></li>
+                <li><a href="{{ route('about') }}">Historique</a></li>
                 <li><a href="#">Direction</a></li>
-                <li><a href="#">Judo Burundi</a></li>
                 <li><a href="#">Statuts et Règlements</a></li>
             </ul>
         </li>
 
         <!-- Menu Activités -->
         <li class="dropdown">
-            <a href="#">Activités</a>
+            <p>Activites</p>
             <ul class="dropdown-menu">
                 <li><a href="#">Compétitions</a></li>
-                <li><a href="#">Formations</a></li>
+                {{-- <li><a href="#">Formations</a></li> --}}
                 <li><a href="#">Resultats</a></li>
                 <li><a href="#">Calendrier</a></li>
             </ul>
         </li>
 
-        <li><a href="{{ route('galerie') }}">Ligues et Clubs</a></li>
+        <li><a href="{{ route('galerie') }}">Galerie</a></li>
         <li><a href="{{ route('contact') }}">Contact</a></li>
     </ul>
 </nav>

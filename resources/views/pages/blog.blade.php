@@ -75,10 +75,10 @@
                         @endif
                     </div>
                     <div class="news-content">
-                        <div class="news-meta">
+                        {{-- <div class="news-meta">
                             <span class="news-date">{{ $actualite->date_post->format('d M Y') }}</span>
                             <span class="news-category">{{ $actualite->typePost->nom ?? 'Actualité' }}</span>
-                        </div>
+                        </div> --}}
                         <h3 class="news-title">{{ Str::limit($actualite->titre, 60) }}</h3>
                         <p class="news-excerpt">
                             {{ $actualite->extrait ?? Str::limit(strip_tags($actualite->contenu), 120) }}</p>

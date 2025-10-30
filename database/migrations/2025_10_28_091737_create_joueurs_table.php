@@ -9,26 +9,27 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up()
+    public function up(): void
     {
         Schema::create('joueurs', function (Blueprint $table) {
             $table->id();
             $table->string('nom');
             $table->string('prenom');
-            $table->date('date_naissance')->nullable();
+            $table->decimal('poids')->nullable();
+            $table->decimal('taille')->nullable();
             $table->string('lieu_naissance')->nullable();
             $table->string('sexe')->nullable();
-            $table->string('telephone')->nullable();
-            $table->string('email')->nullable();
-            $table->foreignId('colline_id')->nullable()->constrained()->onDelete('cascade');
-            $table->foreignId('categorie_id')->constrained('categories')->onDelete('cascade');
+            $table->string('image');
+            $table->foreignId('clubs_id')->constrained('clubs')->onDelete('cascade');
             $table->timestamps();
         });
     }
 
-    public function down()
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
     {
         Schema::dropIfExists('joueurs');
     }
-
 };

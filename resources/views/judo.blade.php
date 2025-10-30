@@ -153,10 +153,10 @@
                             @endif
                         </div>
                         <div class="news-content">
-                            <div class="news-meta">
+                            {{-- <div class="news-meta">
                                 <span class="news-date">{{ $actualite->date_post->format('d M Y') }}</span>
                                 <span class="news-category">{{ $actualite->typePost->nom ?? 'Actualité' }}</span>
-                            </div>
+                            </div> --}}
                             <h3 class="news-title">{{ Str::limit($actualite->titre, 60) }}</h3>
                             <p class="news-excerpt">
                                 {{ $actualite->extrait ?? Str::limit(strip_tags($actualite->contenu), 120) }}</p>
@@ -215,82 +215,32 @@
                         <!-- Zone des messages -->
                         <div id="messageZone" style="margin-bottom: 1rem;"></div>
 
-                        <form id="registrationForm" action="{{ route('inscription.store') }}" method="POST">
+                        <form id="myForm" action="{{ route('inscription.store') }}" method="POST">
                             @csrf
-                            <div class="form-row">
-                                <div class="form-group">
-                                    <label for="nom">Nom *</label>
-                                    <input type="text" id="nom" name="nom" required>
-                                    <div class="error-message" id="nom-error"></div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="prenom">Prénom *</label>
-                                    <input type="text" id="prenom" name="prenom" required>
-                                    <div class="error-message" id="prenom-error"></div>
-                                </div>
-                            </div>
-
-                            <div class="form-row">
-                                <div class="form-group">
-                                    <label for="date_naissance">Date de naissance</label>
-                                    <input type="date" id="date_naissance" name="date_naissance">
-                                    <div class="error-message" id="date_naissance-error"></div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="sexe">Sexe</label>
-                                    <select id="sexe" name="sexe">
-                                        <option value="">Choisir...</option>
-                                        <option value="M">Masculin</option>
-                                        <option value="F">Féminin</option>
-                                    </select>
-                                    <div class="error-message" id="sexe-error"></div>
-                                </div>
+                            <div class="form-group">
+                                <label for="fullname">Nom complet *</label>
+                                <input type="text" id="fullname" name="fullname" required>
+                                <div class="error-message" id="fullname-error"></div>
                             </div>
 
                             <div class="form-group">
-                                <label for="lieu_naissance">Lieu de naissance</label>
-                                <input type="text" id="lieu_naissance" name="lieu_naissance">
-                                <div class="error-message" id="lieu_naissance-error"></div>
+                                <label for="email">Email *</label>
+                                <input type="email" id="email" name="email" required>
+                                <div class="error-message" id="email-error"></div>
                             </div>
 
-                            <div class="form-row">
-                                <div class="form-group">
-                                    <label for="telephone">Téléphone</label>
-                                    <input type="tel" id="telephone" name="telephone" placeholder="+257 79 123 456">
-                                    <div class="error-message" id="telephone-error"></div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="email">Email</label>
-                                    <input type="email" id="email" name="email">
-                                    <div class="error-message" id="email-error"></div>
-                                </div>
+                            <div class="form-group">
+                                <label for="telephone">Téléphone</label>
+                                <input type="tel" id="telephone" name="telephone" placeholder="+257 79 123 456">
                             </div>
 
-                            <div class="form-row">
-                                {{-- <div class="form-group">
-                                    <label for="colline_id">Colline/Quartier *</label>
-                                    <select id="colline_id" name="colline_id" required>
-                                        <option value="">Choisir...</option>
-                                        @foreach ($collines as $colline)
-                                            <option value="{{ $colline->id }}">{{ $colline->name }}</option>
-                                        @endforeach
-                                    </select>
-                                    <div class="error-message" id="colline_id-error"></div>
-                                </div> --}}
-                                <div class="form-group">
-                                    <label for="categorie_id">Catégorie/Discipline *</label>
-                                    <select id="categorie_id" name="categorie_id" required>
-                                        <option value="">Choisir...</option>
-                                        @foreach ($categories as $categorie)
-                                            <option value="{{ $categorie->id }}">{{ $categorie->nom }}</option>
-                                        @endforeach
-                                    </select>
-                                    <div class="error-message" id="categorie_id-error"></div>
-                                </div>
+                            <div class="form-group">
+                                <label for="description">Description</label>
+                                <textarea id="description" name="description" rows="4"></textarea>
                             </div>
 
-                            <button type="submit" class="btn-primary" id="submitBtn"
-                                style="width: 100%; margin-top: 1rem;">
+                            <button type="submit" class="btn-primary" id="submitButton">
+                                <span id="loadingSpinner" style="display: none;">⏳</span>
                                 <i class="fas fa-user-plus"></i> S'inscrire maintenant
                             </button>
                         </form>
@@ -300,72 +250,74 @@
         </section>
     @endsection
 
-<script>
-document.addEventListener("DOMContentLoaded", function() {
-    const slides = document.querySelectorAll(".slide");
-    const dotsContainer = document.querySelector(".slider-dots");
-    const prevBtn = document.querySelector(".prev");
-    const nextBtn = document.querySelector(".next");
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const slides = document.querySelectorAll(".slide");
+            const dotsContainer = document.querySelector(".slider-dots");
+            const prevBtn = document.querySelector(".prev");
+            const nextBtn = document.querySelector(".next");
 
-    let index = 0;
-    let timer;
-    let animationIndex = 0;
+            let index = 0;
+            let timer;
+            let animationIndex = 0;
 
-    // Liste des effets à alterner
-    const animations = ["slide-left", "slide-up", "slide-fade"];
+            // Liste des effets à alterner
+            const animations = ["slide-left", "slide-up", "slide-fade"];
 
-    // Créer les indicateurs
-    slides.forEach((_, i) => {
-        const dot = document.createElement("div");
-        dot.classList.add("dot");
-        if (i === 0) dot.classList.add("active");
-        dot.addEventListener("click", () => showSlide(i, true));
-        dotsContainer.appendChild(dot);
-    });
+            // Créer les indicateurs
+            slides.forEach((_, i) => {
+                const dot = document.createElement("div");
+                dot.classList.add("dot");
+                if (i === 0) dot.classList.add("active");
+                dot.addEventListener("click", () => showSlide(i, true));
+                dotsContainer.appendChild(dot);
+            });
 
-    const dots = document.querySelectorAll(".dot");
+            const dots = document.querySelectorAll(".dot");
 
-    function showSlide(i, manual = false) {
-        slides.forEach(s => {
-            s.classList.remove("active", "slide-left", "slide-up", "slide-fade");
+            function showSlide(i, manual = false) {
+                slides.forEach(s => {
+                    s.classList.remove("active", "slide-left", "slide-up", "slide-fade");
+                });
+                dots.forEach(d => d.classList.remove("active"));
+
+                const currentSlide = slides[i];
+                const animClass = animations[animationIndex];
+
+                currentSlide.classList.add("active", animClass);
+                dots[i].classList.add("active");
+
+                index = i;
+                animationIndex = (animationIndex + 1) % animations.length;
+
+                if (!manual) resetTimer();
+            }
+
+            function nextSlide() {
+                index = (index + 1) % slides.length;
+                showSlide(index);
+            }
+
+            function prevSlide() {
+                index = (index - 1 + slides.length) % slides.length;
+                showSlide(index);
+            }
+
+            function resetTimer() {
+                clearInterval(timer);
+                timer = setInterval(nextSlide, 3000);
+            }
+
+            prevBtn.addEventListener("click", () => {
+                prevSlide();
+                resetTimer();
+            });
+            nextBtn.addEventListener("click", () => {
+                nextSlide();
+                resetTimer();
+            });
+
+            // Lancer le slider auto
+            timer = setInterval(nextSlide, 5000);
         });
-        dots.forEach(d => d.classList.remove("active"));
-
-        const currentSlide = slides[i];
-        const animClass = animations[animationIndex];
-
-        currentSlide.classList.add("active", animClass);
-        dots[i].classList.add("active");
-
-        index = i;
-        animationIndex = (animationIndex + 1) % animations.length;
-
-        if (!manual) resetTimer();
-    }
-
-    function nextSlide() {
-        index = (index + 1) % slides.length;
-        showSlide(index);
-    }
-
-    function prevSlide() {
-        index = (index - 1 + slides.length) % slides.length;
-        showSlide(index);
-    }
-
-    function resetTimer() {
-        clearInterval(timer);
-        timer = setInterval(nextSlide, 3000);
-    }
-
-    prevBtn.addEventListener("click", () => { prevSlide(); resetTimer(); });
-    nextBtn.addEventListener("click", () => { nextSlide(); resetTimer(); });
-
-    // Lancer le slider auto
-    timer = setInterval(nextSlide, 5000);
-});
-</script>
-
-
-
-
+    </script>

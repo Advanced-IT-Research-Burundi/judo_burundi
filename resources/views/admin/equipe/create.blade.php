@@ -1,38 +1,31 @@
 @extends('layouts.admin')
-
-@section('title', isset($equipe) ? 'Modifier Membre' : 'Ajouter Membre')
-@section('page-title', isset($equipe) ? 'Modifier un membre' : 'Ajouter un membre')
+@section('title', 'Ajouter un Membre de l’Équipe')
+@section('page-title', 'Ajouter un Membre de l’Équipe')
 
 @section('content')
-<div class="card">
+<div class="card shadow-sm">
     <div class="card-body">
-        <form action="{{ isset($equipe) ? route('admin.equipes.update', $equipe) : route('admin.equipes.store') }}" 
-              method="POST" enctype="multipart/form-data">
+        <form action="{{ route('admin.equipes.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
-            @if(isset($equipe)) @method('PUT') @endif
-
-            <div class="mb-3">
-                <label for="fullname" class="form-label">Nom complet</label>
-                <input type="text" name="fullname" id="fullname" class="form-control" 
-                       value="{{ old('fullname', $equipe->fullname ?? '') }}" required>
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <label class="form-label">Nom complet</label>
+                    <input type="text" name="fullname" class="form-control" required>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">Poste</label>
+                    <input type="text" name="poste" class="form-control">
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">Photo</label>
+                    <input type="file" name="photo" class="form-control">
+                </div>
             </div>
 
-            <div class="mb-3">
-                <label for="poste" class="form-label">Poste</label>
-                <input type="text" name="poste" id="poste" class="form-control" 
-                       value="{{ old('poste', $equipe->poste ?? '') }}">
+            <div class="mt-4 text-end">
+                <a href="{{ route('admin.equipes.index') }}" class="btn btn-secondary">Annuler</a>
+                <button type="submit" class="btn btn-success"><i class="fas fa-save me-1"></i>Enregistrer</button>
             </div>
-
-            <div class="mb-3">
-                <label for="photo" class="form-label">Photo</label>
-                <input type="file" name="photo" id="photo" class="form-control">
-                @if(isset($equipe) && $equipe->photo)
-                    <img src="{{ asset('storage/'.$equipe->photo) }}" width="100" height="100" class="mt-2 rounded-circle">
-                @endif
-            </div>
-
-            <button class="btn btn-success">{{ isset($equipe) ? 'Mettre à jour' : 'Ajouter' }}</button>
-            <a href="{{ route('admin.equipes.index') }}" class="btn btn-secondary">Annuler</a>
         </form>
     </div>
 </div>
