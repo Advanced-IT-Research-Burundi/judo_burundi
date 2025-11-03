@@ -1,9 +1,183 @@
-// ========== MODAL FUNCTIONALITY ==========
+// ===== INITIALIZATION =====
+document.addEventListener('DOMContentLoaded', function() {
+    initHeroSlider();
+    initScrollEffects();
+    initBackToTop();
+    initModal();
+    initForm();
+});
+
+// ===== HERO SLIDER (Page d'accueil uniquement) =====
+function initHeroSlider() {
+    const slider = document.querySelector('.hero-slider');
+    if (!slider) return; // Si pas de slider, on sort
+
+    const slides = document.querySelectorAll('.slide');
+    const dotsContainer = document.querySelector('.slider-dots');
+    const prevBtn = document.querySelector('.slider-arrows .prev');
+    const nextBtn = document.querySelector('.slider-arrows .next');
+    
+    let currentSlide = 0;
+    let slideInterval;
+
+    // Créer les dots
+    slides.forEach((_, index) => {
+        const dot = document.createElement('span');
+        dot.classList.add('dot');
+        if (index === 0) dot.classList.add('active');
+        dot.addEventListener('click', () => goToSlide(index));
+        dotsContainer.appendChild(dot);
+    });
+
+    const dots = document.querySelectorAll('.dot');
+
+    function goToSlide(n) {
+        slides[currentSlide].classList.remove('active');
+        dots[currentSlide].classList.remove('active');
+        
+        currentSlide = (n + slides.length) % slides.length;
+        
+        slides[currentSlide].classList.add('active');
+        dots[currentSlide].classList.add('active');
+    }
+
+    function nextSlide() {
+        goToSlide(currentSlide + 1);
+    }
+
+    function prevSlide() {
+        goToSlide(currentSlide - 1);
+    }
+
+    function startAutoSlide() {
+        slideInterval = setInterval(nextSlide, 5000);
+    }
+
+    function stopAutoSlide() {
+        clearInterval(slideInterval);
+    }
+
+    // Event listeners
+    if (prevBtn) prevBtn.addEventListener('click', () => {
+        prevSlide();
+        stopAutoSlide();
+        startAutoSlide();
+    });
+
+    if (nextBtn) nextBtn.addEventListener('click', () => {
+        nextSlide();
+        stopAutoSlide();
+        startAutoSlide();
+    });
+
+    // Démarrer le slider automatique
+    startAutoSlide();
+
+    // Pause sur hover
+    slider.addEventListener('mouseenter', stopAutoSlide);
+    slider.addEventListener('mouseleave', startAutoSlide);
+}
+
+// ===== SCROLL EFFECTS =====
+function initScrollEffects() {
+    const header = document.querySelector('.header');
+    const backToTopBtn = document.getElementById('backToTop');
+    
+    let lastScroll = 0;
+    let ticking = false;
+
+    function updateScrollEffects(scrollY) {
+        // Header effect - s'applique sur toutes les pages
+        if (scrollY > 100) {
+            header.classList.add('scrolled');
+        } else {
+            header.classList.remove('scrolled');
+        }
+
+        // Back to top button
+        if (scrollY > 300) {
+            backToTopBtn.classList.add('show');
+        } else {
+            backToTopBtn.classList.remove('show');
+        }
+
+        lastScroll = scrollY;
+    }
+
+    window.addEventListener('scroll', function() {
+        const scrollY = window.pageYOffset || document.documentElement.scrollTop;
+        
+        if (!ticking) {
+            window.requestAnimationFrame(function() {
+                updateScrollEffects(scrollY);
+                ticking = false;
+            });
+            ticking = true;
+        }
+    });
+
+    // Smooth scroll pour les liens d'ancrage
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+            const href = this.getAttribute('href');
+            if (href === '#' || href === '') return;
+            
+            e.preventDefault();
+            const target = document.querySelector(href);
+            
+            if (target) {
+                const headerHeight = header.offsetHeight;
+                const targetPosition = target.offsetTop - headerHeight - 20;
+                
+                window.scrollTo({
+                    top: targetPosition,
+                    behavior: 'smooth'
+                });
+            }
+        });
+    });
+}
+
+// ===== BACK TO TOP BUTTON =====
+function initBackToTop() {
+    const backToTopBtn = document.getElementById('backToTop');
+    
+    if (backToTopBtn) {
+        backToTopBtn.addEventListener('click', function() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+    }
+}
+
+// ===== MODAL =====
+function initModal() {
+    const modal = document.getElementById('registrationModal');
+    
+    if (!modal) return;
+
+    // Fermer le modal en cliquant en dehors
+    window.addEventListener('click', function(event) {
+        if (event.target === modal) {
+            closeModal();
+        }
+    });
+
+    // Fermer avec la touche Escape
+    document.addEventListener('keydown', function(event) {
+        if (event.key === 'Escape' && modal.style.display === 'block') {
+            closeModal();
+        }
+    });
+}
+
 function openModal() {
     const modal = document.getElementById('registrationModal');
     if (modal) {
         modal.style.display = 'block';
-        console.log('Modal ouvert');
+        document.body.style.overflow = 'hidden';
     }
 }
 
@@ -11,282 +185,261 @@ function closeModal() {
     const modal = document.getElementById('registrationModal');
     if (modal) {
         modal.style.display = 'none';
-        console.log('Modal fermé');
+        document.body.style.overflow = 'auto';
     }
 }
 
-function scrollToRegistration() {
-    closeModal();
-    document.querySelector('.registration').scrollIntoView({ behavior: 'smooth' });
-}
+// ===== FORM VALIDATION & SUBMISSION =====
+function initForm() {
+    const form = document.getElementById('myForm');
+    if (!form) return;
 
-// Close modal when clicking outside
-window.onclick = function (event) {
-    const modal = document.getElementById('registrationModal');
-    if (modal && event.target == modal) {
-        closeModal();
-    }
-}
+    const submitButton = document.getElementById('submitButton');
+    const loadingSpinner = document.getElementById('loadingSpinner');
+    const messageZone = document.getElementById('messageZone');
 
-// ========== NEWS FUNCTIONALITY ==========
-function toggleAddPostForm() {
-    const form = document.getElementById('addPostForm');
-    if (form) {
-        form.classList.toggle('active');
+    // Validation en temps réel
+    const inputs = form.querySelectorAll('input[required], textarea[required]');
+    
+    inputs.forEach(input => {
+        input.addEventListener('blur', function() {
+            validateField(this);
+        });
 
-        if (form.classList.contains('active')) {
-            const today = new Date().toISOString().split('T')[0];
-            const postDate = document.getElementById('postDate');
-            if (postDate) {
-                postDate.value = today;
-            }
-        }
-    }
-}
-
-function readMore(button) {
-    const card = button.closest('.news-card');
-    if (!card) return;
-
-    const title = card.querySelector('.news-title')?.textContent || 'Sans titre';
-    const excerpt = card.querySelector('.news-excerpt');
-    const fullContent = excerpt?.getAttribute('data-full-content') || excerpt?.textContent || 'Contenu non disponible';
-    const authorElement = card.querySelector('.news-author span');
-    const author = authorElement?.textContent || 'Auteur inconnu';
-    const date = card.querySelector('.news-date')?.textContent || 'Date inconnue';
-    const category = card.querySelector('.news-category')?.textContent || 'Actualité';
-
-    // Créer modal avec contenu complet
-    const articleModal = document.createElement('div');
-    articleModal.className = 'modal';
-    articleModal.style.display = 'block';
-    articleModal.style.position = 'fixed';
-    articleModal.style.zIndex = '1000';
-    articleModal.innerHTML = `
-        <div class="modal-content" style="max-width: 600px; max-height: 80vh; overflow-y: auto; margin: 5% auto; background: white; padding: 30px; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
-            <span class="close" onclick="this.closest('.modal').remove()" style="float: right; font-size: 28px; font-weight: bold; cursor: pointer; color: #666;">×</span>
-            <div style="text-align: center; margin-bottom: 1.5rem; clear: both;">
-                <span style="background: #7CB342; color: white; padding: 0.5rem 1rem; border-radius: 20px; font-size: 0.85rem; display: inline-block;">${date}</span>
-                <span style="color: #7CB342; font-weight: 500; margin-left: 1rem; display: inline-block;">${category}</span>
-            </div>
-            <h2 style="color: #1a365d; margin-bottom: 1rem; text-align: center;">${title}</h2>
-            <div style="text-align: center; margin-bottom: 1.5rem; color: #666;">
-                <i class="fas fa-user"></i> Par ${author}
-            </div>
-            <div style="line-height: 1.8; color: #333; text-align: justify;">
-                ${fullContent.split('\n').map(p => p.trim()).filter(p => p).map(p => `<p style="margin-bottom: 1rem;">${p}</p>`).join('')}
-            </div>
-        </div>
-    `;
-
-    document.body.appendChild(articleModal);
-
-    // Fermer au clic extérieur
-    articleModal.addEventListener('click', function (e) {
-        if (e.target === articleModal) {
-            articleModal.remove();
-        }
+        input.addEventListener('input', function() {
+            clearFieldError(this);
+        });
     });
 
-    // Fermer avec la touche Echap
-    const handleEscape = (e) => {
-        if (e.key === 'Escape') {
-            articleModal.remove();
-            document.removeEventListener('keydown', handleEscape);
+    // Soumission du formulaire
+    form.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        // Valider tous les champs
+        let isValid = true;
+        inputs.forEach(input => {
+            if (!validateField(input)) {
+                isValid = false;
+            }
+        });
+
+        if (!isValid) {
+            showMessage('Veuillez corriger les erreurs avant de soumettre.', 'error');
+            return;
+        }
+
+        // Désactiver le bouton et afficher le spinner
+        submitButton.disabled = true;
+        loadingSpinner.style.display = 'inline-block';
+        submitButton.querySelector('i').style.display = 'none';
+
+        try {
+            const formData = new FormData(form);
+            const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+            const response = await fetch(form.action, {
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': csrfToken,
+                    'Accept': 'application/json',
+                },
+                body: formData
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                showMessage(data.message || 'Inscription réussie ! Nous vous contacterons bientôt.', 'success');
+                form.reset();
+                
+                // Redirection ou fermeture après 2 secondes
+                setTimeout(() => {
+                    closeModal();
+                }, 2000);
+            } else {
+                if (data.errors) {
+                    displayValidationErrors(data.errors);
+                } else {
+                    showMessage(data.message || 'Une erreur est survenue. Veuillez réessayer.', 'error');
+                }
+            }
+        } catch (error) {
+            console.error('Erreur:', error);
+            showMessage('Erreur de connexion. Veuillez vérifier votre connexion internet.', 'error');
+        } finally {
+            submitButton.disabled = false;
+            loadingSpinner.style.display = 'none';
+            submitButton.querySelector('i').style.display = 'inline';
+        }
+    });
+}
+
+// Validation d'un champ individuel
+function validateField(field) {
+    const value = field.value.trim();
+    const fieldName = field.name;
+    const errorElement = document.getElementById(`${fieldName}-error`);
+    
+    if (!errorElement) return true;
+
+    let errorMessage = '';
+
+    // Validation selon le type de champ
+    if (field.hasAttribute('required') && !value) {
+        errorMessage = 'Ce champ est requis.';
+    } else if (fieldName === 'email' && value) {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(value)) {
+            errorMessage = 'Veuillez entrer une adresse email valide.';
+        }
+    } else if (fieldName === 'telephone' && value) {
+        const phoneRegex = /^[\d\s\+\-\(\)]+$/;
+        if (!phoneRegex.test(value)) {
+            errorMessage = 'Veuillez entrer un numéro de téléphone valide.';
+        }
+    } else if (fieldName === 'fullname' && value) {
+        if (value.length < 3) {
+            errorMessage = 'Le nom doit contenir au moins 3 caractères.';
+        }
+    }
+
+    if (errorMessage) {
+        errorElement.textContent = errorMessage;
+        errorElement.style.display = 'block';
+        field.style.borderColor = '#e53e3e';
+        return false;
+    } else {
+        clearFieldError(field);
+        return true;
+    }
+}
+
+// Effacer l'erreur d'un champ
+function clearFieldError(field) {
+    const errorElement = document.getElementById(`${field.name}-error`);
+    if (errorElement) {
+        errorElement.style.display = 'none';
+        errorElement.textContent = '';
+    }
+    field.style.borderColor = '#e2e8f0';
+}
+
+// Afficher les erreurs de validation du serveur
+function displayValidationErrors(errors) {
+    Object.keys(errors).forEach(fieldName => {
+        const errorElement = document.getElementById(`${fieldName}-error`);
+        const field = document.querySelector(`[name="${fieldName}"]`);
+        
+        if (errorElement && field) {
+            errorElement.textContent = errors[fieldName][0];
+            errorElement.style.display = 'block';
+            field.style.borderColor = '#e53e3e';
+        }
+    });
+}
+
+// Afficher un message global
+function showMessage(message, type) {
+    const messageZone = document.getElementById('messageZone');
+    if (!messageZone) return;
+
+    const messageDiv = document.createElement('div');
+    messageDiv.style.cssText = `
+        padding: 15px 20px;
+        margin-bottom: 20px;
+        border-radius: 8px;
+        font-weight: 500;
+        animation: slideInDown 0.4s ease;
+        ${type === 'success' 
+            ? 'background: #C6F6D5; color: #22543D; border-left: 4px solid #38A169;' 
+            : 'background: #FED7D7; color: #742A2A; border-left: 4px solid #E53E3E;'}
+    `;
+    
+    const icon = type === 'success' 
+        ? '<i class="fas fa-check-circle" style="margin-right: 10px;"></i>' 
+        : '<i class="fas fa-exclamation-circle" style="margin-right: 10px;"></i>';
+    
+    messageDiv.innerHTML = icon + message;
+    
+    messageZone.innerHTML = '';
+    messageZone.appendChild(messageDiv);
+
+    // Faire défiler jusqu'au message
+    messageDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
+    // Supprimer le message après 5 secondes
+    setTimeout(() => {
+        messageDiv.style.animation = 'fadeOut 0.4s ease';
+        setTimeout(() => {
+            messageDiv.remove();
+        }, 400);
+    }, 5000);
+}
+
+// Animation fadeOut pour les messages
+const style = document.createElement('style');
+style.textContent = `
+    @keyframes fadeOut {
+        from { opacity: 1; transform: translateY(0); }
+        to { opacity: 0; transform: translateY(-10px); }
+    }
+`;
+document.head.appendChild(style);
+
+// ===== UTILITY FUNCTIONS =====
+
+// Débounce pour optimiser les performances
+function debounce(func, wait) {
+    let timeout;
+    return function executedFunction(...args) {
+        const later = () => {
+            clearTimeout(timeout);
+            func(...args);
+        };
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+    };
+}
+
+// Throttle pour les événements scroll
+function throttle(func, limit) {
+    let inThrottle;
+    return function() {
+        const args = arguments;
+        const context = this;
+        if (!inThrottle) {
+            func.apply(context, args);
+            inThrottle = true;
+            setTimeout(() => inThrottle = false, limit);
         }
     };
-    document.addEventListener('keydown', handleEscape);
 }
 
-// Ajouter une nouvelle actualité
-const postForm = document.getElementById('postForm');
-if (postForm) {
-    postForm.addEventListener('submit', function (e) {
-        e.preventDefault();
-
-        const formData = new FormData(this);
-        const postData = {
-            title: formData.get('postTitle') || 'Sans titre',
-            category: formData.get('postCategory') || 'Actualité',
-            excerpt: formData.get('postExcerpt') || 'Pas de résumé',
-            content: formData.get('postContent') || 'Contenu vide',
-            author: formData.get('postAuthor') || 'Anonyme',
-            date: formData.get('postDate') || new Date().toISOString().split('T')[0]
-        };
-
-        const newsGrid = document.getElementById('newsGrid');
-        if (!newsGrid) return;
-
-        const newCard = document.createElement('div');
-        newCard.className = 'news-card';
-
-        const dateObj = new Date(postData.date);
-        const formattedDate = dateObj.toLocaleDateString('fr-FR', {
-            day: 'numeric',
-            month: 'short',
-            year: 'numeric'
+// Animation au scroll pour les éléments
+function animateOnScroll() {
+    const elements = document.querySelectorAll('.feature-card, .news-card, .gallery-item');
+    
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.style.animation = 'fadeInUp 0.6s ease forwards';
+                observer.unobserve(entry.target);
+            }
         });
+    }, {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+    });
 
-        const categoryIcons = {
-            'Compétition': 'fas fa-trophy',
-            'Événement': 'fas fa-calendar-alt',
-            'Formation': 'fas fa-graduation-cap',
-            'Résultats': 'fas fa-chart-line',
-            'Annonce': 'fas fa-bullhorn',
-            'Actualités': 'fas fa-newspaper'
-        };
-
-        const icon = categoryIcons[postData.category] || 'fas fa-newspaper';
-
-        newCard.innerHTML = `
-            <div class="news-image">
-                <i class="${icon}" style="font-size: 3rem; color: #7CB342;"></i>
-            </div>
-            <div class="news-content">
-                <div class="news-meta">
-                    <span class="news-date">${formattedDate}</span>
-                    <span class="news-category">${postData.category}</span>
-                </div>
-                <h3 class="news-title">${postData.title}</h3>
-                <p class="news-excerpt" data-full-content="${postData.content}">${postData.excerpt}</p>
-                <div class="news-author">
-                    <i class="fas fa-user"></i>
-                    <span>${postData.author}</span>
-                </div>
-                <a href="javascript:void(0)" class="read-more" onclick="readMore(this)" style="text-decoration: none; cursor: pointer;">
-                    <i class="fas fa-arrow-right"></i> Lire plus
-                </a>
-            </div>
-        `;
-
-        newCard.style.opacity = '0';
-        newCard.style.transform = 'translateY(20px)';
-
-        newsGrid.insertBefore(newCard, newsGrid.firstChild);
-
-        setTimeout(() => {
-            newCard.style.transition = 'all 0.5s ease';
-            newCard.style.opacity = '1';
-            newCard.style.transform = 'translateY(0)';
-        }, 100);
-
-        alert('Article publié avec succès !');
-
-        this.reset();
-        toggleAddPostForm();
-
-        setTimeout(() => {
-            newCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        }, 600);
+    elements.forEach(el => {
+        el.style.opacity = '0';
+        observer.observe(el);
     });
 }
 
-// ========== SMOOTH SCROLLING ==========
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
-        const href = this.getAttribute('href');
-        const target = document.querySelector(href);
-        if (target) {
-            e.preventDefault();
-            target.scrollIntoView({
-                behavior: 'smooth',
-                block: 'start'
-            });
-        }
-    });
-});
-
-// ========== HEADER SCROLL EFFECT ==========
-window.addEventListener('scroll', function () {
-    const header = document.querySelector('.header');
-    if (header) {
-        if (window.scrollY > 100) {
-            header.style.background = 'rgba(255, 255, 255, 0.95)';
-            header.style.backdropFilter = 'blur(10px)';
-        } else {
-            header.style.background = '#fff';
-            header.style.backdropFilter = 'none';
-        }
-    }
-});
-
-document.addEventListener("DOMContentLoaded", function () {
-    const slides = document.querySelectorAll(".slide");
-    const dotsContainer = document.querySelector(".slider-dots");
-    const prevBtn = document.querySelector(".prev");
-    const nextBtn = document.querySelector(".next");
-
-    let index = 0;
-    let timer;
-    let animationIndex = 0;
-
-    // Liste des effets à alterner
-    const animations = ["slide-left", "slide-up", "slide-fade"];
-
-    // Créer les indicateurs
-    slides.forEach((_, i) => {
-        const dot = document.createElement("div");
-        dot.classList.add("dot");
-        if (i === 0) dot.classList.add("active");
-        dot.addEventListener("click", () => showSlide(i, true));
-        dotsContainer.appendChild(dot);
-    });
-
-    const dots = document.querySelectorAll(".dot");
-
-    function showSlide(i, manual = false) {
-        slides.forEach(s => {
-            s.classList.remove("active", "slide-left", "slide-up", "slide-fade");
-        });
-        dots.forEach(d => d.classList.remove("active"));
-
-        const currentSlide = slides[i];
-        const animClass = animations[animationIndex];
-
-        currentSlide.classList.add("active", animClass);
-        dots[i].classList.add("active");
-
-        index = i;
-        animationIndex = (animationIndex + 1) % animations.length;
-
-        if (!manual) resetTimer();
-    }
-
-    function nextSlide() {
-        index = (index + 1) % slides.length;
-        showSlide(index);
-    }
-
-    function prevSlide() {
-        index = (index - 1 + slides.length) % slides.length;
-        showSlide(index);
-    }
-
-    function resetTimer() {
-        clearInterval(timer);
-        timer = setInterval(nextSlide, 2000);
-    }
-
-    prevBtn.addEventListener("click", () => { prevSlide(); resetTimer(); });
-    nextBtn.addEventListener("click", () => { nextSlide(); resetTimer(); });
-
-    // Lancer le slider auto
-    timer = setInterval(nextSlide, 5000);
-
-    const backToTopButton = document.getElementById("backToTop");
-
-    window.addEventListener("scroll", () => {
-        if (window.scrollY > 300) {
-            backToTopButton.style.display = "flex";
-        } else {
-            backToTopButton.style.display = "none";
-        }
-    });
-
-    backToTopButton.addEventListener("click", () => {
-        window.scrollTo({
-            top: 0,
-            behavior: "smooth"
-        });
-    });
-});
+// Appeler l'animation au chargement
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', animateOnScroll);
+} else {
+    animateOnScroll();
+}

@@ -4,63 +4,35 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Post;
-use App\Models\TypePost;
 
 class BlogController extends Controller
 {
     public function index(Request $request)
     {
-        // Récupérer tous les types de posts pour les filtres
-        $typePosts = TypePost::all();
-        
-        // Query de base pour les actualités avec relations
-        $query = Post::with(['user', 'typePost'])
-                          ->orderBy('date_post', 'desc');
-        
-        // Filtrer par recherche si présente
+        $query = Post::query()->orderBy('created_at', 'desc');
+
         if ($request->filled('search')) {
             $search = $request->get('search');
-            $query->where(function($q) use ($search) {
-                $q->where('titre', 'LIKE', "%{$search}%")
-                  ->orWhere('contenu', 'LIKE', "%{$search}%");
-            });
+            $query->where('title', 'LIKE', "%{$search}%")
+                  ->orWhere('content', 'LIKE', "%{$search}%");
         }
-        
-        // Filtrer par type si présent
-        if ($request->filled('type')) {
-            $query->whereHas('typePost', function($q) use ($request) {
-                $q->where('nom', $request->get('type'));
-            });
-        }
-        
-        // Paginer les résultats (12 actualités par page)
-        $actualites = $query->paginate(12);
-        
-        return view('pages.blog', compact('actualites', 'typePosts'));
+
+        $posts = $query->paginate(12);
+
+        return view('pages.blog', compact('posts'));
     }
 
-    public function show(Post $post)
+    public function show($id)
     {
-        // Charger les relations nécessaires
-        $post->load(['user', 'typePost']);
-        
-        // Récupérer des articles liés de la même catégorie
-        $articlesLies = Post::with(['user', 'typePost'])
-            ->where('id', '!=', $post->id)
-            ->where('typepost_id', $post->typepost_id)
-            ->orderBy('date_post', 'desc')
-            ->limit(3)
-            ->get();
+        $post = Post::findOrFail($id);
+        $relatedPosts = Post::where('id', '!=', $post->id)
+                            ->orderBy('created_at', 'desc')
+                            ->limit(3)
+                            ->get();
 
-        // Incrémenter le nombre de vues si la colonne existe
-        // if (schema()->hasColumn('posts', 'vues')) {
-        //     $post->increment('vues');
-        // }
-
-        // SOLUTION : Passer $post comme $actualite pour correspondre à votre vue
         return view('actualites.index', [
-            'actualite' => $post,
-            'articlesLies' => $articlesLies
+            'post' => $post,
+            'relatedPosts' => $relatedPosts
         ]);
     }
 }

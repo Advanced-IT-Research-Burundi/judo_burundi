@@ -1,549 +1,182 @@
 @extends('layouts.user')
-@section('title', 'Contactez nous')
 
 @section('content')
-    <!-- Hero Section -->
-    <section class="hero" id="home">
-        <div class="hero-slider">
-            <!-- Slides -->
-            <div class="slide active" style="background-image: url('{{ asset('images/judo1.jpeg') }}');"></div>
-            <div class="slide" style="background-image: url('{{ asset('images/judo2.jpg') }}');"></div>
-            <div class="slide" style="background-image: url('{{ asset('images/judo3.jpg') }}');"></div>
-
-            <!-- Overlay sombre -->
-            <div class="overlay"></div>
-
-            <!-- Contenu du hero -->
-            <div class="hero-content">
-                <h1>ENTRAÎNEZ-VOUS AVEC LES MEILLEURS</h1>
-                <p>Découvrez le JUDO traditionnel avec nos instructeurs légendaires</p>
-                <div class="hero-buttons">
-                    <button class="btn-primary" onclick="openModal()">Commencer maintenant</button>
-                    <a href="{{ route('contact.store') }}" class="btn-secondary">En savoir plus</a>
-                </div>
-            </div>
-
-            <!-- Flèches de navigation -->
-            <div class="slider-arrows">
-                <span class="prev">&#10094;</span>
-                <span class="next">&#10095;</span>
-            </div>
-
-            <!-- Indicateurs -->
-            <div class="slider-dots"></div>
+<!-- Page Hero Section - Contact -->
+<section class="page-hero dark-overlay" style="background-image: url('{{ asset('images/judo5.jpg') }}');">
+    <div class="page-hero-content">
+        <h1>Contactez-nous</h1>
+        <p>Nous sommes là pour répondre à toutes vos questions</p>
+        <div class="page-hero-breadcrumb">
+            <a href="{{ route('home') }}"><i class="fas fa-home"></i> Accueil</a>
+            <i class="fas fa-chevron-right"></i>
+            <span>Contact</span>
         </div>
-    </section>
+    </div>
+</section>
 
-    <!-- Messages de succès et d'erreur -->
-    @if (session('success'))
-        <div class="alert-success">
-            <div class="container">
-                <i class="fas fa-check-circle"></i>
-                {{ session('success') }}
-            </div>
-        </div>
-    @endif
-
-    @if (session('error'))
-        <div class="alert-error">
-            <div class="container">
-                <i class="fas fa-exclamation-circle"></i>
-                {{ session('error') }}
-            </div>
-        </div>
-    @endif
-
-    <!-- Contact Section -->
-    <section class="contact-section" id="contact-form">
-        <div class="container">
-            <div class="contact-content">
-                <!-- Formulaire de contact -->
-                <div class="contact-form-wrapper">
-                    <h2>Envoyez-nous un message</h2>
-                    <p>Remplissez le formulaire ci-dessous et nous vous répondrons rapidement.</p>
-
-                    <form action="{{ route('contact.store') }}" method="POST" class="contact-form">
-                        @csrf
-
-                        <div class="form-group">
-                            <label for="name">Nom complet *</label>
-                            <input type="text" id="name" name="name" value="{{ old('name') }}"
-                                placeholder="Votre nom complet" class="@error('name') error @enderror" required>
-                            @error('name')
-                                <span class="error-message">{{ $message }}</span>
-                            @enderror
-                        </div>
-
-                        <div class="form-group">
-                            <label for="email">Email *</label>
-                            <input type="email" id="email" name="email" value="{{ old('email') }}"
-                                placeholder="votre.email@example.com" class="@error('email') error @enderror" required>
-                            @error('email')
-                                <span class="error-message">{{ $message }}</span>
-                            @enderror
-                        </div>
-
-                        <div class="form-group">
-                            <label for="sujet">Sujet *</label>
-                            <select id="sujet" name="sujet" class="@error('sujet') error @enderror" required>
-                                <option value="">Choisissez un sujet</option>
-                                <option value="Inscription" {{ old('sujet') == 'Inscription' ? 'selected' : '' }}>
-                                    Inscription</option>
-                                <option value="Information générale"
-                                    {{ old('sujet') == 'Information générale' ? 'selected' : '' }}>Information générale
-                                </option>
-                                <option value="Cours et formations"
-                                    {{ old('sujet') == 'Cours et formations' ? 'selected' : '' }}>Cours et formations
-                                </option>
-                                <option value="Compétitions" {{ old('sujet') == 'Compétitions' ? 'selected' : '' }}>
-                                    Compétitions</option>
-                                <option value="Partenariat" {{ old('sujet') == 'Partenariat' ? 'selected' : '' }}>
-                                    Partenariat</option>
-                                <option value="Autre" {{ old('sujet') == 'Autre' ? 'selected' : '' }}>Autre</option>
-                            </select>
-                            @error('sujet')
-                                <span class="error-message">{{ $message }}</span>
-                            @enderror
-                        </div>
-
-                        <div class="form-group">
-                            <label for="message">Message *</label>
-                            <textarea id="message" name="message" rows="6" placeholder="Écrivez votre message ici..."
-                                class="@error('message') error @enderror" required>{{ old('message') }}</textarea>
-                            @error('message')
-                                <span class="error-message">{{ $message }}</span>
-                            @enderror
-                            <small>Maximum 2000 caractères</small>
-                        </div>
-
-                        <button type="submit" class="btn-primary">
-                            <i class="fas fa-paper-plane"></i>
-                            Envoyer le message
-                        </button>
-                    </form>
-                </div>
-
-                <!-- Informations de contact -->
-                <div class="contact-info-wrapper" id="contact-info">
-                    <h2>Nos coordonnées</h2>
-
-                    <div class="contact-item">
-                        <div class="contact-icon">
+<!-- Section Contact -->
+<section class="contact-section" style="padding: 80px 0; background: #f8f9fa;">
+    <div class="container">
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 3rem;">
+            
+            <!-- Informations de contact -->
+            <div>
+                <h2 style="color: #1a365d; font-size: 2.5rem; margin-bottom: 2rem;">Nos Coordonnées</h2>
+                
+                <div style="background: white; padding: 2rem; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); margin-bottom: 2rem;">
+                    <div style="display: flex; align-items: start; gap: 1rem; margin-bottom: 1.5rem;">
+                        <div style="background: #7CB342; color: white; width: 50px; height: 50px; border-radius: 50%; 
+                                    display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
                             <i class="fas fa-map-marker-alt"></i>
                         </div>
-                        <div class="contact-details">
-                            <h4>Adresse</h4>
-                            <p>Avenue de l'Indépendance<br>Bujumbura, Burundi</p>
+                        <div>
+                            <h4 style="color: #1a365d; margin-bottom: 0.5rem;">Adresse</h4>
+                            <p style="color: #666;">Avenue de l'Indépendance<br>Bujumbura, Burundi</p>
                         </div>
                     </div>
 
-                    <div class="contact-item">
-                        <div class="contact-icon">
+                    <div style="display: flex; align-items: start; gap: 1rem; margin-bottom: 1.5rem;">
+                        <div style="background: #7CB342; color: white; width: 50px; height: 50px; border-radius: 50%; 
+                                    display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
                             <i class="fas fa-phone"></i>
                         </div>
-                        <div class="contact-details">
-                            <h4>Téléphone</h4>
-                            <p>+257 22 123 456</p>
+                        <div>
+                            <h4 style="color: #1a365d; margin-bottom: 0.5rem;">Téléphone</h4>
+                            <p style="color: #666;">+257 22 123 456<br>+257 79 123 456</p>
                         </div>
                     </div>
 
-                    <div class="contact-item">
-                        <div class="contact-icon">
+                    <div style="display: flex; align-items: start; gap: 1rem; margin-bottom: 1.5rem;">
+                        <div style="background: #7CB342; color: white; width: 50px; height: 50px; border-radius: 50%; 
+                                    display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
                             <i class="fas fa-envelope"></i>
                         </div>
-                        <div class="contact-details">
-                            <h4>Email</h4>
-                            <p>info@judoburundi-bi.com</p>
+                        <div>
+                            <h4 style="color: #1a365d; margin-bottom: 0.5rem;">Email</h4>
+                            <p style="color: #666;">info@judoburundi-bi.com<br>contact@judoburundi-bi.com</p>
                         </div>
                     </div>
 
-                    <div class="contact-item">
-                        <div class="contact-icon">
+                    <div style="display: flex; align-items: start; gap: 1rem;">
+                        <div style="background: #7CB342; color: white; width: 50px; height: 50px; border-radius: 50%; 
+                                    display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
                             <i class="fas fa-clock"></i>
                         </div>
-                        <div class="contact-details">
-                            <h4>Horaires d'ouverture</h4>
-                            <p>
-                                <strong>Lundi - Vendredi:</strong> 6h00 - 21h00<br>
-                                <strong>Samedi:</strong> 8h00 - 18h00<br>
-                                <strong>Dimanche:</strong> 10h00 - 16h00
+                        <div>
+                            <h4 style="color: #1a365d; margin-bottom: 0.5rem;">Horaires</h4>
+                            <p style="color: #666;">
+                                Lun - Ven: 6h00 - 21h00<br>
+                                Samedi: 8h00 - 18h00<br>
+                                Dimanche: 10h00 - 16h00
                             </p>
                         </div>
                     </div>
+                </div>
 
-                    <div class="social-links">
-                        <a href="#" class="social-link facebook">
+                <!-- Réseaux sociaux -->
+                <div style="background: white; padding: 2rem; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
+                    <h4 style="color: #1a365d; margin-bottom: 1.5rem;">Suivez-nous</h4>
+                    <div style="display: flex; gap: 1rem;">
+                        <a href="#" style="background: #7CB342; color: white; width: 45px; height: 45px; border-radius: 50%; 
+                                          display: flex; align-items: center; justify-content: center; text-decoration: none; 
+                                          transition: transform 0.3s;">
                             <i class="fab fa-facebook-f"></i>
                         </a>
-                        <a href="#" class="social-link instagram">
+                        <a href="#" style="background: #7CB342; color: white; width: 45px; height: 45px; border-radius: 50%; 
+                                          display: flex; align-items: center; justify-content: center; text-decoration: none; 
+                                          transition: transform 0.3s;">
                             <i class="fab fa-instagram"></i>
                         </a>
-                        <a href="#" class="social-link twitter">
+                        <a href="#" style="background: #7CB342; color: white; width: 45px; height: 45px; border-radius: 50%; 
+                                          display: flex; align-items: center; justify-content: center; text-decoration: none; 
+                                          transition: transform 0.3s;">
                             <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" style="background: #7CB342; color: white; width: 45px; height: 45px; border-radius: 50%; 
+                                          display: flex; align-items: center; justify-content: center; text-decoration: none; 
+                                          transition: transform 0.3s;">
+                            <i class="fab fa-youtube"></i>
                         </a>
                     </div>
                 </div>
             </div>
-        </div>
-        </div>
-    </section>
 
-    <!-- Map Section -->
-    <section class="map-section">
-        <div class="map-container">
-            <div class="map-overlay">
-                <div class="map-info">
-                    <h3>Fédération de Judo du Burundi</h3>
-                    <p><i class="fas fa-map-marker-alt"></i> Avenue de l'Indépendance, Bujumbura</p>
-                    <a target="_blank" href="https://www.google.com/maps/place/-3.361378,29.359878" class="btn-secondary" style="text-decoration: none">Obtenir l'itinéraire</a>
+            <!-- Formulaire de contact -->
+            <div>
+                <div style="background: white; padding: 2.5rem; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
+                    <h3 style="color: #1a365d; font-size: 1.8rem; margin-bottom: 1.5rem;">Envoyez-nous un message</h3>
+                    
+                    <form action="{{ route('contact.store') }}" method="POST">
+                        @csrf
+                        <div style="margin-bottom: 1.5rem;">
+                            <label style="display: block; margin-bottom: 0.5rem; color: #333; font-weight: 500;">Nom complet *</label>
+                            <input type="text" name="name" required
+                                   style="width: 100%; padding: 0.8rem; border: 2px solid #ddd; border-radius: 5px; 
+                                          font-size: 1rem; transition: border-color 0.3s;">
+                        </div>
+
+                        <div style="margin-bottom: 1.5rem;">
+                            <label style="display: block; margin-bottom: 0.5rem; color: #333; font-weight: 500;">Email *</label>
+                            <input type="email" name="email" required
+                                   style="width: 100%; padding: 0.8rem; border: 2px solid #ddd; border-radius: 5px; 
+                                          font-size: 1rem; transition: border-color 0.3s;">
+                        </div>
+
+                        <div style="margin-bottom: 1.5rem;">
+                            <label style="display: block; margin-bottom: 0.5rem; color: #333; font-weight: 500;">Téléphone</label>
+                            <input type="tel" name="phone"
+                                   style="width: 100%; padding: 0.8rem; border: 2px solid #ddd; border-radius: 5px; 
+                                          font-size: 1rem; transition: border-color 0.3s;">
+                        </div>
+
+                        <div style="margin-bottom: 1.5rem;">
+                            <label style="display: block; margin-bottom: 0.5rem; color: #333; font-weight: 500;">Sujet *</label>
+                            <input type="text" name="subject" required
+                                   style="width: 100%; padding: 0.8rem; border: 2px solid #ddd; border-radius: 5px; 
+                                          font-size: 1rem; transition: border-color 0.3s;">
+                        </div>
+
+                        <div style="margin-bottom: 1.5rem;">
+                            <label style="display: block; margin-bottom: 0.5rem; color: #333; font-weight: 500;">Message *</label>
+                            <textarea name="message" rows="5" required
+                                      style="width: 100%; padding: 0.8rem; border: 2px solid #ddd; border-radius: 5px; 
+                                             font-size: 1rem; transition: border-color 0.3s; resize: vertical;"></textarea>
+                        </div>
+
+                        <button type="submit" class="btn-primary" 
+                                style="width: 100%; background: #7CB342; color: white; padding: 1rem; border: none; 
+                                       border-radius: 5px; font-size: 1.1rem; font-weight: 600; cursor: pointer; 
+                                       transition: background 0.3s;">
+                            <i class="fas fa-paper-plane"></i> Envoyer le message
+                        </button>
+                    </form>
                 </div>
             </div>
-            <div class="map-placeholder">
-                <div class="map-background"></div>
+        </div>
+
+        <!-- Carte Google Maps (optionnel) -->
+        <div style="margin-top: 4rem; background: white; padding: 2rem; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
+            <h3 style="color: #1a365d; margin-bottom: 1.5rem; text-align: center;">Notre Localisation</h3>
+            <div style="width: 100%; height: 400px; background: #ddd; border-radius: 10px; 
+                        display: flex; align-items: center; justify-content: center;">
+                <p style="color: #666;"><i class="fas fa-map-marked-alt" style="font-size: 3rem; margin-bottom: 1rem;"></i><br>
+                Carte interactive à intégrer</p>
             </div>
         </div>
-    </section>
+    </div>
+</section>
 
-    <style>
-        /* Messages d'alerte */
-        .alert-success,
-        .alert-error {
-            padding: 15px 0;
-            margin: 0;
-            text-align: center;
-            font-weight: 500;
-        }
-
-        .alert-success {
-            background: linear-gradient(135deg, #b4c3b5, #b4c3b5);
-            color: white;
-        }
-
-        .alert-error {
-            background: linear-gradient(135deg, #f44336, #e53935);
-            color: white;
-        }
-
-        .alert-success i,
-        .alert-error i {
-            margin-right: 10px;
-            font-size: 1.1em;
-        }
-
-        /* Section Contact */
-        .contact-section {
-            padding: 80px 0;
-            background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
-        }
-
-        .contact-content {
-            display: grid;
-            grid-template-columns: 2fr 1fr;
-            gap: 60px;
-            align-items: start;
-        }
-
-        /* Formulaire */
-        .contact-form-wrapper {
-            background: white;
-            padding: 40px;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-        }
-
-        .contact-form-wrapper h2 {
-            color: #1a365d;
-            margin-bottom: 10px;
-            font-size: 2.2em;
-            font-weight: 700;
-        }
-
-        .contact-form-wrapper p {
-            color: #666;
-            margin-bottom: 30px;
-            font-size: 1.1em;
-        }
-
-        .form-group {
-            margin-bottom: 25px;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 8px;
-            color: #333;
-            font-weight: 600;
-            font-size: 0.95em;
-        }
-
-        .form-group input,
-        .form-group select,
-        .form-group textarea {
-            width: 100%;
-            padding: 15px;
-            border: 2px solid #e1e5e9;
-            border-radius: 10px;
-            font-size: 1em;
-            transition: all 0.3s ease;
-            background: #fff;
-        }
-
-        .form-group input:focus,
-        .form-group select:focus,
-        .form-group textarea:focus {
-            outline: none;
-            border-color: #4d6434;
-            box-shadow: 0 0 0 3px rgba(124, 179, 66, 0.1);
-            transform: translateY(-2px);
-        }
-
-        .form-group input.error,
-        .form-group select.error,
-        .form-group textarea.error {
-            border-color: #e53935;
-            box-shadow: 0 0 0 3px rgba(229, 57, 53, 0.1);
-        }
-
-        .error-message {
-            color: #e53935;
-            font-size: 0.875em;
-            margin-top: 5px;
-            display: block;
-        }
-
-        .form-group small {
-            color: #999;
-            font-size: 0.875em;
-            margin-top: 5px;
-            display: block;
-        }
-
-        .form-group textarea {
-            resize: vertical;
-            min-height: 120px;
-        }
-
-        /* Informations de contact */
-        .contact-info-wrapper {
-            background: linear-gradient(135deg,#9db89f , #9db89f );
-            padding: 40px;
-            border-radius: 15px;
-            color: white;
-            height: fit-content;
-        }
-
-        .contact-info-wrapper h2 {
-            color: white;
-            margin-bottom: 30px;
-            font-size: 1.8em;
-            font-weight: 700;
-        }
-
-        .contact-item {
-            display: flex;
-            align-items: flex-start;
-            margin-bottom: 25px;
-            padding: 15px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
-            backdrop-filter: blur(10px);
-        }
-
-        .contact-icon {
-            background: rgba(255, 255, 255, 0.2);
-            color: white;
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-right: 15px;
-            flex-shrink: 0;
-            font-size: 1.2em;
-        }
-
-        .contact-details h4 {
-            color: white;
-            margin-bottom: 5px;
-            font-size: 1.1em;
-            font-weight: 600;
-        }
-
-        .contact-details p {
-            color: rgba(255, 255, 255, 0.9);
-            margin: 0;
-            line-height: 1.5;
-        }
-
-        .social-section {
-            margin-top: 30px;
-            padding-top: 25px;
-            border-top: 1px solid rgba(255, 255, 255, 0.2);
-        }
-
-        .social-section h4 {
-            color: white;
-            margin-bottom: 15px;
-            font-weight: 600;
-        }
-
-        .social-links {
-            display: flex;
-            gap: 15px;
-        }
-
-        .social-link {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 45px;
-            height: 45px;
-            border-radius: 50%;
-            color: white;
-            text-decoration: none;
-            transition: all 0.3s ease;
-        }
-
-        .social-link:hover {
-            transform: translateY(-3px);
-            color: white;
-        }
-
-        .social-link.facebook {
-            background: rgba(59, 89, 152, 0.8);
-        }
-
-        .social-link.instagram {
-            background: rgba(228, 64, 95, 0.8);
-        }
-
-        .social-link.twitter {
-            background: rgba(255, 0, 0, 0.8);
-        }
-
-        .social-link.facebook:hover {
-            background: #3b5998;
-        }
-
-        .social-link.instagram:hover {
-            background: #e4405f;
-        }
-
-        .social-link.twitter:hover {
-            background: #ff0000;
-        }
-
-        /* Section Carte */
-        .map-section {
-            position: relative;
-            height: 400px;
-            overflow: hidden;
-        }
-
-        .map-container {
-            position: relative;
-            height: 100%;
-        }
-
-        .map-background {
-            height: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .map-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.6);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 1;
-        }
-
-        .map-info {
-            text-align: center;
-            color: white;
-        }
-
-        .map-info h3 {
-            font-size: 2em;
-            margin-bottom: 10px;
-            font-weight: 700;
-        }
-
-        .map-info p {
-            font-size: 1.1em;
-            margin-bottom: 20px;
-            opacity: 0.9;
-        }
-
-        .map-info i {
-            margin-right: 8px;
-        }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            .contact-content {
-                grid-template-columns: 1fr;
-                gap: 40px;
-            }
-
-            .contact-form-wrapper,
-            .contact-info-wrapper {
-                padding: 25px;
-            }
-
-            .contact-form-wrapper h2 {
-                font-size: 1.8em;
-            }
-
-            .hero h1 {
-                font-size: 2.5em;
-            }
-        }
-    </style>
-
-    <script>
-        function scrollToContact() {
-            document.getElementById('contact-form').scrollIntoView({
-                behavior: 'smooth'
-            });
-        }
-
-        function scrollToInfo() {
-            document.getElementById('contact-info').scrollIntoView({
-                behavior: 'smooth'
-            });
-        }
-
-        // Animation au scroll
-        window.addEventListener('scroll', function() {
-            const elements = document.querySelectorAll('.contact-item');
-            elements.forEach(element => {
-                const elementTop = element.getBoundingClientRect().top;
-                const elementVisible = 150;
-
-                if (elementTop < window.innerHeight - elementVisible) {
-                    element.style.opacity = '1';
-                    element.style.transform = 'translateY(0)';
-                }
-            });
-        });
-
-        // Initialisation
-        document.addEventListener('DOMContentLoaded', function() {
-            const elements = document.querySelectorAll('.contact-item');
-            elements.forEach(element => {
-                element.style.opacity = '0';
-                element.style.transform = 'translateY(20px)';
-                element.style.transition = 'all 0.6s ease';
-            });
-        });
-    </script>
+<style>
+    input:focus, textarea:focus {
+        outline: none;
+        border-color: #7CB342 !important;
+    }
+    .btn-primary:hover {
+        background: #689F3A !important;
+        transform: translateY(-2px);
+    }
+    a:hover {
+        transform: scale(1.1) !important;
+    }
+</style>
 @endsection

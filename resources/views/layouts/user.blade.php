@@ -7,21 +7,17 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@yield('title', 'Fédération de Judo du Burundi')</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="{{ asset('css/user.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/form.css') }}">
-
-    {{-- Section pour les styles personnalisés --}}
+    <link href="{{ asset('css/user.css') }}" rel="stylesheet">
     @stack('styles')
 </head>
 
 <body>
     <header class="header">
-        <!-- Bandeau supérieur -->
         <div class="top-header">
             <div class="container top-content">
                 <div class="logo">
                     <a href="{{ route('home') }}">
-                        <img src="{{ asset('images/logo.jpeg') }}" alt="Logo" style="height: 80px;">
+                        <img src="{{ asset('images/logo.jpeg') }}" alt="Logo Judo Burundi">
                     </a>
                 </div>
                 <div class="federation-info">
@@ -30,44 +26,51 @@
                 </div>
             </div>
         </div>
+        <nav class="main-nav">
+            <ul class="nav-links">
+                <li>
+                    <a href="{{ route('home') }}" class="{{ request()->routeIs('home') ? 'active' : '' }}">
+                        Accueil
+                    </a>
+                </li>
+                <li class="dropdown">
+                    <p>Fédération</p>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a href="{{ route('about') }}" class="{{ request()->routeIs('about') ? 'active' : '' }}">
+                                Historique
+                            </a>
+                        </li>
+                        <li><a href="#">Direction</a></li>
+                        <li><a href="#">Statuts et Règlements</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <p>Activités</p>
+                    <ul class="dropdown-menu">
+                        <li><a href="#">Compétitions</a></li>
+                        <li><a href="#">Résultats</a></li>
+                        <li><a href="#">Calendrier</a></li>
+                    </ul>
+                </li>
 
-        <!-- Barre de navigation -->
-<nav class="main-nav">
-    <ul class="nav-links">
-        <li><a href="{{ route('home') }}" class="active">Accueil</a></li>
-
-        <!-- Menu Fédération -->
-        <li class="dropdown">
-            <p>Federation</p>
-            <ul class="dropdown-menu">
-                <li><a href="{{ route('about') }}">Historique</a></li>
-                <li><a href="#">Direction</a></li>
-                <li><a href="#">Statuts et Règlements</a></li>
+                <li>
+                    <a href="{{ route('galerie') }}" class="{{ request()->routeIs('galerie') ? 'active' : '' }}">
+                        Galerie
+                    </a>
+                </li>
+                
+                <li>
+                    <a href="{{ route('contact') }}" class="{{ request()->routeIs('contact') ? 'active' : '' }}">
+                        Contact
+                    </a>
+                </li>
             </ul>
-        </li>
-
-        <!-- Menu Activités -->
-        <li class="dropdown">
-            <p>Activites</p>
-            <ul class="dropdown-menu">
-                <li><a href="#">Compétitions</a></li>
-                {{-- <li><a href="#">Formations</a></li> --}}
-                <li><a href="#">Resultats</a></li>
-                <li><a href="#">Calendrier</a></li>
-            </ul>
-        </li>
-
-        <li><a href="{{ route('galerie') }}">Galerie</a></li>
-        <li><a href="{{ route('contact') }}">Contact</a></li>
-    </ul>
-</nav>
+        </nav>
     </header>
-
-    <!-- Content -->
     <main>
         @yield('content')
     </main>
-    <!-- Modal de démarrage rapide -->
     <div id="registrationModal" class="modal">
         <div class="modal-content">
             <span class="close" onclick="closeModal()">&times;</span>
@@ -80,7 +83,6 @@
             </form>
         </div>
     </div>
-    <!-- Footer -->
     <footer class="footer" id="contact">
         <div class="container">
             <div class="footer-content">
@@ -88,7 +90,7 @@
                     <h3>JUDO-BURUNDI</h3>
                     <p>Votre partenaire pour un parcours d'excellence. Nous formons les champions de demain avec passion
                         et dévouement.</p>
-                    <p><a href="#">sitemap</a></p>
+                    <p><a href="#">Sitemap</a></p>
                 </div>
                 <div class="footer-section">
                     <h3>Contact</h3>
@@ -107,7 +109,7 @@
                     <p><a href="#"><i class="fab fa-facebook"></i> Facebook</a></p>
                     <p><a href="#"><i class="fab fa-instagram"></i> Instagram</a></p>
                     <p><a href="#"><i class="fab fa-twitter"></i> Twitter</a></p>
-                    <p><a href="#"><i class=""></i>Email: judoburundi@gmail.com</a></p>
+                    <p><i class="fas fa-envelope"></i> judoburundi@gmail.com</p>
                 </div>
             </div>
             <div class="footer-bottom">
@@ -116,15 +118,12 @@
         </div>
     </footer>
 
-    {{-- Scripts de base --}}
-    <script src="{{ asset('js/user.js') }}"></script>
-    <script src="{{ asset('js/form.js') }}"></script>
-
-    {{-- Section pour les scripts personnalisés --}}
-    @stack('scripts')
     <button id="backToTop" title="Retour en haut">
         <i class="fas fa-arrow-up"></i>
     </button>
+    <script src="{{ asset('js/user.js') }}"></script>
+
+    @stack('scripts')
 </body>
 
 </html>

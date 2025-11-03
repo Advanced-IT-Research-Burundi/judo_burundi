@@ -1,11 +1,7 @@
 @extends('layouts.user')
 
-@push('styles')
-    <link rel="stylesheet" href="{{ asset('css/actualites.css') }}">
-@endpush
-
 @section('content')
-    <!-- Hero Section -->
+    <!-- Hero Section avec Slider -->
     <section class="hero" id="home">
         <div class="hero-slider">
             <!-- Slides -->
@@ -22,7 +18,7 @@
                 <p>Découvrez le JUDO traditionnel avec nos instructeurs légendaires</p>
                 <div class="hero-buttons">
                     <button class="btn-primary" onclick="openModal()">Commencer maintenant</button>
-                    <a href="{{ route('contact.store') }}" class="btn-secondary">En savoir plus</a>
+                    <a href="{{ route('contact') }}" class="btn-secondary">En savoir plus</a>
                 </div>
             </div>
 
@@ -36,6 +32,7 @@
             <div class="slider-dots"></div>
         </div>
     </section>
+
     <!-- Features Section -->
     <section class="features">
         <div class="container">
@@ -60,7 +57,7 @@
     </section>
 
     <!-- Welcome Section -->
-    <section class="welcome" id="about">
+    {{-- <section class="welcome" id="about">
         <div class="container">
             <div class="welcome-content">
                 <div class="welcome-text">
@@ -72,15 +69,12 @@
                     <button class="btn-primary" onclick="openModal()">Rejoignez-nous</button>
                 </div>
                 <div class="welcome-image">
-                    <div
-                        style="height: 400px; background: #ddd; border-radius: 10px; display: flex; align-items: center; justify-content: center; color: #666;">
-                        <img src="/images/judo2.jpg" alt="Welcome Image"
-                            style="height: 100%; width: auto; border-radius: 10px;">
-                    </div>
+                    <img src="{{ asset('images/judo2.jpg') }}" alt="Welcome Image"
+                         style="width: 100%; height: 400px; object-fit: cover; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
                 </div>
             </div>
         </div>
-    </section>
+    </section> --}}
 
     <!-- Gallery Section -->
     <section class="gallery" id="gallery">
@@ -92,25 +86,27 @@
             <div class="gallery-grid">
                 @forelse($galleryImages as $image)
                     <div class="gallery-item">
-                        <div
-                            style="height: 100%; background: #ddd; display: flex; align-items: center; justify-content: center; color: #666;">
-                            @if ($image->images && file_exists(public_path('storage/' . $image->images)))
-                                <img src="{{ asset('storage/' . $image->images) }}" alt="Image de la galerie"
-                                    style="height: 100%; width: auto; border-radius: 10px;">
-                            @else
-                                <i class="fas fa-image" style="font-size: 3rem;"></i>
-                            @endif
-                        </div>
+                        @if ($image->images && file_exists(public_path('storage/' . $image->images)))
+                            <img src="{{ asset('storage/' . $image->images) }}" alt="Image de la galerie"
+                                 style="width: 100%; height: 100%; object-fit: cover;">
+                        @else
+                            <div style="width: 100%; height: 100%; background: linear-gradient(135deg, #7CB342, #689F3A); 
+                                        display: flex; align-items: center; justify-content: center;">
+                                <i class="fas fa-image" style="font-size: 3rem; color: white; opacity: 0.7;"></i>
+                            </div>
+                        @endif
                     </div>
                 @empty
-                    <p class="text-muted text-center">Aucune image disponible pour le moment.</p>
+                    <div style="grid-column: 1/-1; text-align: center; padding: 40px;">
+                        <i class="fas fa-images" style="font-size: 3rem; color: #ccc; margin-bottom: 1rem;"></i>
+                        <p style="color: #999;">Aucune image disponible pour le moment.</p>
+                    </div>
                 @endforelse
             </div>
         </div>
     </section>
 
-
-    <!-- News Section AMÉLIORÉE -->
+    <!-- News Section -->
     <section class="news" id="news">
         <div class="container">
             <div class="news-header">
@@ -127,197 +123,113 @@
                         <div class="news-image">
                             @if ($actualite->image && file_exists(public_path('storage/' . $actualite->image)))
                                 <img src="{{ asset('storage/' . $actualite->image) }}" alt="{{ $actualite->titre }}"
-                                    style="height: 100%; width: 100%; object-fit: cover; border-radius: 10px;">
+                                     style="width: 100%; height: 100%; object-fit: cover;">
                             @else
                                 <!-- Image par défaut selon le type -->
-                                @switch($actualite->typePost->nom ?? 'default')
-                                    @case('Compétition')
-                                        <img src="/images/judo3.jpg" alt="Compétition"
-                                            style="height: 100%; width: 100%; object-fit: cover; border-radius: 10px;">
-                                    @break
-
-                                    @case('Événement')
-                                        <img src="/images/judo4.jpg" alt="Événement"
-                                            style="height: 100%; width: 100%; object-fit: cover; border-radius: 10px;">
-                                    @break
-
-                                    @case('Formation')
-                                        <img src="/images/judo5.jpg" alt="Formation"
-                                            style="height: 100%; width: 100%; object-fit: cover; border-radius: 10px;">
-                                    @break
-
-                                    @default
-                                        <img src="/images/judo6.jpg" alt="Actualité"
-                                            style="height: 100%; width: 100%; object-fit: cover; border-radius: 10px;">
-                                @endswitch
+                                @php
+                                    $defaultImages = [
+                                        'Compétition' => 'judo3.jpg',
+                                        'Événement' => 'judo4.jpg',
+                                        'Formation' => 'judo5.jpg',
+                                        'default' => 'judo6.jpg'
+                                    ];
+                                    $imageFile = $defaultImages[$actualite->typePost->nom ?? 'default'] ?? $defaultImages['default'];
+                                @endphp
+                                <img src="{{ asset('images/' . $imageFile) }}" alt="{{ $actualite->typePost->nom ?? 'Actualité' }}"
+                                     style="width: 100%; height: 100%; object-fit: cover;">
                             @endif
                         </div>
                         <div class="news-content">
-                            {{-- <div class="news-meta">
-                                <span class="news-date">{{ $actualite->date_post->format('d M Y') }}</span>
-                                <span class="news-category">{{ $actualite->typePost->nom ?? 'Actualité' }}</span>
-                            </div> --}}
                             <h3 class="news-title">{{ Str::limit($actualite->titre, 60) }}</h3>
                             <p class="news-excerpt">
-                                {{ $actualite->extrait ?? Str::limit(strip_tags($actualite->contenu), 120) }}</p>
+                                {{ $actualite->extrait ?? Str::limit(strip_tags($actualite->contenu), 120) }}
+                            </p>
 
-                            <!-- BOUTON LIRE PLUS AMÉLIORÉ -->
-                            <a href="{{ route('actualites', $actualite->id) }}" class="read-more"
-                                style="text-decoration: none">
+                            <!-- Bouton Lire plus -->
+                            <a href="{{ route('actualites', $actualite->id) }}" class="read-more">
                                 <i class="fas fa-arrow-right"></i> Lire plus
                             </a>
                         </div>
                     </div>
-                    @empty
-                        <!-- Affichage si aucune actualité -->
-                        <div class="col-12 text-center py-5">
-                            <i class="fas fa-newspaper fa-3x text-muted mb-3"></i>
-                            <h5 class="text-muted">Aucune actualité pour le moment</h5>
-                            <p class="text-muted">Revenez bientôt pour découvrir nos dernières nouvelles !</p>
-                        </div>
-                    @endforelse
+                @empty
+                    <!-- Affichage si aucune actualité -->
+                    <div style="grid-column: 1/-1; text-align: center; padding: 60px 20px;">
+                        <i class="fas fa-newspaper" style="font-size: 4rem; color: #ccc; margin-bottom: 1rem;"></i>
+                        <h5 style="color: #666; margin-bottom: 0.5rem;">Aucune actualité pour le moment</h5>
+                        <p style="color: #999;">Revenez bientôt pour découvrir nos dernières nouvelles !</p>
+                    </div>
+                @endforelse
+            </div>
+
+            <!-- Voir plus d'actualités -->
+            @if ($actualites->count() >= 6)
+                <div class="text-center" style="margin-top: 2rem;">
+                    <a href="{{ route('blog') }}" class="btn-primary" style="text-decoration: none; display: inline-block;">
+                        <i class="fas fa-plus-circle"></i> Voir toutes les actualités
+                    </a>
+                </div>
+            @endif
+        </div>
+    </section>
+
+    <!-- Registration Section -->
+    <section class="registration" id="registration">
+        <div class="container">
+            <div class="registration-container">
+                <div class="registration-info">
+                    <h2>Rejoignez Notre Académie</h2>
+                    <p>Inscrivez-vous dès aujourd'hui pour commencer votre parcours. Nos programmes sont adaptés à
+                        tous les âges et tous les niveaux.</p>
+
+                    <div class="registration-benefits">
+                        <h3>Avantages de l'inscription :</h3>
+                        <ul>
+                            <li><i class="fas fa-check"></i> Accès illimité aux cours</li>
+                            <li><i class="fas fa-check"></i> Suivi personnalisé</li>
+                            <li><i class="fas fa-check"></i> Équipement fourni</li>
+                            <li><i class="fas fa-check"></i> Participation aux compétitions</li>
+                        </ul>
+                    </div>
                 </div>
 
-                <!-- Voir plus d'actualités -->
-                @if ($actualites->count() >= 6)
-                    <div class="text-center mt-4">
-                        <a href="{{ route('blog') }}" class="btn-primary" style="text-decoration: none">
-                            <i class="fas fa-plus-circle"></i> Voir toutes les actualités
-                        </a>
-                    </div>
-                @endif
-            </div>
-        </section>
+                <div class="registration-form">
+                    <h3>Formulaire d'inscription</h3>
 
-        <!-- Registration Section -->
-        <section class="registration" id="registration">
-            <div class="container">
-                <div class="registration-container">
-                    <div class="registration-info">
-                        <h2>Rejoignez Notre Académie</h2>
-                        <p>Inscrivez-vous dès aujourd'hui pour commencer votre parcours. Nos programmes sont adaptés à
-                            tous les âges et tous les niveaux.</p>
+                    <!-- Zone des messages -->
+                    <div id="messageZone"></div>
 
-                        <div style="margin: 2rem 0;">
-                            <h3 style="color: #7CB342; margin-bottom: 1rem;">Avantages de l'inscription :</h3>
-                            <ul style="color: #666; line-height: 2;">
-                                <li>Accès illimité aux cours</li>
-                                <li>Suivi personnalisé</li>
-                                <li>Équipement fourni</li>
-                                <li>Participation aux compétitions</li>
-                            </ul>
+                    <form id="myForm" action="{{ route('inscription.store') }}" method="POST">
+                        @csrf
+                        <div class="form-group">
+                            <label for="fullname">Nom complet *</label>
+                            <input type="text" id="fullname" name="fullname" required>
+                            <div class="error-message" id="fullname-error"></div>
                         </div>
-                    </div>
 
-                    <div class="registration-form">
-                        <h3 style="margin-bottom: 1.5rem; color: #1a365d;">Formulaire d'inscription</h3>
+                        <div class="form-group">
+                            <label for="email">Email *</label>
+                            <input type="email" id="email" name="email" required>
+                            <div class="error-message" id="email-error"></div>
+                        </div>
 
-                        <!-- Zone des messages -->
-                        <div id="messageZone" style="margin-bottom: 1rem;"></div>
+                        <div class="form-group">
+                            <label for="telephone">Téléphone</label>
+                            <input type="tel" id="telephone" name="telephone" placeholder="+257 79 123 456">
+                        </div>
 
-                        <form id="myForm" action="{{ route('inscription.store') }}" method="POST">
-                            @csrf
-                            <div class="form-group">
-                                <label for="fullname">Nom complet *</label>
-                                <input type="text" id="fullname" name="fullname" required>
-                                <div class="error-message" id="fullname-error"></div>
-                            </div>
+                        <div class="form-group">
+                            <label for="description">Description</label>
+                            <textarea id="description" name="description" rows="4" 
+                                      placeholder="Parlez-nous de vous et de vos objectifs..."></textarea>
+                        </div>
 
-                            <div class="form-group">
-                                <label for="email">Email *</label>
-                                <input type="email" id="email" name="email" required>
-                                <div class="error-message" id="email-error"></div>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="telephone">Téléphone</label>
-                                <input type="tel" id="telephone" name="telephone" placeholder="+257 79 123 456">
-                            </div>
-
-                            <div class="form-group">
-                                <label for="description">Description</label>
-                                <textarea id="description" name="description" rows="4"></textarea>
-                            </div>
-
-                            <button type="submit" class="btn-primary" id="submitButton">
-                                <span id="loadingSpinner" style="display: none;">⏳</span>
-                                <i class="fas fa-user-plus"></i> S'inscrire maintenant
-                            </button>
-                        </form>
-                    </div>
+                        <button type="submit" class="btn-primary" id="submitButton">
+                            <span id="loadingSpinner" style="display: none;">⏳</span>
+                            <i class="fas fa-user-plus"></i> S'inscrire maintenant
+                        </button>
+                    </form>
                 </div>
             </div>
-        </section>
-    @endsection
-
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            const slides = document.querySelectorAll(".slide");
-            const dotsContainer = document.querySelector(".slider-dots");
-            const prevBtn = document.querySelector(".prev");
-            const nextBtn = document.querySelector(".next");
-
-            let index = 0;
-            let timer;
-            let animationIndex = 0;
-
-            // Liste des effets à alterner
-            const animations = ["slide-left", "slide-up", "slide-fade"];
-
-            // Créer les indicateurs
-            slides.forEach((_, i) => {
-                const dot = document.createElement("div");
-                dot.classList.add("dot");
-                if (i === 0) dot.classList.add("active");
-                dot.addEventListener("click", () => showSlide(i, true));
-                dotsContainer.appendChild(dot);
-            });
-
-            const dots = document.querySelectorAll(".dot");
-
-            function showSlide(i, manual = false) {
-                slides.forEach(s => {
-                    s.classList.remove("active", "slide-left", "slide-up", "slide-fade");
-                });
-                dots.forEach(d => d.classList.remove("active"));
-
-                const currentSlide = slides[i];
-                const animClass = animations[animationIndex];
-
-                currentSlide.classList.add("active", animClass);
-                dots[i].classList.add("active");
-
-                index = i;
-                animationIndex = (animationIndex + 1) % animations.length;
-
-                if (!manual) resetTimer();
-            }
-
-            function nextSlide() {
-                index = (index + 1) % slides.length;
-                showSlide(index);
-            }
-
-            function prevSlide() {
-                index = (index - 1 + slides.length) % slides.length;
-                showSlide(index);
-            }
-
-            function resetTimer() {
-                clearInterval(timer);
-                timer = setInterval(nextSlide, 3000);
-            }
-
-            prevBtn.addEventListener("click", () => {
-                prevSlide();
-                resetTimer();
-            });
-            nextBtn.addEventListener("click", () => {
-                nextSlide();
-                resetTimer();
-            });
-
-            // Lancer le slider auto
-            timer = setInterval(nextSlide, 5000);
-        });
-    </script>
+        </div>
+    </section>
+@endsection
