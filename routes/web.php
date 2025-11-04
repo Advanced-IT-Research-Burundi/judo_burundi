@@ -15,18 +15,18 @@ use App\Http\Controllers\admin\QuartierController;
 use App\Http\Controllers\admin\CountrieController;
 use App\Http\Controllers\admin\GalleryImageController;
 use App\Http\Controllers\ContactController;
-use App\Http\Controller\GalerieController;
+use App\Http\Controllers\GalerieController;
 use App\Http\Controllers\admin\EquipeController;
 use App\Http\Controllers\admin\MembreController;
 use App\Http\Controllers\admin\ClubController;
 use App\Http\Controllers\admin\CompetitionController;
-
-
-
+use App\Http\Controllers\CompetitionController as ControllersCompetitionController;
+use App\Http\Controllers\CompetitionsController;
 
 // Routes publiques
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/about', [AboutController::class, 'index'])->name('about');
+Route::get('/competitions', [CompetitionsController::class, 'index'])->name('competitions');
 Route::get('/blog', [BlogController::class, 'index'])->name('blog');
 Route::get('/galerie', [App\Http\Controllers\GalerieController::class, 'index'])->name('galerie');
 Route::get('/contact', [ContactController::class, 'index'])->name('contact');

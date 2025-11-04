@@ -48,7 +48,7 @@
                 <li class="dropdown">
                     <p>Activités</p>
                     <ul class="dropdown-menu">
-                        <li><a href="#">Compétitions</a></li>
+                        <li><a href="{{ route('competitions') }}" class="{{ request()->routeIs('competitions') ? 'active' : '' }}">Compétitions</a></li>
                         <li><a href="#">Résultats</a></li>
                         <li><a href="#">Calendrier</a></li>
                     </ul>

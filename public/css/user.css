@@ -317,6 +317,10 @@ body {
     overflow: hidden;
 }
 
+.page-hero.competitions {
+    height: 250px;
+}
+
 .header.scrolled ~ main .page-hero {
     margin-top: 116px;
 }
