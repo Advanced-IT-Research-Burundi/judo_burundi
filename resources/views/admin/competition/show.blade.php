@@ -13,8 +13,8 @@
             <li class="list-group-item"><strong>Saison :</strong> {{ $competition->saison }}</li>
             <li class="list-group-item"><strong>Date :</strong> {{ $competition->date_competition }}</li>
             <li class="list-group-item"><strong>Résultat :</strong> {{ $competition->resultat }}</li>
-            <li class="list-group-item"><strong>Club Domicile :</strong> {{ $competition->clubDomicil->nom ?? '—' }}</li>
-            <li class="list-group-item"><strong>Club Adversaire :</strong> {{ $competition->clubAdversaire->nom ?? '—' }}</li>
+            <li class="list-group-item"><strong>Club Domicile :</strong> {{ $competition->clubdomicile->nom ?? '—' }}</li>
+            <li class="list-group-item"><strong>Club Adversaire :</strong> {{ $competition->clubadversaire->nom ?? '—' }}</li>
         </ul>
         <div class="mt-3 text-end">
             <a href="{{ route('admin.competitions.index') }}" class="btn btn-secondary">Retour</a>

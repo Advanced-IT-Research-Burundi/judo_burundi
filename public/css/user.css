@@ -3,6 +3,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    padding-top:5px;
 }
 
 :root {
@@ -176,7 +177,7 @@ body {
     padding-left: 25px;
 }
 
-/* ===== HERO SECTION (Page d'accueil) ===== */
+/* ===== HERO SECTION (Page d'accueil uniquement) ===== */
 .hero {
     position: relative;
     height: 100vh;
@@ -185,6 +186,15 @@ body {
 }
 
 .header.scrolled ~ main .hero {
+    margin-top: 116px;
+}
+
+/* Marge pour les pages sans hero */
+main {
+    min-height: calc(100vh - 146px);
+}
+
+.header.scrolled ~ main {
     margin-top: 116px;
 }
 
@@ -214,7 +224,7 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    background: linear-gradient(135deg, rgba(26, 54, 93, 0.85), rgba(124, 179, 66, 0.75));
+    /* background: linear-gradient(135deg, rgba(26, 54, 93, 0.85), rgba(124, 179, 66, 0.75)); */
     z-index: 1;
 }
 
@@ -328,7 +338,7 @@ body {
     left: 0;
     right: 0;
     bottom: 0;
-    background: linear-gradient(135deg, rgba(26, 54, 93, 0.9), rgba(124, 179, 66, 0.8));
+    /* background: linear-gradient(135deg, rgba(26, 54, 93, 0.9), rgba(124, 179, 66, 0.8)); */
 }
 
 .page-hero-content {

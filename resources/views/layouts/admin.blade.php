@@ -67,7 +67,7 @@
             <li>
                 <a href="{{ route('admin.equipes.index') }}" class="menu-link {{ request()->routeIs('admin.equipes.*') ? 'active' : '' }}">
                     <i class="fas fa-users-cog"></i>
-                    <span>Équipe</span>
+                    <span>Administration</span>
                 </a>
             </li>
         </ul>

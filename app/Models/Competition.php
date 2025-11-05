@@ -9,20 +9,29 @@ class Competition extends Model
 {
     use HasFactory;
     protected $table = 'competitions';
-    protected $guarded = [];
+    protected $fillable = [
+        'nom',
+        'lieu',
+        'type',
+        'description',
+        'saison',
+        'date_competition',
+        'resultat',
+        'clubdomicil_id',
+        'clubadversaire_id',
+    ];
 
-        protected $casts = [
-        'date_competition' => 'date',
+    protected $casts = [
+        'date_competition' => 'datetime',
     ];
 
     public function clubDomicile()
     {
-        return $this->belongsTo(Club::class, 'clubsdomicil_id');
+        return $this->belongsTo(Club::class, 'clubdomicil_id');
     }
 
     public function clubAdversaire()
     {
         return $this->belongsTo(Club::class, 'clubadversaire_id');
     }
-
 }

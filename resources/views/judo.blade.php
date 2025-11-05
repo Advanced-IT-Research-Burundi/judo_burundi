@@ -56,26 +56,6 @@
         </div>
     </section>
 
-    <!-- Welcome Section -->
-    {{-- <section class="welcome" id="about">
-        <div class="container">
-            <div class="welcome-content">
-                <div class="welcome-text">
-                    <h2>Bienvenue dans notre Académie</h2>
-                    <p>Notre académie d'arts martiaux offre un enseignement de qualité supérieure dans un environnement
-                        respectueux et discipliné. Nous accueillons tous les niveaux, des débutants aux avancés.</p>
-                    <p>Avec plus de 20 ans d'expérience, nos instructeurs vous guideront dans votre parcours, que ce
-                        soit pour la self-défense, la compétition ou le développement personnel.</p>
-                    <button class="btn-primary" onclick="openModal()">Rejoignez-nous</button>
-                </div>
-                <div class="welcome-image">
-                    <img src="{{ asset('images/judo2.jpg') }}" alt="Welcome Image"
-                         style="width: 100%; height: 400px; object-fit: cover; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
-                </div>
-            </div>
-        </div>
-    </section> --}}
-
     <!-- Gallery Section -->
     <section class="gallery" id="gallery">
         <div class="container">

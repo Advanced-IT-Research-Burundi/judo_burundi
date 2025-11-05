@@ -32,7 +32,7 @@
                         <td>{{ $competition->lieu }}</td>
                         <td>{{ \Carbon\Carbon::parse($competition->date_competition)->format('d/m/Y') }}</td>
                         <td>{{ $competition->saison }}</td>
-                        <td>{{ $competition->clubsdomicil->nom ?? '—' }}</td>
+                        <td>{{ $competition->clubdomicile->nom ?? '—' }}</td>
                         <td>{{ $competition->clubadversaire->nom ?? '—' }}</td>
                         <td>{{ $competition->resultat ?? '—' }}</td>
                         <td class="text-center">

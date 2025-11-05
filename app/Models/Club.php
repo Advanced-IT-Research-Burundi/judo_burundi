@@ -9,7 +9,7 @@ class Club extends Model
 {
     use HasFactory;
     protected $table = 'clubs';
-    protected $guarded = [];
+    protected $fillable = ['nom', 'lieu', 'type', 'description', 'saison', 'date_competition', 'resultat', 'clubdomicil_id', 'clubadversaire_id'];
 
     public function joueurs()
     {
@@ -18,7 +18,7 @@ class Club extends Model
 
     public function competitionsDomicile()
     {
-        return $this->hasMany(Competition::class, 'clubsdomicil_id');
+        return $this->hasMany(Competition::class, 'clubdomicil_id');
     }
 
     public function competitionsAdversaire()

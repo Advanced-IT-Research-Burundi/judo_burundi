@@ -15,7 +15,7 @@
                 <div class="col-md-6"><label>Date</label><input type="date" name="date_competition" class="form-control"></div>
                 <div class="col-md-6"><label>Résultat</label><input name="resultat" class="form-control"></div>
                 <div class="col-md-6"><label>Club Domicile</label>
-                    <select name="clubsdomicil_id" class="form-select">
+                    <select name="clubdomicile_id" class="form-select">
                         @foreach($clubs as $club)
                             <option value="{{ $club->id }}">{{ $club->nom }}</option>
                         @endforeach

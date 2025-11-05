@@ -33,7 +33,7 @@ class CompetitionController extends Controller
             'saison' => 'nullable|string|max:255',
             'date_competition' => 'required|date',
             'resultat' => 'nullable|string|max:255',
-            'clubsdomicil_id' => 'required|exists:clubs,id',
+            'clubdomicil_id' => 'required|exists:clubs,id',
             'clubadversaire_id' => 'required|exists:clubs,id|different:clubsdomicil_id',
         ]);
 
@@ -65,7 +65,7 @@ class CompetitionController extends Controller
             'saison' => 'nullable|string|max:255',
             'date_competition' => 'required|date',
             'resultat' => 'nullable|string|max:255',
-            'clubsdomicil_id' => 'required|exists:clubs,id',
+            'clubdomicil_id' => 'required|exists:clubs,id',
             'clubadversaire_id' => 'required|exists:clubs,id|different:clubsdomicil_id',
         ]);
 

@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('saison')->nullable();
             $table->date('date_competition')->nullable();
             $table->string('resultat')->nullable();
-            $table->foreignId('clubsdomicil_id')->constrained('clubs')->onDelete('cascade');
+            $table->foreignId('clubdomicil_id')->constrained('clubs')->onDelete('cascade');
             $table->foreignId('clubadversaire_id')->constrained('clubs')->onDelete('cascade');
             $table->timestamps();
         });

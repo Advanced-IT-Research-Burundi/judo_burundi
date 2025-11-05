@@ -8,6 +8,7 @@
     <title>@yield('title', 'Fédération de Judo du Burundi')</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link href="{{ asset('css/user.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('css/direction.css') }}">
     @stack('styles')
 </head>
 
@@ -41,15 +42,15 @@
                                 Historique
                             </a>
                         </li>
-                        <li><a href="#">Direction</a></li>
-                        <li><a href="#">Statuts et Règlements</a></li>
+                        <li><a href="{{route('direction')}}">Direction</a></li>
+                        {{-- <li><a href="#">Statuts et Règlements</a></li> --}}
                     </ul>
                 </li>
                 <li class="dropdown">
                     <p>Activités</p>
                     <ul class="dropdown-menu">
-                        <li><a href="#">Compétitions</a></li>
-                        <li><a href="#">Résultats</a></li>
+                        <li><a href="{{route('competitions.index')}}">Compétitions</a></li>
+                        {{-- <li><a href="{{route('competitions.result')}}">Résultats</a></li> --}}
                         <li><a href="#">Calendrier</a></li>
                     </ul>
                 </li>
@@ -122,6 +123,7 @@
         <i class="fas fa-arrow-up"></i>
     </button>
     <script src="{{ asset('js/user.js') }}"></script>
+    <script src="{{asset('js/direction.js')}}"></script>
 
     @stack('scripts')
 </body>

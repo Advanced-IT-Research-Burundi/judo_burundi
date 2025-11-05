@@ -46,13 +46,20 @@ class JoueurController extends Controller
 
         $data = $request->except('image');
 
-        // Upload de l’image
+        // Upload de l'image
         if ($request->hasFile('image')) {
             $path = $request->file('image')->store('joueurs', 'public');
             $data['image'] = $path;
         }
 
         Joueur::create($data);
+
+        // Rediriger vers le club si on vient de la page du club
+        if ($request->has('clubs_id') && $request->clubs_id) {
+            return redirect()
+                ->route('admin.clubs.show', $request->clubs_id)
+                ->with('success', 'Joueur ajouté avec succès au club.');
+        }
 
         return redirect()->route('admin.joueurs.index')->with('success', 'Joueur ajouté avec succès.');
     }
