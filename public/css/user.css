@@ -3,7 +3,6 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    padding-top:5px;
 }
 
 :root {
@@ -24,6 +23,7 @@ body {
     line-height: 1.6;
     color: var(--text-dark);
     overflow-x: hidden;
+    padding-top: 0 !important;
 }
 
 .container {
@@ -66,9 +66,15 @@ body {
     transition: var(--transition);
 }
 
+.logo a {
+    display: block;
+}
+
 .logo img {
     height: 80px;
+    width: auto;
     transition: var(--transition);
+    display: block;
 }
 
 .header.scrolled .logo img {
@@ -86,6 +92,7 @@ body {
     font-weight: 700;
     margin-bottom: 5px;
     transition: var(--transition);
+    line-height: 1.3;
 }
 
 .header.scrolled .federation-info h1 {
@@ -97,6 +104,7 @@ body {
     font-size: 0.9rem;
     opacity: 0.9;
     transition: var(--transition);
+    line-height: 1.4;
 }
 
 .header.scrolled .federation-info p {
@@ -116,6 +124,7 @@ body {
     justify-content: center;
     gap: 10px;
     padding: 0;
+    margin: 0;
 }
 
 .nav-links > li {
@@ -131,6 +140,7 @@ body {
     font-weight: 500;
     transition: var(--transition);
     cursor: pointer;
+    margin: 0;
 }
 
 .nav-links > li > a:hover,
@@ -155,12 +165,18 @@ body {
     list-style: none;
     padding: 10px 0;
     border-radius: 8px;
+    margin: 0;
 }
 
 .dropdown:hover .dropdown-menu {
     opacity: 1;
     visibility: visible;
     transform: translateY(0);
+}
+
+.dropdown-menu li {
+    margin: 0;
+    padding: 0;
 }
 
 .dropdown-menu li a {
@@ -177,7 +193,12 @@ body {
     padding-left: 25px;
 }
 
-/* ===== HERO SECTION (Page d'accueil uniquement) ===== */
+/* ===== MAIN CONTENT SPACING ===== */
+main {
+    min-height: calc(100vh - 200px);
+}
+
+/* Pour la page d'accueil avec hero */
 .hero {
     position: relative;
     height: 100vh;
@@ -189,15 +210,35 @@ body {
     margin-top: 116px;
 }
 
-/* Marge pour les pages sans hero */
-main {
-    min-height: calc(100vh - 146px);
+/* Pour les pages internes avec page-hero */
+.page-hero {
+    position: relative;
+    height: 400px;
+    margin-top: 146px;
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
 }
 
-.header.scrolled ~ main {
+.header.scrolled ~ main .page-hero {
     margin-top: 116px;
 }
 
+/* Pour les sections sans hero ni page-hero */
+main > section:first-child:not(.hero):not(.page-hero),
+main > div:first-child:not(.hero):not(.page-hero) {
+    margin-top: 146px;
+}
+
+.header.scrolled ~ main > section:first-child:not(.hero):not(.page-hero),
+.header.scrolled ~ main > div:first-child:not(.hero):not(.page-hero) {
+    margin-top: 116px;
+}
+
+/* ===== HERO SLIDER ===== */
 .hero-slider {
     position: relative;
     width: 100%;
@@ -216,6 +257,12 @@ main {
 
 .slide.active {
     opacity: 1;
+}
+
+.slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
 
 .overlay {
@@ -260,6 +307,7 @@ main {
     gap: 20px;
     justify-content: center;
     animation: fadeInUp 1s ease 0.4s both;
+    flex-wrap: wrap;
 }
 
 /* Slider Controls */
@@ -275,6 +323,7 @@ main {
     padding: 15px 20px;
     transition: var(--transition);
     user-select: none;
+    line-height: 1;
 }
 
 .slider-arrows .prev {
@@ -315,22 +364,6 @@ main {
 }
 
 /* ===== PAGE HERO (Pages internes) ===== */
-.page-hero {
-    position: relative;
-    height: 400px;
-    margin-top: 146px;
-    background-size: cover;
-    background-position: center;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-}
-
-.header.scrolled ~ main .page-hero {
-    margin-top: 116px;
-}
-
 .page-hero::before {
     content: '';
     position: absolute;
@@ -363,6 +396,7 @@ main {
     opacity: 0.95;
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
     animation: fadeInUp 0.8s ease 0.2s both;
+    margin: 0;
 }
 
 .breadcrumb {
@@ -372,6 +406,14 @@ main {
     margin-top: 20px;
     font-size: 0.95rem;
     animation: fadeInUp 0.8s ease 0.4s both;
+    list-style: none;
+    padding: 0;
+}
+
+.breadcrumb li {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
 }
 
 .breadcrumb a {
@@ -404,6 +446,7 @@ main {
     display: inline-flex;
     align-items: center;
     gap: 8px;
+    justify-content: center;
 }
 
 .btn-primary {
@@ -458,12 +501,19 @@ main {
     font-size: 3rem;
     color: var(--secondary-color);
     margin-bottom: 20px;
+    display: block;
 }
 
 .feature-card h3 {
     font-size: 1.5rem;
     color: var(--primary-color);
     margin-bottom: 15px;
+}
+
+.feature-card p {
+    color: var(--text-light);
+    line-height: 1.7;
+    margin: 0;
 }
 
 /* ===== SECTION TITLE ===== */
@@ -475,7 +525,7 @@ main {
 .section-title h2 {
     font-size: 2.5rem;
     color: var(--primary-color);
-    margin-bottom: 10px;
+    margin-bottom: 20px;
     position: relative;
     display: inline-block;
 }
@@ -495,6 +545,7 @@ main {
 .section-title p {
     color: var(--text-light);
     font-size: 1.1rem;
+    margin: 10px 0 0 0;
 }
 
 /* ===== GALLERY ===== */
@@ -517,9 +568,20 @@ main {
     cursor: pointer;
 }
 
+.gallery-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: var(--transition);
+}
+
 .gallery-item:hover {
     transform: scale(1.05);
     box-shadow: var(--shadow-lg);
+}
+
+.gallery-item:hover img {
+    transform: scale(1.1);
 }
 
 /* ===== NEWS SECTION ===== */
@@ -556,8 +618,27 @@ main {
     overflow: hidden;
 }
 
+.news-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: var(--transition);
+}
+
+.news-card:hover .news-image img {
+    transform: scale(1.1);
+}
+
 .news-content {
     padding: 25px;
+}
+
+.news-meta {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 10px;
+    font-size: 0.9rem;
+    color: var(--text-light);
 }
 
 .news-title {
@@ -604,6 +685,12 @@ main {
     margin-bottom: 20px;
 }
 
+.registration-info p {
+    color: var(--text-light);
+    line-height: 1.7;
+    margin-bottom: 15px;
+}
+
 .registration-benefits {
     margin-top: 30px;
     padding: 30px;
@@ -618,6 +705,8 @@ main {
 
 .registration-benefits ul {
     list-style: none;
+    padding: 0;
+    margin: 0;
 }
 
 .registration-benefits li {
@@ -625,6 +714,7 @@ main {
     display: flex;
     align-items: center;
     gap: 15px;
+    color: var(--text-dark);
 }
 
 .registration-benefits i {
@@ -657,6 +747,7 @@ main {
 }
 
 .form-group input,
+.form-group select,
 .form-group textarea {
     width: 100%;
     padding: 12px 15px;
@@ -664,12 +755,19 @@ main {
     border-radius: 8px;
     font-size: 1rem;
     transition: var(--transition);
+    font-family: inherit;
 }
 
 .form-group input:focus,
+.form-group select:focus,
 .form-group textarea:focus {
     outline: none;
     border-color: var(--secondary-color);
+}
+
+.form-group textarea {
+    resize: vertical;
+    min-height: 100px;
 }
 
 .error-message {
@@ -677,6 +775,24 @@ main {
     font-size: 0.875rem;
     margin-top: 5px;
     display: none;
+}
+
+#messageZone {
+    margin-bottom: 20px;
+}
+
+#loadingSpinner {
+    display: none;
+    width: 20px;
+    height: 20px;
+    border: 3px solid rgba(255, 255, 255, 0.3);
+    border-top-color: white;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
 }
 
 /* ===== MODAL ===== */
@@ -702,6 +818,15 @@ main {
     animation: slideInDown 0.4s ease;
 }
 
+.modal-content h2 {
+    margin-bottom: 15px;
+}
+
+.modal-content p {
+    color: var(--text-light);
+    margin-bottom: 20px;
+}
+
 .close {
     position: absolute;
     right: 20px;
@@ -710,6 +835,7 @@ main {
     cursor: pointer;
     color: var(--text-light);
     transition: var(--transition);
+    line-height: 1;
 }
 
 .close:hover {
@@ -735,12 +861,17 @@ main {
     font-size: 1.3rem;
 }
 
-.footer-section p,
+.footer-section p {
+    color: rgba(255, 255, 255, 0.9);
+    margin-bottom: 10px;
+    line-height: 1.6;
+}
+
 .footer-section a {
     color: rgba(255, 255, 255, 0.9);
     text-decoration: none;
-    margin-bottom: 10px;
     display: block;
+    margin-bottom: 10px;
     transition: var(--transition);
 }
 
@@ -758,6 +889,11 @@ main {
     text-align: center;
     padding-top: 30px;
     border-top: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.footer-bottom p {
+    margin: 0;
+    opacity: 0.8;
 }
 
 /* ===== BACK TO TOP BUTTON ===== */
@@ -778,6 +914,9 @@ main {
     visibility: hidden;
     transition: var(--transition);
     z-index: 999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 #backToTop.show {
@@ -792,12 +931,8 @@ main {
 
 /* ===== ANIMATIONS ===== */
 @keyframes fadeIn {
-    from {
-        opacity: 0;
-    }
-    to {
-        opacity: 1;
-    }
+    from { opacity: 0; }
+    to { opacity: 1; }
 }
 
 @keyframes fadeInUp {
@@ -823,10 +958,29 @@ main {
 }
 
 /* ===== RESPONSIVE ===== */
+@media (max-width: 992px) {
+    .registration-container {
+        grid-template-columns: 1fr;
+    }
+    
+    .news-grid {
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    }
+}
+
 @media (max-width: 768px) {
     .top-content {
         flex-direction: column;
         text-align: center;
+        gap: 15px;
+    }
+    
+    .logo img {
+        height: 60px;
+    }
+    
+    .header.scrolled .logo img {
+        height: 40px;
     }
     
     .federation-info h1 {
@@ -837,9 +991,65 @@ main {
         font-size: 0.8rem;
     }
     
+    .header.scrolled .federation-info h1 {
+        font-size: 1rem;
+    }
+    
+    .header.scrolled .federation-info p {
+        font-size: 0.7rem;
+    }
+    
     .nav-links {
         flex-direction: column;
         gap: 0;
+    }
+    
+    .nav-links > li {
+        width: 100%;
+        text-align: center;
+    }
+    
+    .dropdown-menu {
+        position: static;
+        opacity: 1;
+        visibility: visible;
+        transform: none;
+        box-shadow: none;
+        background: var(--bg-light);
+        display: none;
+    }
+    
+    .dropdown:hover .dropdown-menu,
+    .dropdown.active .dropdown-menu {
+        display: block;
+    }
+    
+    .hero {
+        height: 70vh;
+        margin-top: 160px;
+    }
+    
+    .header.scrolled ~ main .hero {
+        margin-top: 130px;
+    }
+    
+    .page-hero {
+        height: 300px;
+        margin-top: 160px;
+    }
+    
+    .header.scrolled ~ main .page-hero {
+        margin-top: 130px;
+    }
+    
+    main > section:first-child:not(.hero):not(.page-hero),
+    main > div:first-child:not(.hero):not(.page-hero) {
+        margin-top: 160px;
+    }
+    
+    .header.scrolled ~ main > section:first-child:not(.hero):not(.page-hero),
+    .header.scrolled ~ main > div:first-child:not(.hero):not(.page-hero) {
+        margin-top: 130px;
     }
     
     .hero-content h1,
@@ -854,9 +1064,35 @@ main {
     
     .hero-buttons {
         flex-direction: column;
+        gap: 15px;
     }
     
-    .registration-container {
+    .slider-arrows span {
+        padding: 10px 15px;
+        font-size: 1.5rem;
+    }
+    
+    .slider-arrows .prev {
+        left: 10px;
+    }
+    
+    .slider-arrows .next {
+        right: 10px;
+    }
+    
+    .section-title h2 {
+        font-size: 2rem;
+    }
+    
+    .features,
+    .gallery,
+    .news,
+    .registration {
+        padding: 50px 0;
+    }
+    
+    .features-grid,
+    .gallery-grid {
         grid-template-columns: 1fr;
     }
     
@@ -864,8 +1100,45 @@ main {
         grid-template-columns: 1fr;
     }
     
+    .registration-form {
+        padding: 30px 20px;
+    }
+    
     .footer-content {
         grid-template-columns: 1fr;
         text-align: center;
+        gap: 30px;
+    }
+    
+    .footer-section a:hover {
+        padding-left: 0;
+    }
+    
+    #backToTop {
+        width: 45px;
+        height: 45px;
+        bottom: 20px;
+        right: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero-content h1 {
+        font-size: 1.5rem;
+    }
+    
+    .page-hero-content h1 {
+        font-size: 1.8rem;
+    }
+    
+    .btn-primary,
+    .btn-secondary {
+        padding: 10px 20px;
+        font-size: 0.9rem;
+    }
+    
+    .modal-content {
+        margin: 20% auto;
+        padding: 30px 20px;
     }
 }

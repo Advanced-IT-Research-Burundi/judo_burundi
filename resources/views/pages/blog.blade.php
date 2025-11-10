@@ -49,14 +49,14 @@
 
         <!-- Grille d'actualités -->
         <div class="news-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 2rem;">
-            @forelse($actualites as $actualite)
+            @forelse($posts as $post)
                 <article class="news-card" style="background: white; border-radius: 15px; overflow: hidden; 
                                                   box-shadow: 0 10px 30px rgba(0,0,0,0.1); transition: all 0.3s ease;">
                     <!-- Image de l'actualité -->
                     <div style="height: 250px; overflow: hidden; position: relative;">
-                        @if ($actualite->image && file_exists(public_path('storage/' . $actualite->image)))
-                            <img src="{{ asset('storage/' . $actualite->image) }}" 
-                                 alt="{{ $actualite->titre }}"
+                        @if ($post->image && file_exists(public_path('storage/' . $post->image)))
+                            <img src="{{ asset('storage/' . $post->image) }}" 
+                                 alt="{{ $post->titre }}"
                                  style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s;">
                         @else
                             <div style="width: 100%; height: 100%; background: linear-gradient(135deg, #7CB342, #689F3A); 
@@ -71,23 +71,23 @@
                         <!-- Date et auteur -->
                         <div style="display: flex; justify-content: space-between; align-items: center; 
                                     margin-bottom: 1rem; font-size: 0.9rem; color: #666;">
-                            <span><i class="fas fa-calendar-alt"></i> {{ $actualite->date_post->format('d M Y') }}</span>
-                            <span><i class="fas fa-user"></i> {{ $actualite->auteur ?? 'Admin' }}</span>
+                            {{-- <span><i class="fas fa-calendar-alt"></i> {{ $post->date_post->format('d M Y') }}</span> --}}
+                            <span><i class="fas fa-user"></i> {{ $post->auteur ?? 'Admin' }}</span>
                         </div>
 
                         <!-- Titre -->
                         <h3 style="color: #1a365d; font-size: 1.4rem; font-weight: 600; margin-bottom: 1rem; 
                                    line-height: 1.4; min-height: 60px;">
-                            {{ Str::limit($actualite->titre, 60) }}
+                            {{ Str::limit($post->titre, 60) }}
                         </h3>
 
                         <!-- Extrait -->
                         <p style="color: #666; line-height: 1.6; margin-bottom: 1.5rem; min-height: 80px;">
-                            {{ $actualite->extrait ?? Str::limit(strip_tags($actualite->contenu), 120) }}
+                            {{ $post->extrait ?? Str::limit(strip_tags($post->contenu), 120) }}
                         </p>
 
                         <!-- Bouton Lire plus -->
-                        <a href="{{ route('actualites', $actualite->id) }}" 
+                        <a href="{{ route('actualites', $post->id) }}" 
                            style="display: inline-flex; align-items: center; gap: 8px; color: #7CB342; 
                                   font-weight: 600; text-decoration: none; transition: all 0.3s;">
                             Lire plus <i class="fas fa-arrow-right"></i>
@@ -104,9 +104,9 @@
         </div>
 
         <!-- Pagination -->
-        @if($actualites->hasPages())
+        @if($posts->hasPages())
             <div style="margin-top: 3rem; text-align: center;">
-                {{ $actualites->links() }}
+                {{ $posts->links() }}
             </div>
         @endif
     </div>

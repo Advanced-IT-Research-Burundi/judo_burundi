@@ -1,5 +1,7 @@
 @extends('layouts.user')
 
+@section('title', 'Académie de Judo - Fédération Burundaise de Judo et Disciplines Associées')
+
 @section('content')
     <!-- Hero Section avec Slider -->
     <section class="hero" id="home">

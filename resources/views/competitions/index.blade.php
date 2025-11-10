@@ -33,7 +33,7 @@
                                id="searchInput" 
                                class="form-control border-start-0 ps-0" 
                                placeholder="Rechercher une compétition par nom, lieu, club...">
-                        <button class="btn btn-outline-secondary" type="button" id="clearSearch">
+                        <button class="btn btn-outline-secondary" type="button" id="clearSearch" style="display: none;">
                             <i class="fas fa-times"></i>
                         </button>
                     </div>
@@ -154,10 +154,6 @@
                                    class="btn btn-sm btn-primary action-btn me-2">
                                     <i class="fas fa-chart-bar me-1"></i>Résultats
                                 </a>
-                                {{-- <a href="{{ route('competitions.draw', $competition->id) }}" 
-                                   class="btn btn-sm btn-outline-secondary action-btn">
-                                    <i class="fas fa-sitemap me-1"></i>Tableau
-                                </a> --}}
                             @else
                                 <span class="badge bg-warning text-dark px-3 py-2">
                                     <i class="fas fa-clock me-1"></i>À venir
@@ -188,40 +184,14 @@
 
 </div>
 
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
 <style>
-    /* VARIABLES */
-    :root {
-        --primary-color: #0d6efd;
-        --secondary-color: #6c757d;
-        --success-color: #198754;
-        --danger-color: #dc3545;
-        --warning-color: #ffc107;
-        --light-bg: #f8f9fa;
-        --border-color: #dee2e6;
-        --hover-bg: #f1f3f5;
-        --shadow: 0 2px 8px rgba(0,0,0,0.08);
-        --shadow-hover: 0 4px 16px rgba(0,0,0,0.12);
-    }
-
-    /* GLOBAL */
-    body {
-        background-color: #f5f7fa;
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    }
-
-    /* CARDS */
-    .card {
-        border-radius: 12px;
-        transition: all 0.3s ease;
-    }
-
-    .card:hover {
-        box-shadow: var(--shadow-hover);
-    }
-
+    /* STYLES SPÉCIFIQUES À LA PAGE COMPÉTITIONS */
+    
     /* SEARCH BAR */
     .search-bar {
-        box-shadow: var(--shadow);
+        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
         border-radius: 10px;
         overflow: hidden;
         transition: all 0.3s ease;
@@ -233,34 +203,34 @@
     }
 
     .search-bar .input-group-text {
-        border: 1px solid var(--border-color);
+        border: 1px solid #dee2e6;
     }
 
     .search-bar .form-control {
-        border: 1px solid var(--border-color);
+        border: 1px solid #dee2e6;
         font-size: 1rem;
     }
 
     .search-bar .form-control:focus {
         box-shadow: none;
-        border-color: var(--border-color);
+        border-color: #dee2e6;
     }
 
     #clearSearch {
-        border: 1px solid var(--border-color);
+        border: 1px solid #dee2e6;
         background-color: white;
         transition: all 0.3s ease;
     }
 
     #clearSearch:hover {
-        background-color: var(--danger-color);
+        background-color: #dc3545;
         color: white;
-        border-color: var(--danger-color);
+        border-color: #dc3545;
     }
 
     /* CUSTOM SELECT */
     .custom-select {
-        border: 2px solid var(--border-color);
+        border: 2px solid #dee2e6;
         border-radius: 8px;
         padding: 0.6rem 0.75rem;
         transition: all 0.3s ease;
@@ -268,12 +238,12 @@
     }
 
     .custom-select:focus {
-        border-color: var(--primary-color);
+        border-color: #0d6efd;
         box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.15);
     }
 
     .custom-select:hover {
-        border-color: var(--primary-color);
+        border-color: #0d6efd;
     }
 
     /* TABLE */
@@ -296,15 +266,24 @@
         text-transform: uppercase;
     }
 
+    .competition-table thead th:first-child {
+        border-top-left-radius: 12px;
+    }
+
+    .competition-table thead th:last-child {
+        border-top-right-radius: 12px;
+    }
+
     .competition-table tbody tr {
         transition: all 0.3s ease;
-        border-bottom: 1px solid var(--border-color);
+        border-bottom: 1px solid #dee2e6;
+        background-color: white;
     }
 
     .competition-table tbody tr:hover {
-        background-color: var(--hover-bg);
+        background-color: #f1f3f5;
         transform: scale(1.01);
-        box-shadow: var(--shadow);
+        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
     }
 
     .competition-table tbody td {
@@ -324,7 +303,7 @@
         background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         border-radius: 10px;
         color: white;
-        box-shadow: var(--shadow);
+        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
     }
 
     .month-label {
@@ -352,7 +331,7 @@
         justify-content: center;
         color: white;
         font-size: 1.5rem;
-        box-shadow: var(--shadow);
+        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
         transition: all 0.3s ease;
     }
 
@@ -397,27 +376,23 @@
         transition: all 0.3s ease;
         text-transform: uppercase;
         letter-spacing: 0.3px;
+        text-decoration: none;
+        display: inline-block;
     }
 
     .action-btn:hover {
         transform: translateY(-2px);
-        box-shadow: var(--shadow);
+        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
     }
 
     .btn-primary.action-btn {
         background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         border: none;
+        color: white;
     }
 
     .btn-primary.action-btn:hover {
         background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
-    }
-
-    /* BADGES */
-    .badge {
-        font-weight: 600;
-        padding: 0.5rem 1rem;
-        border-radius: 8px;
     }
 
     /* EMPTY STATE */
@@ -443,6 +418,7 @@
 
     .competition-row {
         animation: fadeIn 0.5s ease forwards;
+        opacity: 0;
     }
 
     .competition-row:nth-child(1) { animation-delay: 0.05s; }
@@ -481,25 +457,11 @@
             height: 40px;
             font-size: 1.2rem;
         }
-    }
 
-    /* SCROLL BAR */
-    ::-webkit-scrollbar {
-        width: 10px;
-        height: 10px;
-    }
-
-    ::-webkit-scrollbar-track {
-        background: var(--light-bg);
-    }
-
-    ::-webkit-scrollbar-thumb {
-        background: var(--secondary-color);
-        border-radius: 5px;
-    }
-
-    ::-webkit-scrollbar-thumb:hover {
-        background: var(--primary-color);
+        .competition-table thead th,
+        .competition-table tbody td {
+            padding: 0.75rem 0.5rem;
+        }
     }
 </style>
 

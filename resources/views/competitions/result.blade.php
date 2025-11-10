@@ -65,10 +65,7 @@
 
                 <!-- ACTIONS -->
                 <div class="col-md-3 text-end">
-                    {{-- <a href="{{ route('competitions.draw', $competition->id) }}" class="btn btn-outline-primary btn-lg mb-2 w-100">
-                        <i class="fas fa-sitemap me-2"></i>Voir le tableau
-                    </a> --}}
-                    <button onclick="window.print()" class="btn btn-outline-secondary w-100">
+                    <button onclick="window.print()" class="btn btn-outline-light w-100">
                         <i class="fas fa-print me-2"></i>Imprimer
                     </button>
                 </div>
@@ -266,14 +263,10 @@
 
 </div>
 
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
 <style>
-    /* VARIABLES */
-    :root {
-        --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        --success-gradient: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
-        --danger-gradient: linear-gradient(135deg, #ee0979 0%, #ff6a00 100%);
-        --warning-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-    }
+    /* STYLES SPÉCIFIQUES À LA PAGE RÉSULTATS */
 
     /* BREADCRUMB */
     .breadcrumb {
@@ -432,7 +425,7 @@
     }
 
     .results-header {
-        background: var(--primary-gradient);
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         color: white;
         padding: 1.5rem 2rem;
         border: none;
@@ -475,7 +468,7 @@
     }
 
     .score-value.winner {
-        background: var(--primary-gradient);
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         background-clip: text;
@@ -525,7 +518,7 @@
     .result-icon {
         width: 80px;
         height: 80px;
-        background: var(--primary-gradient);
+        /* background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); */
         border-radius: 15px;
         display: flex;
         align-items: center;
@@ -612,6 +605,17 @@
         box-shadow: 0 8px 20px rgba(0,0,0,0.15);
     }
 
+    .btn-outline-light {
+        color: white;
+        border-color: rgba(255,255,255,0.5);
+    }
+
+    .btn-outline-light:hover {
+        background-color: rgba(255,255,255,0.2);
+        border-color: white;
+        color: white;
+    }
+
     /* PRINT STYLES */
     @media print {
         .breadcrumb,
@@ -652,6 +656,22 @@
         }
 
         .winner-text {
+            font-size: 1.2rem;
+        }
+
+        .main-trophy-icon {
+            width: 80px;
+            height: 80px;
+            font-size: 2rem;
+        }
+
+        .club-icon {
+            width: 50px;
+            height: 50px;
+            font-size: 1.5rem;
+        }
+
+        .club-name {
             font-size: 1.2rem;
         }
     }

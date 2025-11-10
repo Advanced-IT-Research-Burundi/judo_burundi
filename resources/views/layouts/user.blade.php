@@ -10,6 +10,7 @@
     <link href="{{ asset('css/user.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('css/direction.css') }}">
     @stack('styles')
+    </style>
 </head>
 
 <body>
@@ -124,8 +125,7 @@
     </button>
     <script src="{{ asset('js/user.js') }}"></script>
     <script src="{{asset('js/direction.js')}}"></script>
-
-    @stack('scripts')
+     
 </body>
 
 </html>

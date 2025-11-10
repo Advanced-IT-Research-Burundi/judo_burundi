@@ -1,0 +1,132 @@
+/* ===========================
+   HERO POUR PAGES INTERNES
+   (Direction, Galerie, Contact, Blog, etc.)
+   ========================== */
+
+/* ===== PAGE HERO (Pages internes) ===== */
+.page-hero {
+    position: relative;
+    height: 400px;
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.page-hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(26, 54, 93, 0.85), rgba(124, 179, 66, 0.75));
+}
+
+.page-hero-content {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    color: var(--white);
+    max-width: 800px;
+    padding: 0 20px;
+}
+
+.page-hero-content h1 {
+    font-size: 3rem;
+    font-weight: 800;
+    margin-bottom: 15px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    animation: fadeInUp 0.8s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.page-hero-content p {
+    font-size: 1.2rem;
+    opacity: 0.95;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+    animation: fadeInUp 0.8s ease 0.2s both;
+}
+
+.breadcrumb {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin-top: 20px;
+    font-size: 0.95rem;
+    animation: fadeInUp 0.8s ease 0.4s both;
+}
+
+.breadcrumb a {
+    color: var(--white);
+    text-decoration: none;
+    opacity: 0.8;
+    transition: var(--transition);
+}
+
+.breadcrumb a:hover {
+    opacity: 1;
+    text-decoration: underline;
+}
+
+.breadcrumb span {
+    opacity: 0.6;
+}
+
+/* ===== BREADCRUMB INTERNE (Dans le contenu) ===== */
+.main-content {
+    padding-top: 50px;
+    min-height: calc(100vh - var(--header-height) - 400px);
+}
+
+.breadcrumb-nav {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.9rem;
+    color: #666;
+    background: white;
+    padding: 1rem;
+    margin-bottom: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+.breadcrumb-nav a {
+    color: var(--secondary-color);
+    text-decoration: none;
+}
+
+.breadcrumb-nav a:hover {
+    text-decoration: underline;
+}
+
+.breadcrumb-nav i {
+    color: #ccc;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+    .page-hero {
+        height: 300px;
+    }
+
+    .page-hero-content h1 {
+        font-size: 2rem;
+    }
+    
+    .page-hero-content p {
+        font-size: 1rem;
+    }
+
+    .breadcrumb {
+        font-size: 0.8rem;
+    }
+    
+    .breadcrumb span {
+        display: none;
+    }
+}
