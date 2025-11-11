@@ -7,13 +7,15 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@yield('title', 'Fédération de Judo du Burundi')</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="{{ asset('css/user.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('css/direction.css') }}">
-    @stack('styles')
-    </style>
+     @stack('styles')
 </head>
 
 <body>
+    <!-- Header -->
     <header class="header">
         <div class="top-header">
             <div class="container top-content">
@@ -26,73 +28,161 @@
                     <h1>Fédération Burundaise de Judo et Disciplines Associées</h1>
                     <p>Courtoisie, courage, honnêteté, honneur, modestie, respect, maîtrise de soi, amitié</p>
                 </div>
+                <button class="mobile-toggle" aria-label="Menu" aria-expanded="false">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
             </div>
         </div>
-        <nav class="main-nav">
+
+        <!-- Desktop Navigation -->
+        <nav class="main-nav desktop-nav">
             <ul class="nav-links">
                 <li>
                     <a href="{{ route('home') }}" class="{{ request()->routeIs('home') ? 'active' : '' }}">
-                        Accueil
+                        <i class="fas fa-home"></i> Accueil
                     </a>
                 </li>
                 <li class="dropdown">
-                    <p>Fédération</p>
+                    <button type="button">
+                        <i class="fas fa-building"></i> Fédération
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
                     <ul class="dropdown-menu">
                         <li>
-                            <a href="{{ route('about') }}" class="{{ request()->routeIs('about') ? 'active' : '' }}">
-                                Historique
+                            <a href="{{ route('about') }}">
+                                <i class="fas fa-history"></i> Historique
                             </a>
                         </li>
-                        <li><a href="{{route('direction')}}">Direction</a></li>
-                        {{-- <li><a href="#">Statuts et Règlements</a></li> --}}
+                        <li>
+                            <a href="{{route('direction')}}">
+                                <i class="fas fa-users"></i> Direction
+                            </a>
+                        </li>
                     </ul>
                 </li>
                 <li class="dropdown">
-                    <p>Activités</p>
+                    <button type="button">
+                        <i class="fas fa-trophy"></i> Activités
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
                     <ul class="dropdown-menu">
-                        <li><a href="{{route('competitions.index')}}">Compétitions</a></li>
-                        {{-- <li><a href="{{route('competitions.result')}}">Résultats</a></li> --}}
-                        <li><a href="#">Calendrier</a></li>
+                        <li>
+                            <a href="{{route('competitions.index')}}">
+                                <i class="fas fa-medal"></i> Compétitions
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <i class="fas fa-calendar-alt"></i> Calendrier
+                            </a>
+                        </li>
                     </ul>
                 </li>
-
                 <li>
                     <a href="{{ route('galerie') }}" class="{{ request()->routeIs('galerie') ? 'active' : '' }}">
-                        Galerie
+                        <i class="fas fa-images"></i> Galerie
                     </a>
                 </li>
-                
                 <li>
                     <a href="{{ route('contact') }}" class="{{ request()->routeIs('contact') ? 'active' : '' }}">
-                        Contact
+                        <i class="fas fa-envelope"></i> Contact
                     </a>
                 </li>
             </ul>
         </nav>
     </header>
+
+    <!-- Mobile Drawer Menu -->
+    <div class="drawer-overlay"></div>
+    <nav class="drawer-menu">
+        <div class="drawer-header">
+            <img src="{{ asset('images/logo.jpeg') }}" alt="Logo">
+            <button class="drawer-close" aria-label="Fermer menu">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <ul class="drawer-links">
+            <li>
+                <a href="{{ route('home') }}">
+                    <i class="fas fa-home"></i>
+                    <span>Accueil</span>
+                </a>
+            </li>
+            <li class="drawer-dropdown">
+                <button type="button" class="drawer-dropdown-btn">
+                    <div>
+                        <i class="fas fa-building"></i>
+                        <span>Fédération</span>
+                    </div>
+                    <i class="fas fa-chevron-down"></i>
+                </button>
+                <ul class="drawer-submenu">
+                    <li>
+                        <a href="{{ route('about') }}">
+                            <i class="fas fa-history"></i>
+                            <span>Historique</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{route('direction')}}">
+                            <i class="fas fa-users"></i>
+                            <span>Direction</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <li class="drawer-dropdown">
+                <button type="button" class="drawer-dropdown-btn">
+                    <div>
+                        <i class="fas fa-trophy"></i>
+                        <span>Activités</span>
+                    </div>
+                    <i class="fas fa-chevron-down"></i>
+                </button>
+                <ul class="drawer-submenu">
+                    <li>
+                        <a href="{{route('competitions.index')}}">
+                            <i class="fas fa-medal"></i>
+                            <span>Compétitions</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <i class="fas fa-calendar-alt"></i>
+                            <span>Calendrier</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <a href="{{ route('galerie') }}">
+                    <i class="fas fa-images"></i>
+                    <span>Galerie</span>
+                </a>
+            </li>
+            <li>
+                <a href="{{ route('contact') }}">
+                    <i class="fas fa-envelope"></i>
+                    <span>Contact</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+
+    <!-- Main Content -->
     <main>
         @yield('content')
     </main>
-    <div id="registrationModal" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="closeModal()">&times;</span>
-            <h2 style="color: #1a365d; margin-bottom: 1rem;">Inscription rapide</h2>
-            <p>Remplissez ce formulaire pour commencer votre parcours avec nous !</p>
-            <form action="{{ route('home') }}#registration" method="get">
-                <button class="btn-primary" type="submit" style="width: 100%; margin-top: 1rem;">
-                    Aller au formulaire complet
-                </button>
-            </form>
-        </div>
-    </div>
-    <footer class="footer" id="contact">
+
+    <!-- Footer -->
+    <footer class="footer">
         <div class="container">
             <div class="footer-content">
                 <div class="footer-section">
                     <h3>JUDO-BURUNDI</h3>
-                    <p>Votre partenaire pour un parcours d'excellence. Nous formons les champions de demain avec passion
-                        et dévouement.</p>
-                    <p><a href="#">Sitemap</a></p>
+                    <p>Votre partenaire pour un parcours d'excellence. Nous formons les champions de demain avec passion et dévouement.</p>
                 </div>
                 <div class="footer-section">
                     <h3>Contact</h3>
@@ -108,10 +198,11 @@
                 </div>
                 <div class="footer-section">
                     <h3>Suivez-nous</h3>
-                    <p><a href="#"><i class="fab fa-facebook"></i> Facebook</a></p>
-                    <p><a href="#"><i class="fab fa-instagram"></i> Instagram</a></p>
-                    <p><a href="#"><i class="fab fa-twitter"></i> Twitter</a></p>
-                    <p><i class="fas fa-envelope"></i> judoburundi@gmail.com</p>
+                    <div class="social-links">
+                        <a href="#" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+                        <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                    </div>
                 </div>
             </div>
             <div class="footer-bottom">
@@ -120,12 +211,12 @@
         </div>
     </footer>
 
-    <button id="backToTop" title="Retour en haut">
+    <!-- Back to Top -->
+    <button id="backToTop" aria-label="Retour en haut">
         <i class="fas fa-arrow-up"></i>
     </button>
+
     <script src="{{ asset('js/user.js') }}"></script>
-    <script src="{{asset('js/direction.js')}}"></script>
-     
 </body>
 
 </html>

@@ -1,26 +1,247 @@
+// ===== CONFIGURATION =====
+const CONFIG = {
+    scrollThreshold: 100,
+    backToTopThreshold: 300,
+    slideInterval: 5000,
+    messageTimeout: 5000
+};
+
+// ===== DOM ELEMENTS CACHE =====
+const DOM = {
+    header: null,
+    mobileToggle: null,
+    drawerMenu: null,
+    drawerOverlay: null,
+    drawerClose: null,
+    drawerDropdowns: null,
+    backToTop: null,
+    heroSlider: null,
+    modal: null,
+    form: null
+};
+
+// ===== STATE =====
+const state = {
+    lastScroll: 0,
+    ticking: false,
+    currentSlide: 0,
+    slideInterval: null,
+    scrollPosition: 0
+};
+
+// ===== DESKTOP NAVIGATION =====
+function initDesktopNav() {
+    const dropdowns = document.querySelectorAll('.desktop-nav .dropdown');
+
+    if (!dropdowns.length) return;
+
+    dropdowns.forEach(dropdown => {
+        const button = dropdown.querySelector('button');
+        const menu = dropdown.querySelector('.dropdown-menu');
+
+        if (!button || !menu) return;
+
+        // Hover effect (desktop)
+        if (window.innerWidth > 768) {
+            dropdown.addEventListener('mouseenter', () => {
+                dropdown.classList.add('active');
+            });
+
+            dropdown.addEventListener('mouseleave', () => {
+                dropdown.classList.remove('active');
+            });
+        }
+
+        // Click effect (pour les écrans tactiles)
+        button.addEventListener('click', (e) => {
+            e.stopPropagation();
+
+            // Fermer les autres dropdowns
+            dropdowns.forEach(other => {
+                if (other !== dropdown) {
+                    other.classList.remove('active');
+                }
+            });
+
+            // Toggle le dropdown actuel
+            dropdown.classList.toggle('active');
+        });
+    });
+
+    // Fermer les dropdowns en cliquant ailleurs
+    document.addEventListener('click', (e) => {
+        if (!e.target.closest('.dropdown')) {
+            dropdowns.forEach(dropdown => {
+                dropdown.classList.remove('active');
+            });
+        }
+    });
+}
+
 // ===== INITIALIZATION =====
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', () => {
+    cacheDOMElements();
+    initHeader();
+    initDesktopNav();
+    initMobileDrawer();
     initHeroSlider();
     initScrollEffects();
     initBackToTop();
     initModal();
     initForm();
+    initAnimations();
+    setActiveMenuItem();
 });
 
-// ===== HERO SLIDER (Page d'accueil uniquement) =====
+// ===== CACHE DOM ELEMENTS =====
+function cacheDOMElements() {
+    DOM.header = document.querySelector('.header');
+    DOM.mobileToggle = document.querySelector('.mobile-toggle');
+    DOM.drawerMenu = document.querySelector('.drawer-menu');
+    DOM.drawerOverlay = document.querySelector('.drawer-overlay');
+    DOM.drawerClose = document.querySelector('.drawer-close');
+    DOM.drawerDropdowns = document.querySelectorAll('.drawer-dropdown-btn');
+    DOM.backToTop = document.getElementById('backToTop');
+    DOM.heroSlider = document.querySelector('.hero-slider');
+    DOM.modal = document.getElementById('registrationModal');
+    DOM.form = document.getElementById('myForm');
+}
+
+// ===== HEADER SCROLL EFFECTS =====
+function initHeader() {
+    if (!DOM.header) return;
+
+    window.addEventListener('scroll', () => {
+        if (!state.ticking) {
+            requestAnimationFrame(handleScroll);
+            state.ticking = true;
+        }
+    }, { passive: true });
+}
+
+function handleScroll() {
+    const currentScroll = window.pageYOffset;
+
+    // Header scroll effect
+    if (currentScroll > CONFIG.scrollThreshold) {
+        DOM.header?.classList.add('scrolled');
+    } else {
+        DOM.header?.classList.remove('scrolled');
+    }
+
+    // Back to top button
+    if (DOM.backToTop) {
+        if (currentScroll > CONFIG.backToTopThreshold) {
+            DOM.backToTop.classList.add('show');
+        } else {
+            DOM.backToTop.classList.remove('show');
+        }
+    }
+
+    state.lastScroll = currentScroll;
+    state.ticking = false;
+}
+
+// ===== MOBILE DRAWER MENU =====
+function initMobileDrawer() {
+    if (!DOM.drawerMenu) return;
+
+    // Toggle drawer
+    DOM.mobileToggle?.addEventListener('click', toggleDrawer);
+    DOM.drawerClose?.addEventListener('click', closeDrawer);
+    DOM.drawerOverlay?.addEventListener('click', closeDrawer);
+
+    // Close drawer on link click
+    document.querySelectorAll('.drawer-links a').forEach(link => {
+        link.addEventListener('click', closeDrawer);
+    });
+
+    // Handle drawer dropdowns
+    DOM.drawerDropdowns?.forEach(btn => {
+        btn.addEventListener('click', handleDrawerDropdown);
+    });
+
+    // Close on ESC key
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && DOM.drawerMenu?.classList.contains('active')) {
+            closeDrawer();
+        }
+    });
+
+    // Handle resize
+    let resizeTimer;
+    window.addEventListener('resize', () => {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(() => {
+            if (window.innerWidth > 768 && DOM.drawerMenu?.classList.contains('active')) {
+                closeDrawer();
+            }
+        }, 250);
+    });
+}
+
+function toggleDrawer() {
+    if (DOM.drawerMenu?.classList.contains('active')) {
+        closeDrawer();
+    } else {
+        openDrawer();
+    }
+}
+
+function openDrawer() {
+    if (!DOM.drawerMenu) return;
+
+    state.scrollPosition = window.pageYOffset;
+
+    DOM.drawerMenu.classList.add('active');
+    DOM.drawerOverlay?.classList.add('active');
+    DOM.mobileToggle?.classList.add('active');
+
+    document.body.style.position = 'fixed';
+    document.body.style.top = `-${state.scrollPosition}px`;
+    document.body.style.width = '100%';
+}
+
+function closeDrawer() {
+    if (!DOM.drawerMenu) return;
+
+    DOM.drawerMenu.classList.remove('active');
+    DOM.drawerOverlay?.classList.remove('active');
+    DOM.mobileToggle?.classList.remove('active');
+
+    document.body.style.position = '';
+    document.body.style.top = '';
+    document.body.style.width = '';
+    window.scrollTo(0, state.scrollPosition);
+}
+
+function handleDrawerDropdown(e) {
+    const parent = e.currentTarget.closest('.drawer-dropdown');
+    const isActive = parent.classList.contains('active');
+
+    // Close all dropdowns
+    document.querySelectorAll('.drawer-dropdown').forEach(dropdown => {
+        dropdown.classList.remove('active');
+    });
+
+    // Toggle current dropdown
+    if (!isActive) {
+        parent.classList.add('active');
+    }
+}
+
+// ===== HERO SLIDER =====
 function initHeroSlider() {
-    const slider = document.querySelector('.hero-slider');
-    if (!slider) return; // Si pas de slider, on sort
+    if (!DOM.heroSlider) return;
 
     const slides = document.querySelectorAll('.slide');
     const dotsContainer = document.querySelector('.slider-dots');
     const prevBtn = document.querySelector('.slider-arrows .prev');
     const nextBtn = document.querySelector('.slider-arrows .next');
-    
-    let currentSlide = 0;
-    let slideInterval;
 
-    // Créer les dots
+    if (!slides.length || !dotsContainer) return;
+
+    // Create dots
     slides.forEach((_, index) => {
         const dot = document.createElement('span');
         dot.classList.add('dot');
@@ -32,103 +253,67 @@ function initHeroSlider() {
     const dots = document.querySelectorAll('.dot');
 
     function goToSlide(n) {
-        slides[currentSlide].classList.remove('active');
-        dots[currentSlide].classList.remove('active');
-        
-        currentSlide = (n + slides.length) % slides.length;
-        
-        slides[currentSlide].classList.add('active');
-        dots[currentSlide].classList.add('active');
+        slides[state.currentSlide].classList.remove('active');
+        dots[state.currentSlide].classList.remove('active');
+
+        state.currentSlide = (n + slides.length) % slides.length;
+
+        slides[state.currentSlide].classList.add('active');
+        dots[state.currentSlide].classList.add('active');
     }
 
     function nextSlide() {
-        goToSlide(currentSlide + 1);
+        goToSlide(state.currentSlide + 1);
     }
 
     function prevSlide() {
-        goToSlide(currentSlide - 1);
+        goToSlide(state.currentSlide - 1);
     }
 
     function startAutoSlide() {
-        slideInterval = setInterval(nextSlide, 5000);
+        state.slideInterval = setInterval(nextSlide, CONFIG.slideInterval);
     }
 
     function stopAutoSlide() {
-        clearInterval(slideInterval);
+        clearInterval(state.slideInterval);
     }
 
     // Event listeners
-    if (prevBtn) prevBtn.addEventListener('click', () => {
+    prevBtn?.addEventListener('click', () => {
         prevSlide();
         stopAutoSlide();
         startAutoSlide();
     });
 
-    if (nextBtn) nextBtn.addEventListener('click', () => {
+    nextBtn?.addEventListener('click', () => {
         nextSlide();
         stopAutoSlide();
         startAutoSlide();
     });
 
-    // Démarrer le slider automatique
+    // Auto slide
     startAutoSlide();
 
-    // Pause sur hover
-    slider.addEventListener('mouseenter', stopAutoSlide);
-    slider.addEventListener('mouseleave', startAutoSlide);
+    // Pause on hover
+    DOM.heroSlider.addEventListener('mouseenter', stopAutoSlide);
+    DOM.heroSlider.addEventListener('mouseleave', startAutoSlide);
 }
 
 // ===== SCROLL EFFECTS =====
 function initScrollEffects() {
-    const header = document.querySelector('.header');
-    const backToTopBtn = document.getElementById('backToTop');
-    
-    let lastScroll = 0;
-    let ticking = false;
-
-    function updateScrollEffects(scrollY) {
-        // Header effect - s'applique sur toutes les pages
-        if (scrollY > 100) {
-            header.classList.add('scrolled');
-        } else {
-            header.classList.remove('scrolled');
-        }
-
-        // Back to top button
-        if (scrollY > 300) {
-            backToTopBtn.classList.add('show');
-        } else {
-            backToTopBtn.classList.remove('show');
-        }
-
-        lastScroll = scrollY;
-    }
-
-    window.addEventListener('scroll', function() {
-        const scrollY = window.pageYOffset || document.documentElement.scrollTop;
-        
-        if (!ticking) {
-            window.requestAnimationFrame(function() {
-                updateScrollEffects(scrollY);
-                ticking = false;
-            });
-            ticking = true;
-        }
-    });
-
-    // Smooth scroll pour les liens d'ancrage
+    // Smooth scroll for anchor links
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function(e) {
             const href = this.getAttribute('href');
             if (href === '#' || href === '') return;
-            
+
             e.preventDefault();
             const target = document.querySelector(href);
-            
+
             if (target) {
-                const headerHeight = header.offsetHeight;
+                const headerHeight = DOM.header?.offsetHeight || 0;
                 const targetPosition = target.offsetTop - headerHeight - 20;
-                
+
                 window.scrollTo({
                     top: targetPosition,
                     behavior: 'smooth'
@@ -140,87 +325,69 @@ function initScrollEffects() {
 
 // ===== BACK TO TOP BUTTON =====
 function initBackToTop() {
-    const backToTopBtn = document.getElementById('backToTop');
-    
-    if (backToTopBtn) {
-        backToTopBtn.addEventListener('click', function() {
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth'
-            });
+    DOM.backToTop?.addEventListener('click', () => {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
         });
-    }
+    });
 }
 
 // ===== MODAL =====
 function initModal() {
-    const modal = document.getElementById('registrationModal');
-    
-    if (!modal) return;
+    if (!DOM.modal) return;
 
-    // Fermer le modal en cliquant en dehors
-    window.addEventListener('click', function(event) {
-        if (event.target === modal) {
+    // Close on outside click
+    window.addEventListener('click', (event) => {
+        if (event.target === DOM.modal) {
             closeModal();
         }
     });
 
-    // Fermer avec la touche Escape
-    document.addEventListener('keydown', function(event) {
-        if (event.key === 'Escape' && modal.style.display === 'block') {
+    // Close on ESC key
+    document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape' && DOM.modal.style.display === 'block') {
             closeModal();
         }
     });
 }
 
 function openModal() {
-    const modal = document.getElementById('registrationModal');
-    if (modal) {
-        modal.style.display = 'block';
-        document.body.style.overflow = 'hidden';
-    }
+    if (!DOM.modal) return;
+
+    DOM.modal.style.display = 'block';
+    document.body.style.overflow = 'hidden';
 }
 
 function closeModal() {
-    const modal = document.getElementById('registrationModal');
-    if (modal) {
-        modal.style.display = 'none';
-        document.body.style.overflow = 'auto';
-    }
+    if (!DOM.modal) return;
+
+    DOM.modal.style.display = 'none';
+    document.body.style.overflow = '';
 }
 
 // ===== FORM VALIDATION & SUBMISSION =====
 function initForm() {
-    const form = document.getElementById('myForm');
-    if (!form) return;
+    if (!DOM.form) return;
 
     const submitButton = document.getElementById('submitButton');
     const loadingSpinner = document.getElementById('loadingSpinner');
-    const messageZone = document.getElementById('messageZone');
+    const inputs = DOM.form.querySelectorAll('input[required], textarea[required]');
 
-    // Validation en temps réel
-    const inputs = form.querySelectorAll('input[required], textarea[required]');
-    
+    // Real-time validation
     inputs.forEach(input => {
-        input.addEventListener('blur', function() {
-            validateField(this);
-        });
-
-        input.addEventListener('input', function() {
-            clearFieldError(this);
-        });
+        input.addEventListener('blur', () => validateField(input));
+        input.addEventListener('input', () => clearFieldError(input));
     });
 
-    // Soumission du formulaire
-    form.addEventListener('submit', async function(e) {
+    // Form submission
+    DOM.form.addEventListener('submit', async (e) => {
         e.preventDefault();
-        
-        // Valider tous les champs
+
+        // Validate all fields
         let isValid = true;
         inputs.forEach(input => {
-            if (!validateField(input)) {
-                isValid = false;
-            }
+            if (!validateField(input)) isValid = false;
         });
 
         if (!isValid) {
@@ -228,16 +395,22 @@ function initForm() {
             return;
         }
 
-        // Désactiver le bouton et afficher le spinner
-        submitButton.disabled = true;
-        loadingSpinner.style.display = 'inline-block';
-        submitButton.querySelector('i').style.display = 'none';
+        // Disable button and show spinner
+        if (submitButton) {
+            submitButton.disabled = true;
+            const icon = submitButton.querySelector('i');
+            if (icon) icon.style.display = 'none';
+        }
+
+        if (loadingSpinner) {
+            loadingSpinner.style.display = 'inline-block';
+        }
 
         try {
-            const formData = new FormData(form);
-            const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+            const formData = new FormData(DOM.form);
+            const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
 
-            const response = await fetch(form.action, {
+            const response = await fetch(DOM.form.action, {
                 method: 'POST',
                 headers: {
                     'X-CSRF-TOKEN': csrfToken,
@@ -250,12 +423,9 @@ function initForm() {
 
             if (response.ok) {
                 showMessage(data.message || 'Inscription réussie ! Nous vous contacterons bientôt.', 'success');
-                form.reset();
-                
-                // Redirection ou fermeture après 2 secondes
-                setTimeout(() => {
-                    closeModal();
-                }, 2000);
+                DOM.form.reset();
+
+                setTimeout(() => closeModal(), 2000);
             } else {
                 if (data.errors) {
                     displayValidationErrors(data.errors);
@@ -267,24 +437,29 @@ function initForm() {
             console.error('Erreur:', error);
             showMessage('Erreur de connexion. Veuillez vérifier votre connexion internet.', 'error');
         } finally {
-            submitButton.disabled = false;
-            loadingSpinner.style.display = 'none';
-            submitButton.querySelector('i').style.display = 'inline';
+            if (submitButton) {
+                submitButton.disabled = false;
+                const icon = submitButton.querySelector('i');
+                if (icon) icon.style.display = 'inline';
+            }
+            if (loadingSpinner) {
+                loadingSpinner.style.display = 'none';
+            }
         }
     });
 }
 
-// Validation d'un champ individuel
+// ===== FIELD VALIDATION =====
 function validateField(field) {
     const value = field.value.trim();
     const fieldName = field.name;
     const errorElement = document.getElementById(`${fieldName}-error`);
-    
+
     if (!errorElement) return true;
 
     let errorMessage = '';
 
-    // Validation selon le type de champ
+    // Validation rules
     if (field.hasAttribute('required') && !value) {
         errorMessage = 'Ce champ est requis.';
     } else if (fieldName === 'email' && value) {
@@ -314,7 +489,6 @@ function validateField(field) {
     }
 }
 
-// Effacer l'erreur d'un champ
 function clearFieldError(field) {
     const errorElement = document.getElementById(`${field.name}-error`);
     if (errorElement) {
@@ -324,12 +498,11 @@ function clearFieldError(field) {
     field.style.borderColor = '#e2e8f0';
 }
 
-// Afficher les erreurs de validation du serveur
 function displayValidationErrors(errors) {
     Object.keys(errors).forEach(fieldName => {
         const errorElement = document.getElementById(`${fieldName}-error`);
         const field = document.querySelector(`[name="${fieldName}"]`);
-        
+
         if (errorElement && field) {
             errorElement.textContent = errors[fieldName][0];
             errorElement.style.display = 'block';
@@ -338,7 +511,7 @@ function displayValidationErrors(errors) {
     });
 }
 
-// Afficher un message global
+// ===== MESSAGE DISPLAY =====
 function showMessage(message, type) {
     const messageZone = document.getElementById('messageZone');
     if (!messageZone) return;
@@ -350,78 +523,37 @@ function showMessage(message, type) {
         border-radius: 8px;
         font-weight: 500;
         animation: slideInDown 0.4s ease;
-        ${type === 'success' 
-            ? 'background: #C6F6D5; color: #22543D; border-left: 4px solid #38A169;' 
+        ${type === 'success'
+            ? 'background: #C6F6D5; color: #22543D; border-left: 4px solid #38A169;'
             : 'background: #FED7D7; color: #742A2A; border-left: 4px solid #E53E3E;'}
     `;
-    
-    const icon = type === 'success' 
-        ? '<i class="fas fa-check-circle" style="margin-right: 10px;"></i>' 
+
+    const icon = type === 'success'
+        ? '<i class="fas fa-check-circle" style="margin-right: 10px;"></i>'
         : '<i class="fas fa-exclamation-circle" style="margin-right: 10px;"></i>';
-    
+
     messageDiv.innerHTML = icon + message;
-    
+
     messageZone.innerHTML = '';
     messageZone.appendChild(messageDiv);
-
-    // Faire défiler jusqu'au message
     messageDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 
-    // Supprimer le message après 5 secondes
     setTimeout(() => {
         messageDiv.style.animation = 'fadeOut 0.4s ease';
-        setTimeout(() => {
-            messageDiv.remove();
-        }, 400);
-    }, 5000);
+        setTimeout(() => messageDiv.remove(), 400);
+    }, CONFIG.messageTimeout);
 }
 
-// Animation fadeOut pour les messages
-const style = document.createElement('style');
-style.textContent = `
-    @keyframes fadeOut {
-        from { opacity: 1; transform: translateY(0); }
-        to { opacity: 0; transform: translateY(-10px); }
-    }
-`;
-document.head.appendChild(style);
-
-// ===== UTILITY FUNCTIONS =====
-
-// Débounce pour optimiser les performances
-function debounce(func, wait) {
-    let timeout;
-    return function executedFunction(...args) {
-        const later = () => {
-            clearTimeout(timeout);
-            func(...args);
-        };
-        clearTimeout(timeout);
-        timeout = setTimeout(later, wait);
-    };
-}
-
-// Throttle pour les événements scroll
-function throttle(func, limit) {
-    let inThrottle;
-    return function() {
-        const args = arguments;
-        const context = this;
-        if (!inThrottle) {
-            func.apply(context, args);
-            inThrottle = true;
-            setTimeout(() => inThrottle = false, limit);
-        }
-    };
-}
-
-// Animation au scroll pour les éléments
-function animateOnScroll() {
+// ===== ANIMATIONS =====
+function initAnimations() {
     const elements = document.querySelectorAll('.feature-card, .news-card, .gallery-item');
-    
+
+    if (!elements.length) return;
+
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
+                entry.target.style.opacity = '1';
                 entry.target.style.animation = 'fadeInUp 0.6s ease forwards';
                 observer.unobserve(entry.target);
             }
@@ -437,9 +569,74 @@ function animateOnScroll() {
     });
 }
 
-// Appeler l'animation au chargement
-if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', animateOnScroll);
-} else {
-    animateOnScroll();
+// ===== ACTIVE MENU ITEM =====
+function setActiveMenuItem() {
+    const currentPath = window.location.pathname;
+
+    // Desktop menu
+    document.querySelectorAll('.nav-links a').forEach(link => {
+        const linkPath = new URL(link.href).pathname;
+        if (linkPath === currentPath) {
+            link.classList.add('active');
+        }
+    });
+
+    // Drawer menu
+    document.querySelectorAll('.drawer-links a').forEach(link => {
+        const linkPath = new URL(link.href).pathname;
+        if (linkPath === currentPath) {
+            link.classList.add('active');
+        }
+    });
 }
+
+// ===== UTILITY FUNCTIONS =====
+function debounce(func, wait) {
+    let timeout;
+    return function executedFunction(...args) {
+        clearTimeout(timeout);
+        timeout = setTimeout(() => func(...args), wait);
+    };
+}
+
+function throttle(func, limit) {
+    let inThrottle;
+    return function(...args) {
+        if (!inThrottle) {
+            func.apply(this, args);
+            inThrottle = true;
+            setTimeout(() => inThrottle = false, limit);
+        }
+    };
+}
+
+// ===== ADD ANIMATIONS STYLES =====
+if (!document.getElementById('judo-animations')) {
+    const style = document.createElement('style');
+    style.id = 'judo-animations';
+    style.textContent = `
+        @keyframes fadeOut {
+            from { opacity: 1; transform: translateY(0); }
+            to { opacity: 0; transform: translateY(-10px); }
+        }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes slideInDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    `;
+    document.head.appendChild(style);
+}
+
+// ===== EXPOSE PUBLIC API =====
+window.JudoApp = {
+    openDrawer,
+    closeDrawer,
+    openModal,
+    closeModal,
+    showMessage,
+    scrollToTop: () => DOM.backToTop?.click()
+};

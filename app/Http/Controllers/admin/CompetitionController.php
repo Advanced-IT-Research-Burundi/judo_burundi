@@ -32,9 +32,9 @@ class CompetitionController extends Controller
             'description' => 'nullable|string',
             'saison' => 'nullable|string|max:255',
             'date_competition' => 'required|date',
-            'resultat' => 'nullable|string|max:255',
+            'resultat' => 'required|string',
             'clubdomicil_id' => 'required|exists:clubs,id',
-            'clubadversaire_id' => 'required|exists:clubs,id|different:clubsdomicil_id',
+            'clubadversaire_id' => 'required|exists:clubs,id|different:clubdomicil_id',
         ]);
 
         Competition::create($validated);

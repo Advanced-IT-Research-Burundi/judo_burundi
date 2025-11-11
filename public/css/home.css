@@ -2,16 +2,11 @@
    STYLES PAGE D'ACCUEIL
    ========================== */
 
-/* ===== HERO SLIDER (Uniquement page d'accueil) ===== */
-.home-page .hero {
+/* ===== HERO SECTION ===== */
+.hero {
     position: relative;
-    height: calc(100vh - var(--header-height));
+    height: 100vh;
     overflow: hidden;
-    margin-top: 0 !important;
-}
-
-.home-page .header.scrolled ~ main .hero {
-    height: calc(100vh - var(--header-height-scrolled));
 }
 
 .hero-slider {
@@ -50,14 +45,14 @@
     left: 50%;
     transform: translate(-50%, -50%);
     text-align: center;
-    color: var(--white);
+    color: #fff;
     z-index: 2;
     width: 90%;
     max-width: 800px;
 }
 
 .hero-content h1 {
-    font-size: 3.5rem;
+    font-size: clamp(2rem, 5vw, 3.5rem);
     font-weight: 800;
     margin-bottom: 20px;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
@@ -65,7 +60,7 @@
 }
 
 .hero-content p {
-    font-size: 1.3rem;
+    font-size: clamp(1rem, 2.5vw, 1.3rem);
     margin-bottom: 30px;
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
     animation: fadeInUp 1s ease 0.2s both;
@@ -75,6 +70,7 @@
     display: flex;
     gap: 20px;
     justify-content: center;
+    flex-wrap: wrap;
     animation: fadeInUp 1s ease 0.4s both;
 }
 
@@ -84,13 +80,14 @@
     top: 50%;
     transform: translateY(-50%);
     font-size: 2rem;
-    color: var(--white);
+    color: #fff;
     cursor: pointer;
     z-index: 3;
     background: rgba(0, 0, 0, 0.3);
     padding: 15px 20px;
-    transition: var(--transition);
+    transition: all 0.3s ease;
     user-select: none;
+    border-radius: 4px;
 }
 
 .slider-arrows .prev {
@@ -103,6 +100,7 @@
 
 .slider-arrows span:hover {
     background: rgba(0, 0, 0, 0.6);
+    transform: translateY(-50%) scale(1.1);
 }
 
 .slider-dots {
@@ -121,66 +119,73 @@
     border-radius: 50%;
     background: rgba(255, 255, 255, 0.5);
     cursor: pointer;
-    transition: var(--transition);
+    transition: all 0.3s ease;
+}
+
+.dot:hover {
+    background: rgba(255, 255, 255, 0.8);
 }
 
 .dot.active {
-    background: var(--white);
+    background: #fff;
     width: 30px;
     border-radius: 6px;
 }
 
 /* ===== FEATURES SECTION ===== */
-.home-page .features {
+.features {
     padding: 80px 0;
-    background: var(--bg-light);
+    background: #f7fafc;
 }
 
 .features-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: 30px;
 }
 
 .feature-card {
-    background: var(--white);
+    background: #fff;
     padding: 40px 30px;
     border-radius: 15px;
     text-align: center;
-    transition: var(--transition);
-    box-shadow: var(--shadow);
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 .feature-card:hover {
     transform: translateY(-10px);
-    box-shadow: var(--shadow-lg);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
 }
 
 .feature-card i {
     font-size: 3rem;
-    color: var(--secondary-color);
+    color: #7CB342;
     margin-bottom: 20px;
+    display: block;
 }
 
 .feature-card h3 {
     font-size: 1.5rem;
-    color: var(--primary-color);
+    color: #1a365d;
     margin-bottom: 15px;
 }
 
-/* ===== GALLERY ===== */
-.home-page .gallery {
-    padding: 80px 0;
+.feature-card p {
+    color: #718096;
+    line-height: 1.6;
+    margin: 0;
 }
 
+/* ===== SECTION TITLE ===== */
 .section-title {
     text-align: center;
     margin-bottom: 50px;
 }
 
 .section-title h2 {
-    font-size: 2.5rem;
-    color: var(--primary-color);
+    font-size: clamp(2rem, 4vw, 2.5rem);
+    color: #1a365d;
     margin-bottom: 10px;
     position: relative;
     display: inline-block;
@@ -194,13 +199,19 @@
     transform: translateX(-50%);
     width: 80px;
     height: 4px;
-    background: var(--secondary-color);
+    background: #7CB342;
     border-radius: 2px;
 }
 
 .section-title p {
-    color: var(--text-light);
+    color: #718096;
     font-size: 1.1rem;
+    margin: 15px 0 0;
+}
+
+/* ===== GALLERY ===== */
+.gallery {
+    padding: 80px 0;
 }
 
 .gallery-grid {
@@ -213,28 +224,51 @@
     height: 300px;
     border-radius: 15px;
     overflow: hidden;
-    box-shadow: var(--shadow);
-    transition: var(--transition);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
     cursor: pointer;
 }
 
 .gallery-item:hover {
     transform: scale(1.05);
-    box-shadow: var(--shadow-lg);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+}
+
+.gallery-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.gallery-item:hover img {
+    transform: scale(1.1);
+}
+
+.gallery-placeholder {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #7CB342, #689F3A);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.gallery-placeholder i {
+    font-size: 3rem;
+    color: white;
+    opacity: 0.7;
 }
 
 /* ===== NEWS SECTION ===== */
-.home-page .news {
+.news {
     padding: 80px 0;
-    background: var(--bg-light);
-}
-
-.news-header {
-    margin-bottom: 40px;
+    background: #f7fafc;
 }
 
 .news-header .section-title {
     text-align: left;
+    margin-bottom: 40px;
 }
 
 .news-header .section-title h2::after {
@@ -244,21 +278,21 @@
 
 .news-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
     gap: 30px;
 }
 
 .news-card {
-    background: var(--white);
+    background: #fff;
     border-radius: 15px;
     overflow: hidden;
-    box-shadow: var(--shadow);
-    transition: var(--transition);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
 }
 
 .news-card:hover {
     transform: translateY(-5px);
-    box-shadow: var(--shadow-lg);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
 }
 
 .news-image {
@@ -283,24 +317,25 @@
 
 .news-title {
     font-size: 1.3rem;
-    color: var(--primary-color);
+    color: #1a365d;
     margin-bottom: 15px;
+    line-height: 1.4;
 }
 
 .news-excerpt {
-    color: var(--text-light);
+    color: #718096;
     margin-bottom: 20px;
     line-height: 1.6;
 }
 
 .read-more {
-    color: var(--secondary-color);
+    color: #7CB342;
     text-decoration: none;
     font-weight: 600;
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    transition: var(--transition);
+    transition: gap 0.3s ease;
 }
 
 .read-more:hover {
@@ -308,7 +343,7 @@
 }
 
 /* ===== REGISTRATION SECTION ===== */
-.home-page .registration {
+.registration {
     padding: 80px 0;
 }
 
@@ -320,25 +355,33 @@
 }
 
 .registration-info h2 {
-    font-size: 2.5rem;
-    color: var(--primary-color);
+    font-size: clamp(2rem, 4vw, 2.5rem);
+    color: #1a365d;
     margin-bottom: 20px;
+}
+
+.registration-info p {
+    color: #718096;
+    line-height: 1.7;
+    margin-bottom: 15px;
 }
 
 .registration-benefits {
     margin-top: 30px;
     padding: 30px;
-    background: var(--bg-light);
+    background: #f7fafc;
     border-radius: 15px;
 }
 
 .registration-benefits h3 {
-    color: var(--primary-color);
+    color: #1a365d;
     margin-bottom: 20px;
 }
 
 .registration-benefits ul {
     list-style: none;
+    padding: 0;
+    margin: 0;
 }
 
 .registration-benefits li {
@@ -346,22 +389,24 @@
     display: flex;
     align-items: center;
     gap: 15px;
+    color: #2d3748;
 }
 
 .registration-benefits i {
-    color: var(--secondary-color);
+    color: #7CB342;
     font-size: 1.2rem;
+    flex-shrink: 0;
 }
 
 .registration-form {
-    background: var(--white);
+    background: #fff;
     padding: 40px;
     border-radius: 15px;
-    box-shadow: var(--shadow-lg);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
 }
 
 .registration-form h3 {
-    color: var(--primary-color);
+    color: #1a365d;
     margin-bottom: 25px;
     font-size: 1.8rem;
 }
@@ -373,8 +418,12 @@
 .form-group label {
     display: block;
     margin-bottom: 8px;
-    color: var(--text-dark);
+    color: #2d3748;
     font-weight: 500;
+}
+
+.required {
+    color: #e53e3e;
 }
 
 .form-group input,
@@ -384,13 +433,19 @@
     border: 2px solid #e2e8f0;
     border-radius: 8px;
     font-size: 1rem;
-    transition: var(--transition);
+    transition: border-color 0.3s ease;
+    font-family: inherit;
 }
 
 .form-group input:focus,
 .form-group textarea:focus {
     outline: none;
-    border-color: var(--secondary-color);
+    border-color: #7CB342;
+}
+
+.form-group textarea {
+    resize: vertical;
+    min-height: 100px;
 }
 
 .error-message {
@@ -400,25 +455,110 @@
     display: none;
 }
 
-/* ===== RESPONSIVE HOME PAGE ===== */
-@media (max-width: 768px) {
-    .hero-content h1 {
-        font-size: 2rem;
+/* ===== EMPTY STATE ===== */
+.empty-state {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 60px 20px;
+    color: #718096;
+}
+
+.empty-state i {
+    font-size: 4rem;
+    color: #cbd5e0;
+    margin-bottom: 1rem;
+    display: block;
+}
+
+.empty-state h5 {
+    color: #4a5568;
+    margin-bottom: 0.5rem;
+}
+
+.empty-state p {
+    margin: 0;
+}
+
+/* ===== ANIMATIONS ===== */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
     }
-    
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 992px) {
+    .registration-container {
+        grid-template-columns: 1fr;
+        gap: 40px;
+    }
+}
+
+@media (max-width: 768px) {
+    .hero {
+        height: 70vh;
+    }
+
+    .hero-content h1 {
+        font-size: 1.8rem;
+    }
+
     .hero-content p {
         font-size: 1rem;
     }
-    
+
     .hero-buttons {
         flex-direction: column;
+        gap: 15px;
     }
-    
-    .registration-container {
+
+    .slider-arrows span {
+        padding: 10px 15px;
+        font-size: 1.5rem;
+    }
+
+    .slider-arrows .prev {
+        left: 10px;
+    }
+
+    .slider-arrows .next {
+        right: 10px;
+    }
+
+    .features,
+    .gallery,
+    .news,
+    .registration {
+        padding: 50px 0;
+    }
+
+    .news-grid {
         grid-template-columns: 1fr;
     }
-    
-    .news-grid {
+
+    .registration-form {
+        padding: 30px 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero-content h1 {
+        font-size: 1.5rem;
+    }
+
+    .btn-primary,
+    .btn-secondary {
+        padding: 10px 20px;
+        font-size: 0.9rem;
+    }
+
+    .features-grid,
+    .gallery-grid {
         grid-template-columns: 1fr;
     }
 }
