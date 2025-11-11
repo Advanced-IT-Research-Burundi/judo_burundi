@@ -44,7 +44,25 @@
                         <i class="fas fa-home"></i> Accueil
                     </a>
                 </li>
-                <li class="dropdown">
+                <li>
+                <a href="{{ route('about') }}">
+                    <i class="fas fa-history"></i>
+                    <span>Historique</span>
+                </a>
+            </li>
+            <li>
+                <a href="{{route('direction')}}">
+                    <i class="fas fa-users"></i>
+                    <span>Direction</span>
+                </a>
+            </li>
+             <li>
+                <a href="{{route('competitions.index')}}">
+                    <i class="fas fa-medal"></i>
+                    <span>Compétitions</span>
+                </a>
+            </li>
+                {{-- <li class="dropdown">
                     <button type="button">
                         <i class="fas fa-building"></i> Fédération
                         <i class="fas fa-chevron-down"></i>
@@ -79,7 +97,7 @@
                             </a>
                         </li>
                     </ul>
-                </li>
+                </li> --}}
                 <li>
                     <a href="{{ route('galerie') }}" class="{{ request()->routeIs('galerie') ? 'active' : '' }}">
                         <i class="fas fa-images"></i> Galerie
@@ -110,7 +128,25 @@
                     <span>Accueil</span>
                 </a>
             </li>
-            <li class="drawer-dropdown">
+            <li>
+                <a href="{{ route('about') }}">
+                    <i class="fas fa-history"></i>
+                    <span>Historique</span>
+                </a>
+            </li>
+            <li>
+                <a href="{{route('direction')}}">
+                    <i class="fas fa-users"></i>
+                    <span>Direction</span>
+                </a>
+            </li>
+             <li>
+                <a href="{{route('competitions.index')}}">
+                    <i class="fas fa-medal"></i>
+                    <span>Compétitions</span>
+                </a>
+            </li>
+            {{-- <li class="drawer-dropdown">
                 <button type="button" class="drawer-dropdown-btn">
                     <div>
                         <i class="fas fa-building"></i>
@@ -155,7 +191,7 @@
                         </a>
                     </li>
                 </ul>
-            </li>
+            </li> --}}
             <li>
                 <a href="{{ route('galerie') }}">
                     <i class="fas fa-images"></i>
