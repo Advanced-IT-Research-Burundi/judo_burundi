@@ -60,7 +60,7 @@
                         </header>
 
                         <div class="article-body">
-                            {!! nl2br(e($post->content)) !!}
+                            {!! nl2br(e($post->contenu)) !!}
                         </div>
                     </div>
                 </article>
