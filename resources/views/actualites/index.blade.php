@@ -7,44 +7,26 @@
 @endpush
 
 @section('content')
-    <!-- Section Hero -->
-    <section class="hero" id="home">
-        <div class="hero-slider">
-            <div class="slide active" style="background-image: url('{{ asset('images/judo1.jpeg') }}');"></div>
-            <div class="slide" style="background-image: url('{{ asset('images/judo2.jpg') }}');"></div>
-            <div class="slide" style="background-image: url('{{ asset('images/judo3.jpg') }}');"></div>
-
-            <div class="overlay"></div>
-
-            <div class="hero-content">
-                <h1>ENTRAÎNEZ-VOUS AVEC LES MEILLEURS</h1>
-                <p>Découvrez le JUDO traditionnel avec nos instructeurs légendaires</p>
-                <div class="hero-buttons">
-                    <button class="btn-primary" onclick="openModal()">Commencer maintenant</button>
-                    <a href="{{ route('contact.store') }}" class="btn-secondary">En savoir plus</a>
-                </div>
+    <!-- Page Hero Section -->
+    <section class="page-hero gradient-overlay" style="background-image: url('{{ $post->image ? asset('storage/' . $post->image) : asset('images/judo3.jpg') }}');">
+        <div class="page-hero-content">
+            <h1>{{ $post->title }}</h1>
+            <p>{{ $post->content ? Str::limit(strip_tags($post->content), 100) : 'Découvrez cette actualité' }}</p>
+            
+            <!-- Breadcrumb -->
+            <div class="page-hero-breadcrumb">
+                <a href="{{ route('home') }}"><i class="fas fa-home"></i> Accueil</a>
+                <i class="fas fa-chevron-right"></i>
+                <a href="{{ route('blog') }}">Actualités</a>
+                <i class="fas fa-chevron-right"></i>
+                <span>{{ $post->title }}</span>
             </div>
-
-            <div class="slider-arrows">
-                <span class="prev">&#10094;</span>
-                <span class="next">&#10095;</span>
-            </div>
-
-            <div class="slider-dots"></div>
         </div>
     </section>
 
     <!-- Main Content -->
     <main class="main-content">
         <div class="container">
-            <!-- Bouton retour -->
-            <div class="back-navigation">
-                <a href="{{ route('blog') }}" class="back-btn">
-                    <i class="fas fa-arrow-left"></i>
-                    Retour aux actualités
-                </a>
-            </div>
-
             <div class="article-layout">
                 <!-- Article principal -->
                 <article class="article-main">
