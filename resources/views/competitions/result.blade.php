@@ -103,6 +103,25 @@
             </div>
             @endif
 
+            @if($competition->clubs->isNotEmpty())
+            <div class="card border mb-4">
+                <div class="card-header bg-light py-2">
+                    <h5 class="mb-0 fs-5">
+                        <i class="bi bi-people text-secondary me-2"></i>
+                        Autres clubs / équipes
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <p class="small text-muted mb-2">Clubs additionnels enregistrés pour cette manifestation.</p>
+                    <div class="d-flex flex-wrap gap-2">
+                        @foreach($competition->clubs as $club)
+                            <span class="badge rounded-pill text-bg-secondary">{{ $club->nom }}</span>
+                        @endforeach
+                    </div>
+                </div>
+            </div>
+            @endif
+
             <!-- Description -->
             @if($competition->description)
             <div class="card border mb-4">

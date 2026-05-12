@@ -75,6 +75,16 @@
                     </select>
                 </div>
 
+                <div class="col-12">
+                    <label class="form-label">Autres clubs participants</label>
+                    <select name="club_ids[]" class="form-select" multiple size="6">
+                        @foreach($clubs as $club)
+                            <option value="{{ $club->id }}" @selected(in_array($club->id, old('club_ids', []), true))>{{ $club->nom }}</option>
+                        @endforeach
+                    </select>
+                    <small class="text-muted">Conserver Ctrl (ou Cmd) pour en choisir plusieurs — en complément des clubs domicile et adversaire.</small>
+                </div>
+
                 <!-- Description -->
                 {{-- <div class="col-12">
                     <label class="form-label">Description</label>

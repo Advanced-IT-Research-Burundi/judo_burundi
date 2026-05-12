@@ -22,13 +22,13 @@
             <div class="hero-content">
                 <h1>ENTRAÎNEZ-VOUS AVEC LES MEILLEURS</h1>
                 <p>Découvrez le JUDO traditionnel avec nos instructeurs légendaires</p>
-                <div class="hero-buttons">
-                    <button class="btn-primary" onclick="JudoApp.openModal()">
-                        <i class="fas fa-play-circle"></i>
+                <div class="hero-buttons gap-3">
+                    <button type="button" class="btn btn-success btn-lg rounded-pill px-4 shadow" onclick="JudoApp.openModal()">
+                        <i class="fas fa-play-circle me-2"></i>
                         Commencer maintenant
                     </button>
-                    <a href="{{ route('contact') }}" class="btn-secondary">
-                        <i class="fas fa-info-circle"></i>
+                    <a href="{{ route('contact') }}" class="btn btn-outline-light btn-lg rounded-pill px-4">
+                        <i class="fas fa-info-circle me-2"></i>
                         En savoir plus
                     </a>
                 </div>
@@ -153,7 +153,7 @@
 
             @if ($actualites->count() >= 6)
                 <div class="text-center" style="margin-top: 2rem;">
-                    <a href="{{ route('blog') }}" class="btn-primary">
+                    <a href="{{ route('blog') }}" class="btn btn-success rounded-pill px-4 shadow-sm">
                         <i class="fas fa-plus-circle"></i>
                         Voir toutes les actualités
                     </a>
@@ -212,7 +212,7 @@
                             <div class="error-message" id="description-error"></div>
                         </div>
 
-                        <button type="submit" class="btn-primary" id="submitButton">
+                        <button type="submit" class="btn btn-success rounded-pill px-4" id="submitButton">
                             <span id="loadingSpinner" style="display: none;">⏳</span>
                             <i class="fas fa-user-plus"></i>
                             S'inscrire maintenant

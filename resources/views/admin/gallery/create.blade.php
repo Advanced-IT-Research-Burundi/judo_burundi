@@ -12,6 +12,16 @@
                 <input type="text" name="titre" class="form-control" required>
             </div>
             <div class="mb-3">
+                <label class="form-label">Compétition liée (album)</label>
+                <select name="competition_id" class="form-select">
+                    <option value="">— Galerie générale —</option>
+                    @foreach($competitions as $c)
+                        <option value="{{ $c->id }}" @selected(old('competition_id') == $c->id)>{{ $c->nom }} @if($c->date_competition)({{ $c->date_competition->format('Y') }})@endif</option>
+                    @endforeach
+                </select>
+                <small class="text-muted">Les photos ainsi liées apparaissent dans l’onglet « Photos » de la page hub compétition.</small>
+            </div>
+            <div class="mb-3">
                 <label class="form-label">Image</label>
                 <input type="file" name="images" class="form-control" required>
             </div>

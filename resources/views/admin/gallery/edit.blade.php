@@ -13,6 +13,15 @@
                 <input type="text" name="titre" class="form-control" value="{{ $gallery->titre }}" required>
             </div>
             <div class="mb-3">
+                <label class="form-label">Compétition liée (album)</label>
+                <select name="competition_id" class="form-select">
+                    <option value="">— Galerie générale —</option>
+                    @foreach($competitions as $c)
+                        <option value="{{ $c->id }}" @selected(old('competition_id', $gallery->competition_id) == $c->id)>{{ $c->nom }} @if($c->date_competition)({{ $c->date_competition->format('Y') }})@endif</option>
+                    @endforeach
+                </select>
+            </div>
+            <div class="mb-3">
                 <label class="form-label">Image</label>
                 <input type="file" name="images" class="form-control">
                 @if($gallery->images)

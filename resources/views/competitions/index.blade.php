@@ -1,15 +1,16 @@
 @extends('layouts.user')
 
-@section('title', 'Liste des Compétitions')
+@section('title', 'Compétitions et résultats — Fédération de Judo du Burundi')
+
+@push('styles')
+<link rel="stylesheet" href="{{ asset('css/activites.css') }}">
+@endpush
 
 @section('content')
-    <!-- Page Hero Section -->
     <section class="page-hero gradient-overlay" style="background-image: url('{{ asset('images/judo2.jpg') }}');">
         <div class="page-hero-content">
-            <h1>Nos Compétitions</h1>
-            <p>Découvrez tous nos événements et résultats</p>
-            
-            <!-- Breadcrumb -->
+            <h1>Compétitions &amp; résultats</h1>
+            <p>Calendrier, lieux et clubs participants</p>
             <div class="page-hero-breadcrumb">
                 <a href="{{ route('home') }}"><i class="fas fa-home"></i> Accueil</a>
                 <i class="fas fa-chevron-right"></i>
@@ -18,110 +19,97 @@
         </div>
     </section>
 
-    <!-- Content Section -->
-    <section style="padding: 80px 0;">
-        <div class="container">
-            <!-- Filtres -->
-            <div class="row mb-4">
-                <div class="col-md-4">
-                    <select class="form-select" id="filterType">
-                        <option value="">Tous les types</option>
-                        <option value="Cadets">Cadets</option>
-                        <option value="Benjamins">Benjamins</option>
-                        <option value="Minimes">Minimes</option>
-                        <option value="Juniors">Juniors</option>
-                        <option value="Séniors">Séniors</option>
-                        <option value="Kata">Kata</option>
-                    </select>
-                </div>
-                <div class="col-md-4">
-                    <select class="form-select" id="filterSaison">
-                        <option value="">Toutes les saisons</option>
-                        @foreach($saisons as $saison)
-                            <option value="{{ $saison }}">{{ $saison }}</option>
-                        @endforeach
-                    </select>
-                </div>
-                <div class="col-md-4">
-                    <input type="text" class="form-control" id="searchCompetition" placeholder="Rechercher...">
-                </div>
-            </div>
+    <section id="liste-competitions" class="py-5 activites-results-wrap position-relative"
+             style="background-image: linear-gradient(135deg, rgba(26, 54, 93, 0.92), rgba(15, 26, 42, 0.94)), url('{{ asset('images/judo4.jpg') }}'); background-size: cover; background-position: center;">
+        <div class="container position-relative">
+            <div class="activites-results-panel text-white">
+                <form method="get" action="{{ route('competitions.index') }}" class="row g-3 align-items-end mb-3" id="competitionsFilters">
+                    <div class="col-md-3">
+                        <label for="filterSaison" class="form-label small text-white-50 mb-1">Saison</label>
+                        <select name="saison" id="filterSaison" class="form-select form-select-sm">
+                            <option value="">Toutes les saisons</option>
+                            @foreach($saisons as $saison)
+                                <option value="{{ $saison }}" @selected(($filterSaison ?? '') === $saison)>
+                                    {{ $saison }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <label for="filterType" class="form-label small text-white-50 mb-1">Catégorie</label>
+                        <select name="type" id="filterType" class="form-select form-select-sm">
+                            <option value="">Toutes les catégories</option>
+                            @foreach($types as $t)
+                                <option value="{{ $t }}" @selected(($filterType ?? '') === $t)>{{ $t }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="col-md-4">
+                        <label for="compSearch" class="form-label small text-white-50 mb-1">Recherche</label>
+                        <input type="search" name="q" id="compSearch" value="{{ $q ?? '' }}"
+                               class="form-control form-control-sm" placeholder="Compétition, lieu, club…" autocomplete="off">
+                    </div>
+                    <div class="col-md-2">
+                        <button type="submit" class="btn btn-dark w-100">Afficher</button>
+                    </div>
+                </form>
 
-            <!-- Liste des compétitions -->
-            <div class="row g-4">
-                @forelse($competitions as $competition)
-                <div class="col-lg-6">
-                    <div class="card h-100 shadow-sm hover-shadow transition">
-                        <div class="card-header bg-primary text-white">
-                            <div class="d-flex justify-content-between align-items-center">
-                                <h5 class="mb-0">
-                                    <i class="bi bi-calendar-event me-2"></i>
-                                    {{ $competition->nom }}
-                                </h5>
-                                <span class="badge bg-light text-dark">{{ $competition->type }}</span>
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <!-- Informations -->
-                            <div class="mb-3">
-                                <p class="mb-2">
-                                    <i class="bi bi-geo-alt-fill text-danger me-2"></i>
-                                    <strong>Lieu:</strong> {{ $competition->lieu ?? 'Non défini' }}
-                                </p>
-                                <p class="mb-2">
-                                    <i class="bi bi-calendar3 text-info me-2"></i>
-                                    <strong>Date:</strong> {{ $competition->date_competition ? $competition->date_competition->format('d/m/Y') : 'À définir' }}
-                                </p>
-                                <p class="mb-2">
-                                    <i class="bi bi-clock-history text-warning me-2"></i>
-                                    <strong>Saison:</strong> {{ $competition->saison ?? 'N/A' }}
-                                </p>
-                            </div>
-
-                            <!-- Clubs -->
-                            @if($competition->clubDomicile || $competition->clubAdversaire)
-                            <div class="d-flex justify-content-between align-items-center mb-3 p-2 bg-light rounded">
-                                <div class="text-center flex-fill">
-                                    <i class="bi bi-house-fill text-success fs-4"></i>
-                                    <p class="mb-0 small fw-bold">{{ $competition->clubDomicile->nom ?? 'N/A' }}</p>
-                                </div>
-                                <div class="text-center">
-                                    <span class="badge bg-secondary">VS</span>
-                                </div>
-                                <div class="text-center flex-fill">
-                                    <i class="bi bi-airplane-fill text-primary fs-4"></i>
-                                    <p class="mb-0 small fw-bold">{{ $competition->clubAdversaire->nom ?? 'N/A' }}</p>
-                                </div>
-                            </div>
-                            @endif
-
-                            <!-- Description -->
-                            @if($competition->description)
-                            <p class="text-muted small">
-                                {{ Str::limit($competition->description, 100) }}
-                            </p>
-                            @endif
-                        </div>
-                        <div class="card-footer bg-transparent">
-                            <a href="{{ route('competitions.result', $competition->id) }}" class="btn btn-primary w-100">
-                                <i class="bi bi-eye me-2"></i>Voir les détails
-                            </a>
-                        </div>
+                <div class="table-shell shadow-sm">
+                    <div class="table-responsive">
+                        <table class="table table-sm table-striped table-hover table-bordered align-middle mb-0 text-dark">
+                            <thead class="table-light text-center text-uppercase small">
+                                <tr>
+                                    <th scope="col">Saison</th>
+                                    <th scope="col" class="text-start">Compétition</th>
+                                    <th scope="col" class="text-start">Lieu</th>
+                                    <th scope="col">Date</th>
+                                    <th scope="col" class="text-start">Clubs (équipes)</th>
+                                    <th scope="col" class="text-nowrap">Détail</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @forelse($competitions as $competition)
+                                    <tr>
+                                        <td class="text-center small">{{ $competition->saison ?? '—' }}</td>
+                                        <td>
+                                            <span class="fw-semibold">{{ $competition->nom }}</span>
+                                            @if($competition->type)
+                                                <div class="activites-competition-muted">{{ $competition->type }}</div>
+                                            @endif
+                                        </td>
+                                        <td>{{ $competition->lieu ?? '—' }}</td>
+                                        <td class="text-center text-nowrap small">
+                                            {{ $competition->date_competition ? $competition->date_competition->format('Y-m-d') : '—' }}
+                                        </td>
+                                        <td class="small">
+                                            @php($labels = $competition->participatingClubLabels())
+                                            @if(count($labels))
+                                                {{ implode(', ', $labels) }}
+                                            @else
+                                                <span class="text-muted">—</span>
+                                            @endif
+                                        </td>
+                                        <td class="text-center">
+                                            <a href="{{ route('competitions.show', $competition) }}" class="btn btn-sm btn-outline-primary py-0 px-2">
+                                                Voir
+                                            </a>
+                                        </td>
+                                    </tr>
+                                @empty
+                                    <tr>
+                                        <td colspan="6" class="text-center py-5 text-muted">
+                                            Aucune compétition ne correspond à ces critères.
+                                        </td>
+                                    </tr>
+                                @endforelse
+                            </tbody>
+                        </table>
                     </div>
                 </div>
-                @empty
-                <div class="col-12">
-                    <div class="alert alert-info text-center">
-                        <i class="bi bi-info-circle fs-3"></i>
-                        <p class="mb-0 mt-2">Aucune compétition disponible pour le moment.</p>
-                    </div>
-                </div>
-                @endforelse
-            </div>
 
-            <!-- Pagination -->
-            <div class="mt-5 d-flex justify-content-center">
-                {{ $competitions->links() }}
+                <div class="mt-4 d-flex justify-content-center">
+                    {{ $competitions->links() }}
+                </div>
             </div>
         </div>
     </section>

@@ -1,0 +1,175 @@
+/* Vue résultats club — style tableau IJF (sidebar + grille de cartes + lignes classement) */
+
+.club-results-shell {
+    background: #e8eaed;
+}
+
+.club-results-sidebar-sticky {
+    position: sticky;
+    top: calc(var(--site-header-extra, 0px) + 5.5rem);
+}
+
+.club-results-filter-card {
+    background: #fff;
+    border-radius: 0.35rem;
+    box-shadow: 0 1px 3px rgba(30, 41, 59, 0.08);
+}
+
+.club-res-sidebar-title {
+    font-size: 0.65rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #64748b;
+    font-weight: 700;
+}
+
+.club-res-wt-btn {
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 0.35rem 0.45rem;
+    border-radius: 0.3rem;
+}
+
+.club-res-cards-grid {
+    column-gap: 1.25rem;
+    row-gap: 1.35rem;
+}
+
+.club-res-category-card {
+    background: #fff;
+    border-radius: 0.35rem;
+    box-shadow: 0 1px 4px rgba(30, 41, 59, 0.08);
+    overflow: hidden;
+    height: 100%;
+}
+
+.club-res-category-head {
+    font-weight: 800;
+    font-size: 0.95rem;
+    letter-spacing: 0.02em;
+    padding: 0.85rem 1rem;
+    border-bottom: 1px solid #e9ecef;
+    background: #fff;
+}
+
+.club-res-line {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    padding: 0.55rem 1rem 0.55rem 1rem;
+    border-bottom: 1px solid #ebecef;
+    transition: background 0.12s ease;
+}
+
+.club-res-line:last-child {
+    border-bottom: none;
+}
+
+.club-res-line:hover {
+    background: rgba(44, 62, 80, 0.03);
+}
+
+.club-res-line.result-row-medal {
+    border-left: 4px solid transparent;
+    padding-left: calc(1rem - 4px);
+}
+
+.club-res-line.result-row-medal-gold {
+    border-left-color: #d4a017;
+    background: rgba(212, 160, 23, 0.06);
+}
+
+.club-res-line.result-row-medal-silver {
+    border-left-color: #a8adb8;
+    background: rgba(168, 173, 184, 0.09);
+}
+
+.club-res-line.result-row-medal-bronze {
+    border-left-color: #8b5a2b;
+    background: rgba(139, 90, 43, 0.07);
+}
+
+.club-res-rank {
+    width: 2rem;
+    flex-shrink: 0;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #475569;
+    text-align: left;
+}
+
+.club-res-photo img,
+.club-res-photo .judoka-thumb {
+    width: 44px;
+    height: 44px;
+}
+
+.club-res-names {
+    flex: 1 1 auto;
+    min-width: 0;
+}
+
+.club-res-names .name-up {
+    font-weight: 800;
+    font-size: 0.78rem;
+    letter-spacing: 0.04em;
+    line-height: 1.2;
+    text-transform: uppercase;
+}
+
+.club-res-names .name-down {
+    font-size: 0.8rem;
+    color: #334155;
+    line-height: 1.2;
+}
+
+.club-res-team {
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+}
+
+.club-res-team-icon {
+    width: 2.35rem;
+    height: 1.55rem;
+    border-radius: 0.25rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.55rem;
+    font-weight: 900;
+    letter-spacing: 0.02em;
+    border: 1px solid rgba(15, 23, 42, 0.12);
+    background: linear-gradient(180deg, #f8fafc 0%, #e2e8f0 100%);
+    color: #1e293b;
+}
+
+.club-res-team-icon--own {
+    background: linear-gradient(135deg, #1a365d 0%, #2c4868 100%);
+    color: #fff;
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+.club-res-code {
+    font-family: ui-monospace, monospace;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    color: #0f172a;
+    min-width: 2.25rem;
+    text-align: right;
+}
+
+.club-result-own-line {
+    background: rgba(26, 54, 93, 0.07);
+    box-shadow: inset 0 0 0 1px rgba(233, 30, 140, 0.22);
+}
+
+.club-own-pill {
+    font-size: 0.58rem;
+    letter-spacing: 0.08em;
+    font-weight: 700;
+    text-transform: uppercase;
+    vertical-align: middle;
+}

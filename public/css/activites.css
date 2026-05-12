@@ -1,0 +1,39 @@
+/* Compétitions / résultats : panneau type « vitré » sur image de fond */
+
+.activites-results-wrap {
+    --activites-panel-bg: rgba(255, 255, 255, 0.06);
+    --activites-panel-border: rgba(255, 255, 255, 0.18);
+}
+
+.activites-results-panel {
+    background-color: var(--activites-panel-bg);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid var(--activites-panel-border);
+    border-radius: 0.5rem;
+    padding: 1.25rem 1.25rem 1.5rem;
+}
+
+.activites-results-panel .form-control,
+.activites-results-panel .form-select {
+    background-color: rgba(255, 255, 255, 0.92);
+}
+
+.activites-results-panel .table-shell {
+    background: rgba(255, 255, 255, 0.88);
+    border-radius: 0.35rem;
+    overflow: hidden;
+}
+
+.activites-results-wrap .table-hover tbody tr:hover td {
+    --bs-table-hover-bg: rgba(26, 54, 93, 0.07);
+}
+
+.activites-competition-muted {
+    font-size: 0.8rem;
+    color: #5c6c7d;
+}
+
+.clubs-directory-card {
+    border-radius: 0.5rem;
+}

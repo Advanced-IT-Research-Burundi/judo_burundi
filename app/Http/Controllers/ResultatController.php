@@ -6,8 +6,11 @@ use Illuminate\Http\Request;
 
 class ResultatController extends Controller
 {
-    public function index()
+    /**
+     * Alias historique / menu : redirige vers la liste compétitions & résultats.
+     */
+    public function index(Request $request)
     {
-        return view('pages.resultat');
+        return redirect()->route('competitions.index', $request->query());
     }
 }

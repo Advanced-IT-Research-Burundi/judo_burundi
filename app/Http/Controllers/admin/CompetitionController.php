@@ -11,7 +11,7 @@ class CompetitionController extends Controller
 {
     public function index()
     {
-        $competitions = Competition::with(['clubDomicile', 'clubAdversaire'])
+        $competitions = Competition::with(['clubDomicile', 'clubAdversaire', 'clubs'])
             ->latest('date_competition')
             ->paginate(15);
         return view('admin.competition.index', compact('competitions'));
@@ -35,9 +35,12 @@ class CompetitionController extends Controller
             'resultat' => 'required|string',
             'clubdomicil_id' => 'required|exists:clubs,id',
             'clubadversaire_id' => 'required|exists:clubs,id|different:clubdomicil_id',
+            'club_ids' => 'nullable|array',
+            'club_ids.*' => 'exists:clubs,id',
         ]);
 
-        Competition::create($validated);
+        $competition = Competition::create($validated);
+        $this->syncExtraClubs($request, $competition);
 
         return redirect()->route('admin.competitions.index')
             ->with('success', 'Compétition créée avec succès.');
@@ -45,13 +48,14 @@ class CompetitionController extends Controller
 
     public function show(Competition $competition)
     {
-        $competition->load(['clubDomicile', 'clubAdversaire']);
+        $competition->load(['clubDomicile', 'clubAdversaire', 'clubs']);
         return view('admin.competition.show', compact('competition'));
     }
 
     public function edit(Competition $competition)
     {
         $clubs = Club::all();
+        $competition->load('clubs');
         return view('admin.competition.edit', compact('competition', 'clubs'));
     }
 
@@ -66,10 +70,13 @@ class CompetitionController extends Controller
             'date_competition' => 'required|date',
             'resultat' => 'nullable|string|max:255',
             'clubdomicil_id' => 'required|exists:clubs,id',
-            'clubadversaire_id' => 'required|exists:clubs,id|different:clubsdomicil_id',
+            'clubadversaire_id' => 'required|exists:clubs,id|different:clubdomicil_id',
+            'club_ids' => 'nullable|array',
+            'club_ids.*' => 'exists:clubs,id',
         ]);
 
         $competition->update($validated);
+        $this->syncExtraClubs($request, $competition);
 
         return redirect()->route('admin.competitions.index')
             ->with('success', 'Compétition mise à jour avec succès.');
@@ -81,5 +88,15 @@ class CompetitionController extends Controller
 
         return redirect()->route('admin.competitions.index')
             ->with('success', 'Compétition supprimée avec succès.');
+    }
+
+    /** @param  \Illuminate\Http\Request  $request */
+    private function syncExtraClubs(Request $request, Competition $competition): void
+    {
+        $ids = collect($request->input('club_ids', []))->map(fn ($id) => (int) $id)->filter()->unique()->values();
+        $exclude = array_filter([(int) $competition->clubdomicil_id, (int) $competition->clubadversaire_id]);
+        $ids = $ids->reject(fn (int $id) => in_array($id, $exclude, true))->values();
+
+        $competition->clubs()->sync($ids->all());
     }
 }

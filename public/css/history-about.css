@@ -1,0 +1,71 @@
+/* Page Historique (about) — alignée structure type fédération */
+
+.history-page .history-carousel {
+    /* Pleine largeur alignée avec le contenu sous header fixe */
+    background: #0d1520;
+}
+
+.history-page .history-carousel .carousel-item img {
+    height: min(calc(100svh - var(--site-header-extra) - 2rem), 440px);
+    object-fit: cover;
+    width: 100%;
+}
+
+.history-page .history-carousel .carousel-caption {
+    background: linear-gradient(transparent, rgba(0, 0, 0, 0.65));
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding: 1.25rem 1rem 2.5rem;
+}
+
+.history-page .history-intro-title {
+    font-size: clamp(1.75rem, 4vw, 2.35rem);
+}
+
+.history-page .history-values-line {
+    font-size: clamp(0.8rem, 2vw, 0.95rem);
+    letter-spacing: 0.02em;
+}
+
+.history-page .history-main h2 {
+    font-size: clamp(1.35rem, 3vw, 1.75rem);
+    letter-spacing: 0.04em;
+}
+
+.history-page .history-sidebar-card {
+    top: 5.5rem;
+}
+
+.history-page .history-president-thumb {
+    width: 44px;
+    height: 54px;
+    object-fit: cover;
+}
+
+.history-page .history-president-placeholder {
+    width: 44px;
+    height: 54px;
+    font-size: 0.65rem;
+}
+
+.history-page .table-presidents thead th {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.history-page .table-presidents td {
+    vertical-align: middle;
+    font-size: 0.85rem;
+}
+
+.history-page .history-lead-red {
+    color: #c41e3a;
+}
+
+@media (max-width: 991.98px) {
+    .history-page .history-sidebar-card {
+        position: static !important;
+    }
+}

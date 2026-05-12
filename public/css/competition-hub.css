@@ -1,0 +1,118 @@
+/* Hub compétition / fiches judoka — inspiration portails internationaux */
+
+:root {
+    --comp-hub-nav-bg: #2c2c54;
+    --comp-hub-accent: #e91e8c;
+    --comp-hub-hero: linear-gradient(125deg, #2c2c54 0%, #1a365d 55%, #243054 100%);
+}
+
+.comp-hub {
+    background: #f1f3f5;
+}
+
+.comp-hub-hero {
+    background: var(--comp-hub-hero);
+    color: #fff;
+    padding: 2rem 0 1.25rem;
+}
+
+.comp-hub-hero .badge-chip {
+    background: rgba(255, 255, 255, 0.12);
+    border: 1px solid rgba(255, 255, 255, 0.22);
+}
+
+.comp-hub-stats {
+    background: #2f2f3a;
+    color: #fff;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.comp-hub-stats .stat-num {
+    font-size: clamp(1.75rem, 4vw, 2.35rem);
+    font-weight: 800;
+    line-height: 1;
+}
+
+.comp-hub-stats .stat-label {
+    font-size: 0.68rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    opacity: 0.82;
+}
+
+.comp-hub-stats .vr-soft {
+    border-left: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.comp-hub-nav-wrap {
+    background: var(--comp-hub-nav-bg);
+    border-bottom: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.comp-hub-nav-wrap .nav-link {
+    color: rgba(255, 255, 255, 0.82);
+    font-size: 0.72rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    border-radius: 0;
+    padding: 0.85rem 0.65rem;
+    border-bottom: 3px solid transparent;
+    margin-bottom: -3px;
+}
+
+.comp-hub-nav-wrap .nav-link:hover {
+    color: #fff;
+}
+
+.comp-hub-nav-wrap .nav-link.active {
+    color: #fff;
+    border-bottom-color: var(--comp-hub-accent);
+}
+
+.medal-dot {
+    display: inline-flex;
+    width: 1rem;
+    height: 1rem;
+    border-radius: 50%;
+}
+.medal-dot-gold { background: linear-gradient(145deg, #f7e096, #d4a017); }
+.medal-dot-silver { background: linear-gradient(145deg, #eef1f5, #a8adb8); }
+.medal-dot-bronze { background: linear-gradient(145deg, #d9a068, #8b5a2b); }
+
+.result-row-medal {
+    border-left: 4px solid transparent;
+}
+.result-row-medal-gold { border-left-color: #d4a017; background: rgba(212, 160, 23, 0.06); }
+.result-row-medal-silver { border-left-color: #a8adb8; background: rgba(168, 173, 184, 0.09); }
+.result-row-medal-bronze { border-left-color: #8b5a2b; background: rgba(139, 90, 43, 0.07); }
+
+.judoka-thumb {
+    width: 44px;
+    height: 44px;
+    object-fit: cover;
+    border-radius: 4px;
+}
+
+.judoka-profile-hero {
+    background: linear-gradient(115deg, #3b2a5a 0%, #1a365d 100%);
+    color: #fff;
+    padding: 2rem 0;
+}
+
+.judoka-tabs-nav {
+    background: #2c2c54;
+}
+
+.judoka-tabs-nav .nav-link {
+    color: rgba(255, 255, 255, 0.82);
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border-radius: 0;
+    border-bottom: 3px solid transparent;
+}
+.judoka-tabs-nav .nav-link.active {
+    color: #fff;
+    border-bottom-color: var(--comp-hub-accent);
+    background: transparent;
+}

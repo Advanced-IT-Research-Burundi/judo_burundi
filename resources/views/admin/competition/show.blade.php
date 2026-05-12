@@ -10,7 +10,10 @@
     <a href="{{ route('admin.competitions.edit', $competition->id) }}" class="btn btn-warning">
         <i class="bi bi-pencil-square me-2"></i>Modifier
     </a>
-    <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal">
+    <a href="{{ route('admin.competitions.judoka-results.index', $competition) }}" class="btn btn-outline-primary">
+        <i class="bi bi-list-ol me-2"></i>Résultats judoka
+    </a>
+    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal">
         <i class="bi bi-trash me-2"></i>Supprimer
     </button>
 </div>

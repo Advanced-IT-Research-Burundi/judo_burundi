@@ -1,109 +1,127 @@
-/* ====== SECTION HERO ====== */
-.page-hero {
+/*
+ * Styles page Direction — tous les sélecteurs sont cantonnés à .direction-hero ou .direction-section
+ * pour ne pas casser les cartes Bootstrap ailleurs sur le site ni provoquer de scroll horizontal.
+ */
+
+/* ---------- Hero ---------- */
+.direction-hero.page-hero {
     position: relative;
+    min-height: 280px;
+    display: flex;
+    align-items: center;
     background-size: cover;
-    background-position: center;
-    color: #fff;
-    padding: 120px 0;
-    text-align: center;
+    background-position: center center;
+    overflow: hidden;
 }
 
-.gradient-overlay::before {
+/* Triple classe pour passer après les overlays génériques de pagehero.css */
+.direction-hero.page-hero.gradient-overlay::before {
     content: "";
     position: absolute;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
+    inset: 0;
     background: rgba(0, 0, 0, 0.5);
     z-index: 1;
+    pointer-events: none;
 }
 
-.page-hero-content {
+.direction-hero .page-hero-content {
     position: relative;
     z-index: 2;
 }
 
-.page-hero-content h1 {
-    font-size: 3rem;
-    font-weight: 700;
-    letter-spacing: 1px;
-    text-transform: uppercase;
+.direction-hero .page-hero-content h1 {
+    letter-spacing: 0.06em;
+    text-shadow: 0 2px 12px rgba(0, 0, 0, 0.45);
 }
 
-.page-hero-content p {
-    font-size: 1.2rem;
-    color: #f0f0f0;
+.direction-hero .page-hero-content p {
+    text-shadow: 0 1px 8px rgba(0, 0, 0, 0.4);
 }
 
-/* ====== SECTION DIRECTION ====== */
+/* ---------- Zone bureau ---------- */
 .direction-section {
-    background: #f9f9f9;
+    overflow-x: hidden;
 }
 
-.section-title {
-    font-weight: 700;
-    color: #222;
-    margin-bottom: 2rem;
-    position: relative;
+.bureau-fed-title {
+    font-size: clamp(1.5rem, 3.8vw, 2.125rem);
+    letter-spacing: 0.02em;
 }
 
-.section-title::after {
-    content: "";
-    width: 60px;
-    height: 4px;
-    background: #d90429;
-    display: block;
-    margin: 10px auto 0;
-    border-radius: 2px;
-}
-
-.card {
-    border: none;
-    border-radius: 12px;
-    background: #fff;
-    transition: all 0.3s ease-in-out;
-    overflow: hidden;
-    position: relative;
-}
-
-.card img {
-    height: 280px;
-    width: 100%;
-    object-fit: cover;
-    transition: transform 0.4s ease;
-}
-
-.card:hover img {
-    transform: scale(1.05);
-}
-
-.card-body {
-    padding: 1.2rem;
-}
-
-.card-title {
-    font-weight: 600;
-    color: #111;
-    font-size: 1.2rem;
-}
-
-.card-text {
-    color: #777;
-    font-size: 0.95rem;
-}
-
-/* Hover effect */
-.card:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 10px 20px rgba(0,0,0,0.15);
-}
-
-/* ====== RESPONSIVE ====== */
-@media (max-width: 768px) {
-    .page-hero-content h1 {
-        font-size: 2rem;
+@media (min-width: 992px) {
+    .bureau-fed-title {
+        max-width: 24rem;
     }
+}
 
-    .card img {
-        height: 220px;
+.bureau-member-card {
+    transition: box-shadow 0.2s ease;
+}
+
+.bureau-member-card:hover {
+    box-shadow: 0 0.35rem 0.95rem rgba(0, 0, 0, 0.1) !important;
+}
+
+.bureau-member-photo-wrap {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 3 / 4;
+    overflow: hidden;
+    background: #eef1f5;
+}
+
+.bureau-member-photo-wrap img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.direction-section .bureau-member-name {
+    color: #b8860b;
+    font-weight: 600;
+    text-align: left;
+}
+
+.direction-section .bureau-member-role {
+    text-align: left;
+    letter-spacing: 0.03em;
+    font-size: 0.7rem !important;
+}
+
+.direction-section .bureau-member-card .card-body {
+    text-align: left;
+}
+
+.bureau-mission-icon {
+    width: 2.5rem;
+    height: 2.5rem;
+}
+
+.bureau-mission-icon i {
+    font-size: 1.05rem;
+}
+
+.direction-section .bureau-contact-icons a i {
+    font-size: 0.7rem;
+}
+
+.direction-section .bureau-contact-icons a {
+    line-height: 1;
+}
+
+.direction-section .bureau-alert-icon {
+    font-size: 0.85rem;
+}
+
+.mission-panel {
+    max-width: 52rem;
+}
+
+@media (max-width: 576px) {
+    .direction-hero.page-hero {
+        min-height: 220px;
     }
 }

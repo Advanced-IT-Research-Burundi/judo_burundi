@@ -15,7 +15,13 @@ class Joueur extends Model
     {
         return $this->belongsTo(Club::class, 'clubs_id');
     }
-        public function getNomCompletAttribute()
+
+    public function competitionResults()
+    {
+        return $this->hasMany(JudokaCompetitionResult::class, 'joueur_id');
+    }
+
+    public function getNomCompletAttribute()
     {
         return "{$this->prenom} {$this->nom}";
     }

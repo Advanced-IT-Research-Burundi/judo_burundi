@@ -9,11 +9,6 @@ const CONFIG = {
 // ===== DOM ELEMENTS CACHE =====
 const DOM = {
     header: null,
-    mobileToggle: null,
-    drawerMenu: null,
-    drawerOverlay: null,
-    drawerClose: null,
-    drawerDropdowns: null,
     backToTop: null,
     heroSlider: null,
     modal: null,
@@ -29,61 +24,11 @@ const state = {
     scrollPosition: 0
 };
 
-// ===== DESKTOP NAVIGATION =====
-function initDesktopNav() {
-    const dropdowns = document.querySelectorAll('.desktop-nav .dropdown');
-
-    if (!dropdowns.length) return;
-
-    dropdowns.forEach(dropdown => {
-        const button = dropdown.querySelector('button');
-        const menu = dropdown.querySelector('.dropdown-menu');
-
-        if (!button || !menu) return;
-
-        // Hover effect (desktop)
-        if (window.innerWidth > 768) {
-            dropdown.addEventListener('mouseenter', () => {
-                dropdown.classList.add('active');
-            });
-
-            dropdown.addEventListener('mouseleave', () => {
-                dropdown.classList.remove('active');
-            });
-        }
-
-        // Click effect (pour les écrans tactiles)
-        button.addEventListener('click', (e) => {
-            e.stopPropagation();
-
-            // Fermer les autres dropdowns
-            dropdowns.forEach(other => {
-                if (other !== dropdown) {
-                    other.classList.remove('active');
-                }
-            });
-
-            // Toggle le dropdown actuel
-            dropdown.classList.toggle('active');
-        });
-    });
-
-    // Fermer les dropdowns en cliquant ailleurs
-    document.addEventListener('click', (e) => {
-        if (!e.target.closest('.dropdown')) {
-            dropdowns.forEach(dropdown => {
-                dropdown.classList.remove('active');
-            });
-        }
-    });
-}
-
 // ===== INITIALIZATION =====
 document.addEventListener('DOMContentLoaded', () => {
     cacheDOMElements();
     initHeader();
-    initDesktopNav();
-    initMobileDrawer();
+    initOffcanvasMenu();
     initHeroSlider();
     initScrollEffects();
     initBackToTop();
@@ -95,12 +40,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // ===== CACHE DOM ELEMENTS =====
 function cacheDOMElements() {
-    DOM.header = document.querySelector('.header');
-    DOM.mobileToggle = document.querySelector('.mobile-toggle');
-    DOM.drawerMenu = document.querySelector('.drawer-menu');
-    DOM.drawerOverlay = document.querySelector('.drawer-overlay');
-    DOM.drawerClose = document.querySelector('.drawer-close');
-    DOM.drawerDropdowns = document.querySelectorAll('.drawer-dropdown-btn');
+    DOM.header = document.getElementById('siteHeader');
     DOM.backToTop = document.getElementById('backToTop');
     DOM.heroSlider = document.querySelector('.hero-slider');
     DOM.modal = document.getElementById('registrationModal');
@@ -142,91 +82,41 @@ function handleScroll() {
     state.ticking = false;
 }
 
-// ===== MOBILE DRAWER MENU =====
-function initMobileDrawer() {
-    if (!DOM.drawerMenu) return;
+function initOffcanvasMenu() {
+    const el = document.getElementById('mobileMenu');
+    if (!el || typeof bootstrap === 'undefined') return;
 
-    // Toggle drawer
-    DOM.mobileToggle?.addEventListener('click', toggleDrawer);
-    DOM.drawerClose?.addEventListener('click', closeDrawer);
-    DOM.drawerOverlay?.addEventListener('click', closeDrawer);
-
-    // Close drawer on link click
-    document.querySelectorAll('.drawer-links a').forEach(link => {
-        link.addEventListener('click', closeDrawer);
-    });
-
-    // Handle drawer dropdowns
-    DOM.drawerDropdowns?.forEach(btn => {
-        btn.addEventListener('click', handleDrawerDropdown);
-    });
-
-    // Close on ESC key
-    document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && DOM.drawerMenu?.classList.contains('active')) {
-            closeDrawer();
-        }
-    });
-
-    // Handle resize
-    let resizeTimer;
     window.addEventListener('resize', () => {
-        clearTimeout(resizeTimer);
-        resizeTimer = setTimeout(() => {
-            if (window.innerWidth > 768 && DOM.drawerMenu?.classList.contains('active')) {
-                closeDrawer();
-            }
-        }, 250);
+        if (window.innerWidth >= 992) {
+            const inst = bootstrap.Offcanvas.getInstance(el);
+            if (inst) inst.hide();
+        }
     });
 }
 
 function toggleDrawer() {
-    if (DOM.drawerMenu?.classList.contains('active')) {
-        closeDrawer();
+    const el = document.getElementById('mobileMenu');
+    if (!el || typeof bootstrap === 'undefined') return;
+    const inst = bootstrap.Offcanvas.getOrCreateInstance(el);
+    if (el.classList.contains('show')) {
+        inst.hide();
     } else {
-        openDrawer();
+        inst.show();
     }
 }
 
 function openDrawer() {
-    if (!DOM.drawerMenu) return;
-
-    state.scrollPosition = window.pageYOffset;
-
-    DOM.drawerMenu.classList.add('active');
-    DOM.drawerOverlay?.classList.add('active');
-    DOM.mobileToggle?.classList.add('active');
-
-    document.body.style.position = 'fixed';
-    document.body.style.top = `-${state.scrollPosition}px`;
-    document.body.style.width = '100%';
+    const el = document.getElementById('mobileMenu');
+    if (el && typeof bootstrap !== 'undefined') {
+        bootstrap.Offcanvas.getOrCreateInstance(el).show();
+    }
 }
 
 function closeDrawer() {
-    if (!DOM.drawerMenu) return;
-
-    DOM.drawerMenu.classList.remove('active');
-    DOM.drawerOverlay?.classList.remove('active');
-    DOM.mobileToggle?.classList.remove('active');
-
-    document.body.style.position = '';
-    document.body.style.top = '';
-    document.body.style.width = '';
-    window.scrollTo(0, state.scrollPosition);
-}
-
-function handleDrawerDropdown(e) {
-    const parent = e.currentTarget.closest('.drawer-dropdown');
-    const isActive = parent.classList.contains('active');
-
-    // Close all dropdowns
-    document.querySelectorAll('.drawer-dropdown').forEach(dropdown => {
-        dropdown.classList.remove('active');
-    });
-
-    // Toggle current dropdown
-    if (!isActive) {
-        parent.classList.add('active');
+    const el = document.getElementById('mobileMenu');
+    if (el && typeof bootstrap !== 'undefined') {
+        const inst = bootstrap.Offcanvas.getInstance(el);
+        if (inst) inst.hide();
     }
 }
 
@@ -573,20 +463,23 @@ function initAnimations() {
 function setActiveMenuItem() {
     const currentPath = window.location.pathname;
 
-    // Desktop menu
-    document.querySelectorAll('.nav-links a').forEach(link => {
-        const linkPath = new URL(link.href).pathname;
-        if (linkPath === currentPath) {
-            link.classList.add('active');
-        }
+    document.querySelectorAll('.navbar-site .nav-link[href]').forEach(link => {
+        if (link.classList.contains('dropdown-toggle')) return;
+        try {
+            const linkPath = new URL(link.href).pathname;
+            if (linkPath === currentPath) {
+                link.classList.add('active');
+            }
+        } catch (_) { /* ignore */ }
     });
 
-    // Drawer menu
-    document.querySelectorAll('.drawer-links a').forEach(link => {
-        const linkPath = new URL(link.href).pathname;
-        if (linkPath === currentPath) {
-            link.classList.add('active');
-        }
+    document.querySelectorAll('#mobileMenu .list-group-item-action[href]').forEach(link => {
+        try {
+            const linkPath = new URL(link.href).pathname;
+            if (linkPath === currentPath) {
+                link.classList.add('active');
+            }
+        } catch (_) { /* ignore */ }
     });
 }
 

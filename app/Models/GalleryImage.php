@@ -12,4 +12,9 @@ class GalleryImage extends Model
 
     protected $table = 'gallery_images';
     protected $guarded = [];
+
+    public function competition()
+    {
+        return $this->belongsTo(Competition::class);
+    }
 }
