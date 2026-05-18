@@ -99,9 +99,9 @@
                                     <a class="nav-link px-3 fw-medium site-nav-link @if(request()->routeIs('admin.*')) active @endif" href="{{ route('admin.dashboard') }}">Dashboard</a>
                                 </li>
                             @endif
-                            <li class="nav-item">
+                            <!-- <li class="nav-item">
                                 <a class="nav-link px-3 fw-medium site-nav-link @if(request()->routeIs('profile.*')) active @endif" href="{{ route('profile.edit') }}">Profil</a>
-                            </li>
+                            </li> -->
                             <li class="nav-item">
                                 <form action="{{ route('logout') }}" method="POST" class="d-inline">
                                     @csrf

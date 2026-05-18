@@ -55,7 +55,7 @@
                                         <td>{{ $club->capacite ?? '—' }}</td>
                                         <td class="text-end">
                                             <a href="{{ route('clubs.show', $club) }}" class="btn btn-sm btn-outline-primary">Fiche</a>
-                                            <a href="{{ route('clubs.results', $club) }}" class="btn btn-sm btn-outline-secondary">Résultats</a>
+                                            <!-- <a href="{{ route('clubs.results', $club) }}" class="btn btn-sm btn-outline-secondary">Résultats</a> -->
                                         </td>
                                     </tr>
                                 @empty

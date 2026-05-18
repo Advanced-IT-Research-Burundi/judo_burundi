@@ -54,7 +54,7 @@
                                 </div>
                             </div>
 
-                            <div class="d-flex flex-column flex-sm-row justify-content-between align-items-start align-items-sm-center gap-2 mb-4 small">
+                            <!-- <div class="d-flex flex-column flex-sm-row justify-content-between align-items-start align-items-sm-center gap-2 mb-4 small">
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
                                     <label class="form-check-label text-muted" for="remember">Se souvenir de moi</label>
@@ -62,17 +62,17 @@
                                 @if (Route::has('password.request'))
                                     <a href="{{ route('password.request') }}" class="link-success fw-medium text-decoration-none">Mot de passe oublié ?</a>
                                 @endif
-                            </div>
+                            </div> -->
 
                             <button type="submit" class="btn btn-success w-100 rounded-pill py-2 fw-semibold">Se connecter</button>
                         </form>
 
-                        <p class="text-center text-muted small mt-4 mb-0 border-top pt-3">
+                        <!-- <p class="text-center text-muted small mt-4 mb-0 border-top pt-3">
                             Pas encore de compte ?
                             @if (Route::has('register'))
                                 <a href="{{ route('register') }}" class="link-primary fw-semibold text-decoration-none">Créer un compte</a>
                             @endif
-                        </p>
+                        </p> -->
                     </div>
                 </div>
             </div>
