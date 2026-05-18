@@ -1,5 +1,19 @@
 /* Compléments Bootstrap (site public): header fixe, héros, sections héritées de home.css */
 
+/*
+ * Débordement horizontal (lignes Bootstrap négatives, tableaux…) — souvent invisible en local,
+ * mais visible une fois déployé sur petits écrans ou avec barres de défilement du navigateur.
+ */
+html {
+    overflow-x: hidden;
+}
+
+#siteMain img,
+#siteMain video {
+    max-width: 100%;
+    height: auto;
+}
+
 :root {
     --site-header-extra: clamp(120px, 22vw, 168px);
     --transition: 0.3s ease;

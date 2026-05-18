@@ -19,85 +19,77 @@
         </div>
     </section>
 
-    <section id="liste-competitions" class="py-5 activites-results-wrap position-relative"
-             style="background-image: linear-gradient(135deg, rgba(26, 54, 93, 0.92), rgba(15, 26, 42, 0.94)), url('{{ asset('images/judo4.jpg') }}'); background-size: cover; background-position: center;">
-        <div class="container position-relative">
-            <div class="activites-results-panel text-white">
-                <form method="get" action="{{ route('competitions.index') }}" class="row g-3 align-items-end mb-3" id="competitionsFilters">
-                    <div class="col-md-3">
-                        <label for="filterSaison" class="form-label small text-white-50 mb-1">Saison</label>
-                        <select name="saison" id="filterSaison" class="form-select form-select-sm">
-                            <option value="">Toutes les saisons</option>
-                            @foreach($saisons as $saison)
-                                <option value="{{ $saison }}" @selected(($filterSaison ?? '') === $saison)>
-                                    {{ $saison }}
-                                </option>
-                            @endforeach
-                        </select>
-                    </div>
-                    <div class="col-md-3">
-                        <label for="filterType" class="form-label small text-white-50 mb-1">Catégorie</label>
-                        <select name="type" id="filterType" class="form-select form-select-sm">
-                            <option value="">Toutes les catégories</option>
-                            @foreach($types as $t)
-                                <option value="{{ $t }}" @selected(($filterType ?? '') === $t)>{{ $t }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                    <div class="col-md-4">
-                        <label for="compSearch" class="form-label small text-white-50 mb-1">Recherche</label>
-                        <input type="search" name="q" id="compSearch" value="{{ $q ?? '' }}"
-                               class="form-control form-control-sm" placeholder="Compétition, lieu, club…" autocomplete="off">
-                    </div>
-                    <div class="col-md-2">
-                        <button type="submit" class="btn btn-dark w-100">Afficher</button>
-                    </div>
-                </form>
+    <section class="py-5 bg-body-secondary">
+        <div class="container">
+            <div class="card shadow-sm border-0">
+                <div class="card-body p-4">
+                    <form method="get" action="{{ route('competitions.index') }}" class="row g-3 align-items-end mb-4">
+                        <div class="col-md-4">
+                            <label for="filterSaison" class="form-label fw-semibold">Saison</label>
+                            <select name="saison" id="filterSaison" class="form-select form-select-lg">
+                                <option value="">Toutes les saisons</option>
+                                @foreach($saisons as $saison)
+                                    <option value="{{ $saison }}" @selected(($filterSaison ?? '') === $saison)>
+                                        {{ $saison }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <label for="filterType" class="form-label fw-semibold">Catégorie</label>
+                            <select name="type" id="filterType" class="form-select form-select-lg">
+                                <option value="">Toutes les catégories</option>
+                                @foreach($types as $t)
+                                    <option value="{{ $t }}" @selected(($filterType ?? '') === $t)>{{ $t }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <label for="compSearch" class="form-label fw-semibold">Rechercher</label>
+                            <input type="search" name="q" id="compSearch" value="{{ $q ?? '' }}"
+                                   class="form-control form-control-lg" placeholder="Compétition, lieu…" autocomplete="off">
+                        </div>
+                    </form>
 
-                <div class="table-shell shadow-sm">
-                    <div class="table-responsive">
-                        <table class="table table-sm table-striped table-hover table-bordered align-middle mb-0 text-dark">
-                            <thead class="table-light text-center text-uppercase small">
+                    <div class="table-responsive rounded border">
+                        <table class="table table-striped table-hover align-middle mb-0">
+                            <thead class="table-light">
                                 <tr>
-                                    <th scope="col">Saison</th>
-                                    <th scope="col" class="text-start">Compétition</th>
-                                    <th scope="col" class="text-start">Lieu</th>
-                                    <th scope="col">Date</th>
-                                    <th scope="col" class="text-start">Clubs (équipes)</th>
-                                    <th scope="col" class="text-nowrap">Détail</th>
+                                    <th scope="col">Compétition</th>
+                                    <th scope="col" class="d-none d-md-table-cell">Lieu</th>
+                                    <th scope="col" class="d-none d-md-table-cell">Date</th>
+                                    <th scope="col" class="d-none d-md-table-cell">Clubs</th>
+                                    <th scope="col" class="text-nowrap text-end">Voir</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @forelse($competitions as $competition)
                                     <tr>
-                                        <td class="text-center small">{{ $competition->saison ?? '—' }}</td>
-                                        <td>
-                                            <span class="fw-semibold">{{ $competition->nom }}</span>
+                                        <td class="fw-semibold text-primary">
+                                            <a href="{{ route('competitions.show', $competition) }}" class="text-decoration-none">{{ $competition->nom }}</a>
                                             @if($competition->type)
-                                                <div class="activites-competition-muted">{{ $competition->type }}</div>
+                                                <div class="small text-muted">{{ $competition->type }}</div>
                                             @endif
                                         </td>
-                                        <td>{{ $competition->lieu ?? '—' }}</td>
-                                        <td class="text-center text-nowrap small">
+                                        <td class="d-none d-md-table-cell text-muted small">{{ $competition->lieu ?? '—' }}</td>
+                                        <td class="d-none d-md-table-cell text-muted small">
                                             {{ $competition->date_competition ? $competition->date_competition->format('Y-m-d') : '—' }}
                                         </td>
-                                        <td class="small">
+                                        <td class="d-none d-md-table-cell text-muted small">
                                             @php($labels = $competition->participatingClubLabels())
                                             @if(count($labels))
                                                 {{ implode(', ', $labels) }}
                                             @else
-                                                <span class="text-muted">—</span>
+                                                <span>—</span>
                                             @endif
                                         </td>
-                                        <td class="text-center">
-                                            <a href="{{ route('competitions.show', $competition) }}" class="btn btn-sm btn-outline-primary py-0 px-2">
-                                                Voir
-                                            </a>
+                                        <td class="text-end">
+                                            <a href="{{ route('competitions.show', $competition) }}" class="btn btn-sm btn-outline-primary">Fiche</a>
                                         </td>
                                     </tr>
                                 @empty
                                     <tr>
-                                        <td colspan="6" class="text-center py-5 text-muted">
+                                        <td colspan="5" class="text-center py-5 text-muted">
                                             Aucune compétition ne correspond à ces critères.
                                         </td>
                                     </tr>
@@ -105,10 +97,10 @@
                             </tbody>
                         </table>
                     </div>
-                </div>
 
-                <div class="mt-4 d-flex justify-content-center">
-                    {{ $competitions->links() }}
+                    <div class="mt-4 d-flex justify-content-center">
+                        {{ $competitions->links() }}
+                    </div>
                 </div>
             </div>
         </div>
