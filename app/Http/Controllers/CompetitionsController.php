@@ -17,7 +17,12 @@ class CompetitionsController extends Controller
         $saison = $request->input('saison');
         $type = $request->input('type');
 
-        $query = Competition::with(['clubDomicile', 'clubAdversaire', 'clubs']);
+        $query = Competition::with([
+            'clubDomicile',
+            'clubAdversaire',
+            'clubs',
+            'judokaResults.joueur.club',
+        ]);
 
         if ($saison) {
             $query->where('saison', $saison);
@@ -69,7 +74,7 @@ class CompetitionsController extends Controller
         ]);
 
         $results = $competition->judokaResults;
-        $resultsByCategory = self::sortResultsGroupedByCategory($results);
+        $resultsByCategory = $competition->judokaResultsGroupedByCategory();
 
         $judokaIds = $results->pluck('joueur_id')->unique()->filter();
 
@@ -125,7 +130,9 @@ class CompetitionsController extends Controller
                     return str_contains($nom, $needle)
                         || str_contains($clubNom, $needle)
                         || str_contains(mb_strtolower((string) ($r->categorie_label ?? '')), $needle)
-                        || str_contains(mb_strtolower((string) ($r->pays_code ?? '')), $needle);
+                        || str_contains(mb_strtolower((string) ($r->pays_code ?? '')), $needle)
+                        || str_contains(mb_strtolower((string) ($r->joueur?->sexe ?? '')), $needle)
+                        || str_contains(mb_strtolower(trim(str_replace(',', '.', (string) ($r->joueur?->poids ?? '')))), $needle);
                 });
             })->filter(fn ($g) => $g->isNotEmpty());
 
@@ -148,27 +155,6 @@ class CompetitionsController extends Controller
     }
 
     /**
-     * Groupe par catégorie, trie les rangs dans chaque bloc, ordonne les blocs (poids IJF quand possible).
-     *
-     * @param  Collection<int, \App\Models\JudokaCompetitionResult>  $results
-     * @return Collection<string, Collection<int, \App\Models\JudokaCompetitionResult>>
-     */
-    private static function sortResultsGroupedByCategory(Collection $results): Collection
-    {
-        $grouped = $results
-            ->groupBy(fn ($r) => trim((string) ($r->categorie_label ?: 'Toutes catégories')))
-            ->map(function ($lines) {
-                return $lines
-                    ->sortBy(fn ($r) => [(int) ($r->placement ?? 9999), $r->id])
-                    ->values();
-            });
-
-        $keys = $grouped->keys()->sort(fn ($a, $b) => self::compareJudoCategoryLabels((string) $a, (string) $b))->values();
-
-        return $keys->mapWithKeys(fn ($k) => [$k => $grouped->get($k)]);
-    }
-
-    /**
      * Conserve l’ordre des catégories du classement complet après filtrage.
      *
      * @param  Collection<string, mixed>  $orderedFull
@@ -185,30 +171,5 @@ class CompetitionsController extends Controller
         }
 
         return $out;
-    }
-
-    private static function judoCategorySortKey(string $label): int
-    {
-        if (preg_match('/\+\s*(\d+)/u', $label, $m)) {
-            return 1000 + (int) $m[1];
-        }
-
-        if (preg_match('/-\s*(\d+)/u', $label, $m)) {
-            return (int) $m[1];
-        }
-
-        return 5000 + (crc32($label) % 1000);
-    }
-
-    private static function compareJudoCategoryLabels(string $a, string $b): int
-    {
-        $ka = self::judoCategorySortKey($a);
-        $kb = self::judoCategorySortKey($b);
-
-        if ($ka !== $kb) {
-            return $ka <=> $kb;
-        }
-
-        return strcmp($a, $b);
     }
 }

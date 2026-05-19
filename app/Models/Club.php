@@ -9,7 +9,7 @@ class Club extends Model
 {
     use HasFactory;
     protected $table = 'clubs';
-    protected $fillable = ['nom', 'description', 'capacite'];
+    protected $fillable = ['nom', 'description', 'capacite', 'logo'];
 
     public function joueurs()
     {

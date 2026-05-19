@@ -37,3 +37,30 @@
 .clubs-directory-card {
     border-radius: 0.5rem;
 }
+
+/* Liste publique compétitions : sous-blocs « catégorie » + métadonnées judoka */
+.competition-index-category-head {
+    font-weight: 800;
+    font-size: 0.82rem;
+    letter-spacing: 0.03em;
+    padding: 0.55rem 1rem;
+    background: #f1f5f9;
+    border-bottom: 1px solid #e2e8f0;
+    color: #334155;
+}
+
+.club-res-meta-col {
+    flex-shrink: 0;
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: #475569;
+    text-align: center;
+    min-width: 3.35rem;
+}
+
+@media (max-width: 575.98px) {
+    .club-res-meta-col {
+        min-width: 2.6rem;
+        font-size: 0.65rem;
+    }
+}

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Club;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ClubController extends Controller
 {
@@ -25,9 +26,16 @@ class ClubController extends Controller
             'nom' => 'required|string|max:255',
             'description' => 'nullable|string',
             'capacite' => 'nullable|integer|min:0',
+            'logo' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
         ]);
 
-        Club::create($validated);
+        $data = collect($validated)->except('logo')->all();
+
+        if ($request->hasFile('logo')) {
+            $data['logo'] = $request->file('logo')->store('clubs', 'public');
+        }
+
+        Club::create($data);
 
         return redirect()->route('admin.clubs.index')
             ->with('success', 'Club créé avec succès.');
@@ -50,9 +58,19 @@ class ClubController extends Controller
             'nom' => 'required|string|max:255',
             'description' => 'nullable|string',
             'capacite' => 'nullable|integer|min:0',
+            'logo' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
         ]);
 
-        $club->update($validated);
+        $data = collect($validated)->except('logo')->all();
+
+        if ($request->hasFile('logo')) {
+            if ($club->logo) {
+                Storage::disk('public')->delete($club->logo);
+            }
+            $data['logo'] = $request->file('logo')->store('clubs', 'public');
+        }
+
+        $club->update($data);
 
         return redirect()->route('admin.clubs.index')
             ->with('success', 'Club mis à jour avec succès.');
@@ -60,6 +78,10 @@ class ClubController extends Controller
 
     public function destroy(Club $club)
     {
+        if ($club->logo) {
+            Storage::disk('public')->delete($club->logo);
+        }
+
         $club->delete();
 
         return redirect()->route('admin.clubs.index')

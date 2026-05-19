@@ -151,6 +151,21 @@
     border-color: rgba(255, 255, 255, 0.2);
 }
 
+.club-res-team-logo-img {
+    width: 2.35rem;
+    height: 1.55rem;
+    object-fit: contain;
+    border-radius: 0.25rem;
+    border: 1px solid rgba(15, 23, 42, 0.12);
+    background: #fff;
+    display: block;
+}
+
+.club-res-team-logo-wrap {
+    flex-shrink: 0;
+    line-height: 0;
+}
+
 .club-res-code {
     font-family: ui-monospace, monospace;
     font-size: 0.72rem;

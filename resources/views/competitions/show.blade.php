@@ -104,7 +104,7 @@
                                         <tr><th class="text-muted">Au</th><td>{{ $competition->date_competition ? $competition->date_competition->format('d. F Y') : '—' }}</td></tr>
                                     </tbody>
                                 </table>
-                                <p class="small text-muted mt-3 mb-0">Une seule journée renseignée dans la base : adaptez si vous ajoutez une date de fin au formulaire admin.</p>
+                                {{-- <p class="small text-muted mt-3 mb-0">Une seule journée renseignée dans la base : adaptez si vous ajoutez une date de fin au formulaire admin.</p> --}}
                             </div>
                         </div>
                     </div>
@@ -214,9 +214,11 @@
                                                                     {{ $j->nom }}
                                                                 </a>
                                                                 <span class="small">{{ $j->prenom }}</span>
+                                                                <span class="small text-muted d-block mt-1">{{ $j->poidsLabel() }} · {{ $j->genreCourt() }}</span>
                                                             @elseif($j)
                                                                 <span class="fw-bold text-uppercase">{{ $j->nom }}</span>
                                                                 <span class="small d-block">{{ $j->prenom }}</span>
+                                                                <span class="small text-muted d-block mt-1">{{ $j->poidsLabel() }} · {{ $j->genreCourt() }}</span>
                                                             @else
                                                                 —
                                                             @endif
@@ -233,7 +235,11 @@
                                                         @endif
                                                         <div class="d-inline-flex align-items-center gap-2 flex-row-reverse">
                                                             <span class="badge bg-light text-dark border font-monospace small">{{ $codeBadge }}</span>
-                                                            @if ($jClub)
+                                                            @if ($jClub && $jClub->logo)
+                                                                <span class="club-res-team-logo-wrap" title="{{ $jClub->nom }}">
+                                                                    <img src="{{ asset('storage/'.$jClub->logo) }}" alt="" class="club-res-team-logo-img">
+                                                                </span>
+                                                            @elseif ($jClub)
                                                                 <span class="club-res-team-icon" title="{{ $jClub->nom }}">{{ $jClub->initialsAvatar(2) }}</span>
                                                             @else
                                                                 <span class="club-res-team-icon text-muted" title="Club inconnu">—</span>

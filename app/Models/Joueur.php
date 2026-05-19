@@ -25,4 +25,34 @@ class Joueur extends Model
     {
         return "{$this->prenom} {$this->nom}";
     }
+
+    /** Genre court pour tableaux (H / F). */
+    public function genreCourt(): string
+    {
+        $raw = trim((string) $this->sexe);
+        if ($raw === '') {
+            return '—';
+        }
+        $c = strtoupper(mb_substr($raw, 0, 1));
+        if (in_array($c, ['M', 'H'], true)) {
+            return 'H';
+        }
+        if ($c === 'F') {
+            return 'F';
+        }
+
+        return mb_strtoupper(mb_substr($raw, 0, 3));
+    }
+
+    /** Poids judoka pour affichage (kg). */
+    public function poidsLabel(): string
+    {
+        if ($this->poids === null || $this->poids === '') {
+            return '—';
+        }
+        $n = (float) $this->poids;
+        $formatted = abs($n - round($n)) < 0.001 ? (string) (int) round($n) : number_format($n, 1, ',', '');
+
+        return $formatted . ' kg';
+    }
 }

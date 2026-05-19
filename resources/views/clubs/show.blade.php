@@ -62,7 +62,7 @@
                 <div class="card shadow-sm border-0 h-100">
                     <div class="card-header bg-white fw-semibold py-3 d-flex justify-content-between align-items-center">
                         <span>Compétitions récentes</span>
-                        <a href="{{ route('competitions.index') }}" class="small">Calendrier national</a>
+                        <a href="{{ route('competitions.index') }}" class="small">Voir toutes les compétitions</a>
                     </div>
                     <div class="table-responsive">
                         <table class="table table-hover align-middle mb-0">
@@ -82,7 +82,7 @@
                                         </td>
                                         <td class="text-nowrap small">{{ $c->date_competition ? $c->date_competition->format('d/m/Y') : '—' }}</td>
                                         <td class="text-end">
-                                            <a href="{{ route('competitions.show', $c) }}" class="btn btn-sm btn-outline-primary">Hub</a>
+                                            <a href="{{ route('competitions.show', $c) }}" class="btn btn-sm btn-outline-primary">Detail</a>
                                         </td>
                                     </tr>
                                 @empty
