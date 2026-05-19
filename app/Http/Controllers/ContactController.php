@@ -25,14 +25,16 @@ class ContactController extends Controller
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
             'email' => 'required|email|max:255',
+            'phone' => 'nullable|string|max:50',
             'sujet' => 'required|string|max:255',
-            'message' => 'required|string|max:2000'
+            'message' => 'required|string|max:2000',
         ], [
             'name.required' => 'Le nom est obligatoire.',
             'name.max' => 'Le nom ne peut pas dépasser 255 caractères.',
             'email.required' => 'L\'email est obligatoire.',
             'email.email' => 'L\'email doit être valide.',
             'email.max' => 'L\'email ne peut pas dépasser 255 caractères.',
+            'phone.max' => 'Le numéro de téléphone est trop long.',
             'sujet.required' => 'Le sujet est obligatoire.',
             'sujet.max' => 'Le sujet ne peut pas dépasser 255 caractères.',
             'message.required' => 'Le message est obligatoire.',
@@ -51,12 +53,13 @@ class ContactController extends Controller
             Contact::create([
                 'name' => $request->name,
                 'email' => $request->email,
+                'phone' => $request->phone,
                 'sujet' => $request->sujet,
-                'message' => $request->message
+                'message' => $request->message,
             ]);
 
             // Rediriger avec message de succès
-            return redirect()->route('contact')
+            return redirect()->back()
                             ->with('success', 'Votre message a été envoyé avec succès ! Nous vous répondrons dans les plus brefs délais.');
 
         } catch (\Exception $e) {

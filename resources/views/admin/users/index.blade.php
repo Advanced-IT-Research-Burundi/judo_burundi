@@ -40,22 +40,32 @@
 @endpush
 
 @section('content')
-<div class="card mb-4">
-    <div class="card-header d-flex justify-content-between align-items-center flex-wrap gap-2">
-        <h5 class="mb-0"><i class="fas fa-cloud me-2"></i>Liste des utilisateurs ({{ $usersForCloud->count() }})</h5>
-        <a href="{{ route('admin.users.create') }}" class="btn btn-primary btn-sm">
+{{-- <div class="card shadow-sm mb-4">
+    <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center flex-wrap gap-2">
+        <h5 class="mb-0"><i class="fas fa-cloud me-2"></i>Aperçu ({{ $usersForCloud->count() }} utilisateurs)</h5>
+        <a href="{{ route('admin.users.create') }}" class="btn btn-light btn-sm text-primary">
             <i class="fas fa-plus me-1"></i>Nouvel utilisateur
         </a>
     </div>
-</div>
+    <div class="card-body">
+        <div class="users-word-cloud">
+            @foreach($usersForCloud as $user)
+                <a href="{{ route('admin.users.edit', $user) }}" class="cloud-chip badge rounded-pill bg-primary">
+                    {{ $user->name ?: $user->email }}
+                    <span class="cloud-sub">{{ $user->email }}</span>
+                </a>
+            @endforeach
+        </div>
+    </div>
+</div> --}}
 
-<div class="card">
-    <div class="card-header">
-        <h5 class="mb-0"><i class="fas fa-list me-2"></i>Détail &amp; actions</h5>
+<div class="card shadow-sm">
+    <div class="card-header bg-primary text-white">
+        <h5 class="mb-0"><i class="fas fa-list me-2"></i>Détail et actions</h5>
     </div>
     <div class="card-body p-0">
         <div class="table-responsive">
-            <table class="table table-hover mb-0 align-middle">
+            <table class="table table-striped mb-0 align-middle">
                 <thead class="table-light">
                     <tr>
                         <th>Nom</th>
@@ -79,16 +89,21 @@
                             </td>
                             <td>{{ $row->created_at?->format('d/m/Y H:i') }}</td>
                             <td class="text-end">
-                                <a href="{{ route('admin.users.edit', $row) }}" class="btn btn-sm btn-warning">
-                                    <i class="fas fa-edit"></i>
-                                </a>
-                                @if($row->id !== auth()->id())
-                                    <form action="{{ route('admin.users.destroy', $row) }}" method="POST" class="d-inline" onsubmit="return confirm('Supprimer cet utilisateur ?');">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button>
-                                    </form>
-                                @endif
+                                <div class="btn-group btn-group-sm admin-table-actions" role="group" aria-label="Actions utilisateur">
+                                    <a href="{{ route('admin.users.edit', $row) }}" class="btn btn-outline-warning" title="Modifier">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                    @if($row->id !== auth()->id())
+                                        <form action="{{ route('admin.users.destroy', $row) }}" method="POST" class="d-inline"
+                                              onsubmit="return confirm('Supprimer cet utilisateur ?');">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-outline-danger" title="Supprimer">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </form>
+                                    @endif
+                                </div>
                             </td>
                         </tr>
                     @empty
@@ -101,7 +116,10 @@
         </div>
     </div>
     @if($users->hasPages())
-        <div class="card-footer">{{ $users->links() }}</div>
+        <div class="card-footer d-flex justify-content-between align-items-center flex-wrap gap-2">
+            <div class="text-muted small">Page {{ $users->currentPage() }} / {{ $users->lastPage() }}</div>
+            <div>{{ $users->links() }}</div>
+        </div>
     @endif
 </div>
 @endsection

@@ -4,220 +4,213 @@
 
 @push('styles')
 <link rel="stylesheet" href="{{ asset('css/home.css') }}">
+@include('partials.contact-styles')
 @endpush
 
+@php
+    $homeFeatures = [
+        ['icon' => 'fa-fist-raised', 'title' => 'Techniques', 'body' => 'Apprenez avec des cadres techniques expérimentés.'],
+        ['icon' => 'fa-users', 'title' => 'Communauté', 'body' => 'Un club bienveillant pour tous les âges.'],
+        ['icon' => 'fa-trophy', 'title' => 'Compétitions', 'body' => 'Calendrier national et rencontres interclubs.'],
+    ];
+@endphp
+
 @section('content')
-    <!-- Hero Section avec Slider -->
-    <section class="hero">
-        <div class="hero-slider">
-            <!-- Slides -->
-            <div class="slide active" style="background-image: url('{{ asset('images/judo1.jpeg') }}');"></div>
-            <div class="slide" style="background-image: url('{{ asset('images/judo2.jpg') }}');"></div>
-            <div class="slide" style="background-image: url('{{ asset('images/judo3.jpg') }}');"></div>
+    <!-- Hero avec carrousel d’images -->
+    <section class="hero" aria-label="Introduction">
+        <div class="hero-slider" role="region" aria-roledescription="carrousel" aria-label="Photos de la Fédération">
+            <div class="slide active" aria-hidden="true" style="background-image: url('{{ asset('images/judo1.jpeg') }}');"></div>
+            <div class="slide" aria-hidden="true" style="background-image: url('{{ asset('images/judo2.jpg') }}');"></div>
+            <div class="slide" aria-hidden="true" style="background-image: url('{{ asset('images/judo3.jpg') }}');"></div>
 
-            <!-- Overlay -->
-            <div class="overlay"></div>
+            <div class="overlay" aria-hidden="true"></div>
 
-            <!-- Contenu du hero -->
             <div class="hero-content">
-                <h1>ENTRAÎNEZ-VOUS AVEC LES MEILLEURS</h1>
-                <p>Découvrez le JUDO traditionnel avec nos instructeurs légendaires</p>
+                <h1 class="text-uppercase">Entraînez-vous avec les meilleurs</h1>
+                <p>Découvrez le judo traditionnel avec nos instructeurs légendaires.</p>
                 <div class="hero-buttons gap-3">
                     <button type="button" class="btn btn-success btn-lg rounded-pill px-4 shadow" onclick="JudoApp.openModal()">
-                        <i class="fas fa-play-circle me-2"></i>
+                        <i class="fas fa-play-circle me-2" aria-hidden="true"></i>
                         Commencer maintenant
                     </button>
                     <a href="{{ route('contact') }}" class="btn btn-outline-light btn-lg rounded-pill px-4">
-                        <i class="fas fa-info-circle me-2"></i>
+                        <i class="fas fa-info-circle me-2" aria-hidden="true"></i>
                         En savoir plus
                     </a>
                 </div>
             </div>
 
-            <!-- Flèches de navigation -->
             <div class="slider-arrows">
-                <span class="prev" aria-label="Slide précédent">&#10094;</span>
-                <span class="next" aria-label="Slide suivant">&#10095;</span>
+                <button type="button" class="slider-nav-btn prev" aria-label="Image précédente">&#10094;</button>
+                <button type="button" class="slider-nav-btn next" aria-label="Image suivante">&#10095;</button>
             </div>
 
-            <!-- Indicateurs -->
-            <div class="slider-dots"></div>
+            <div class="slider-dots" aria-label="Choix des images du carrousel"></div>
         </div>
     </section>
 
-    <!-- Features Section -->
-    <section class="features">
-        <div class="container">
-            <div class="features-grid">
-                <div class="feature-card">
-                    <i class="fas fa-fist-raised"></i>
-                    <h3>Techniques Expertes</h3>
-                    <p>Apprenez les techniques authentiques avec nos maîtres expérimentés</p>
-                </div>
-                <div class="feature-card">
-                    <i class="fas fa-users"></i>
-                    <h3>Communauté</h3>
-                    <p>Rejoignez une communauté passionnée et bienveillante</p>
-                </div>
-                <div class="feature-card">
-                    <i class="fas fa-trophy"></i>
-                    <h3>Compétitions</h3>
-                    <p>Participez à des compétitions locales et nationales</p>
-                </div>
+    <!-- Bloc « Pourquoi le judo » -->
+    <section class="features py-5 bg-body-secondary" aria-labelledby="home-features-heading">
+        <div class="container py-lg-2">
+            <div class="text-center mb-5">
+                <h2 id="home-features-heading" class="h3 fw-bold text-primary text-uppercase">Pourquoi le judo&nbsp;?</h2>
+                <p class="text-muted mb-0 col-lg-8 mx-auto">Technique, communauté et compétition au sein de la Fédération.</p>
             </div>
-        </div>
-    </section>
-
-    <!-- Gallery Section -->
-    <section class="gallery">
-        <div class="container">
-            <div class="section-title">
-                <h2>Galerie Photos</h2>
-                <p>Découvrez notre académie en images</p>
-            </div>
-            <div class="gallery-grid">
-                @forelse($galleryImages as $image)
-                    <div class="gallery-item">
-                        @if ($image->images && file_exists(public_path('storage/' . $image->images)))
-                            <img src="{{ asset('storage/' . $image->images) }}"
-                                 alt="Galerie Judo Burundi"
-                                 loading="lazy">
-                        @else
-                            <div class="gallery-placeholder">
-                                <i class="fas fa-image"></i>
+            <div class="row row-cols-1 row-cols-md-3 g-4">
+                @foreach ($homeFeatures as $feat)
+                    <div class="col">
+                        <div class="feature-card card h-100 border-0 shadow-sm text-center p-4">
+                            <div class="card-body">
+                                <div class="rounded-circle bg-success-subtle text-success d-inline-flex align-items-center justify-content-center mb-3" style="width:3.5rem;height:3.5rem;" aria-hidden="true">
+                                    <i class="fas {{ $feat['icon'] }} fa-lg"></i>
+                                </div>
+                                <h3 class="h5 fw-bold">{{ $feat['title'] }}</h3>
+                                <p class="text-muted small mb-0">{{ $feat['body'] }}</p>
                             </div>
-                        @endif
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+        </div>
+    </section>
+
+    <!-- Galerie -->
+    <section class="gallery py-5" aria-labelledby="home-gallery-heading">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 id="home-gallery-heading" class="h3 fw-bold text-primary">Galerie</h2>
+                <p class="text-muted mb-2">Images de nos activités</p>
+                <p class="mb-0">
+                    <a href="{{ route('galerie') }}" class="btn btn-outline-success btn-sm rounded-pill">
+                        Voir la galerie complète <i class="fas fa-arrow-right ms-2" aria-hidden="true"></i>
+                    </a>
+                </p>
+            </div>
+            <div class="row row-cols-2 row-cols-md-4 row-cols-lg-6 g-3 home-gallery-grid">
+                @forelse($galleryImages as $image)
+                    <div class="col">
+                        <a href="{{ route('galerie') }}" class="home-gallery-thumb home-enter-animate d-block rounded-3 shadow-sm border border-light overflow-hidden bg-body-secondary text-decoration-none">
+                            <div class="ratio ratio-1x1">
+                                <div class="home-gallery-thumb-inner position-relative w-100 h-100">
+                                    @if ($galleryThumbUrl = \App\Support\PublicStorageAsset::url($image->images))
+                                        <img src="{{ $galleryThumbUrl }}"
+                                             class="home-gallery-thumb-img position-absolute top-0 start-0 w-100 h-100 object-fit-cover"
+                                             alt="{{ $image->titre ?? 'Photo — galerie judo Burundi' }}"
+                                             loading="lazy"
+                                             decoding="async">
+                                        <div class="home-gallery-thumb-overlay position-absolute bottom-0 start-0 end-0 d-flex align-items-end p-2 p-sm-3">
+                                            <span class="home-gallery-thumb-title text-white small fw-semibold text-truncate w-100">{{ Str::limit($image->titre ?? 'Galerie', 48) }}</span>
+                                        </div>
+                                    @else
+                                        <div class="d-flex align-items-center justify-content-center w-100 h-100 bg-body-secondary text-muted" aria-hidden="true">
+                                            <i class="fas fa-image fa-2x opacity-50"></i>
+                                        </div>
+                                    @endif
+                                </div>
+                            </div>
+                        </a>
                     </div>
                 @empty
-                    <div class="empty-state">
-                        <i class="fas fa-images"></i>
-                        <p>Aucune image disponible pour le moment.</p>
+                    <div class="col-12">
+                        <div class="alert alert-light border text-center mb-0" role="status">
+                            <i class="fas fa-images fa-2x text-muted mb-2 d-block" aria-hidden="true"></i>
+                            Aucune image pour le moment.
+                        </div>
                     </div>
                 @endforelse
             </div>
         </div>
     </section>
 
-    <!-- News Section -->
-    <section class="news">
+    <!-- Actualités -->
+    <section class="news py-5 bg-body-secondary" aria-labelledby="home-news-heading">
         <div class="container">
-            <div class="news-header">
-                <div class="section-title">
-                    <h2>Actualités</h2>
-                    <p>Restez informés de toutes nos actualités</p>
-                </div>
+            <div class="text-center mb-5">
+                <h2 id="home-news-heading" class="h3 fw-bold text-primary">Actualités</h2>
+                <p class="text-muted mb-0">Dernières nouvelles de la Fédération</p>
             </div>
 
-            <div class="news-grid">
+            <div class="row row-cols-1 row-cols-md-2 row-cols-xl-3 g-4">
                 @forelse($actualites as $actualite)
-                    <article class="news-card">
-                        <div class="news-image">
-                            @if ($actualite->image && file_exists(public_path('storage/' . $actualite->image)))
-                                <img src="{{ asset('storage/' . $actualite->image) }}"
-                                     alt="{{ $actualite->titre }}"
-                                     loading="lazy">
-                            @else
-                                @php
-                                    $defaultImages = [
-                                        'Compétition' => 'judo3.jpg',
-                                        'Événement' => 'judo4.jpg',
-                                        'Formation' => 'judo5.jpg',
-                                        'default' => 'judo6.jpg'
-                                    ];
-                                    $imageFile = $defaultImages[$actualite->typePost->nom ?? 'default'] ?? $defaultImages['default'];
-                                @endphp
-                                <img src="{{ asset('images/' . $imageFile) }}"
-                                     alt="{{ $actualite->typePost->nom ?? 'Actualité' }}"
-                                     loading="lazy">
-                            @endif
-                        </div>
-                        <div class="news-content">
-                            <h3 class="news-title">{{ Str::limit($actualite->titre, 60) }}</h3>
-                            <p class="news-excerpt">
-                                {{ $actualite->extrait ?? Str::limit(strip_tags($actualite->contenu), 120) }}
-                            </p>
-                            <a href="{{ route('actualites', $actualite->id) }}" class="read-more">
-                                Lire plus
-                                <i class="fas fa-arrow-right"></i>
-                            </a>
-                        </div>
-                    </article>
+                    <div class="col">
+                        <article class="news-card card h-100 border-0 shadow-sm overflow-hidden">
+                            <div class="ratio ratio-16x9 bg-body-secondary flex-shrink-0">
+                                @if ($postImgUrl = \App\Support\PublicStorageAsset::url($actualite->image ?? null))
+                                    <img src="{{ $postImgUrl }}"
+                                         class="object-fit-cover w-100 h-100"
+                                         alt="{{ $actualite->titre }}"
+                                         loading="lazy">
+                                @else
+                                    @php
+                                        $defaultImages = [
+                                            'Compétition' => 'judo3.jpg',
+                                            'Événement' => 'judo4.jpg',
+                                            'Formation' => 'judo5.jpg',
+                                            'default' => 'judo6.jpg',
+                                        ];
+                                        $typeNom = optional($actualite->typePost)->nom;
+                                        $imageFile = $defaultImages[$typeNom] ?? $defaultImages['default'];
+                                    @endphp
+                                    <img src="{{ asset('images/' . $imageFile) }}"
+                                         class="object-fit-cover w-100 h-100"
+                                         alt="{{ $typeNom ?? 'Actualité' }}"
+                                         loading="lazy">
+                                @endif
+                            </div>
+                            <div class="card-body d-flex flex-column">
+                                <h3 class="h6 card-title fw-bold">{{ Str::limit($actualite->titre, 60) }}</h3>
+                                <p class="card-text text-muted small flex-grow-1">
+                                    {{ $actualite->extrait ?? Str::limit(strip_tags($actualite->contenu), 120) }}
+                                </p>
+                                <a href="{{ route('actualites', $actualite->id) }}" class="btn btn-outline-success btn-sm align-self-start mt-2 stretched-link">
+                                    Lire plus <i class="fas fa-arrow-right ms-1" aria-hidden="true"></i>
+                                </a>
+                            </div>
+                        </article>
+                    </div>
                 @empty
-                    <div class="empty-state">
-                        <i class="fas fa-newspaper"></i>
-                        <h5>Aucune actualité pour le moment</h5>
-                        <p>Revenez bientôt pour découvrir nos dernières nouvelles !</p>
+                    <div class="col-12">
+                        <div class="alert alert-light border text-center mb-0" role="status">
+                            <i class="fas fa-newspaper fa-2x text-muted mb-2 d-block" aria-hidden="true"></i>
+                            <strong>Aucune actualité</strong>
+                            <p class="text-muted small mb-0">Revenez bientôt pour les dernières nouvelles.</p>
+                        </div>
                     </div>
                 @endforelse
             </div>
 
             @if ($actualites->count() >= 6)
-                <div class="text-center" style="margin-top: 2rem;">
-                    <a href="{{ route('blog') }}" class="btn btn-success rounded-pill px-4 shadow-sm">
-                        <i class="fas fa-plus-circle"></i>
-                        Voir toutes les actualités
+                <div class="text-center mt-5">
+                    <a href="{{ route('blog') }}" class="btn btn-success btn-lg rounded-pill px-4 shadow-sm">
+                        <i class="fas fa-plus-circle me-2" aria-hidden="true"></i>Voir toutes les actualités
                     </a>
                 </div>
             @endif
         </div>
     </section>
 
-    <!-- Registration Section -->
-    <section class="registration">
+    <!-- Contact (même formulaire que la page Contact) -->
+    <section id="contact-accueil" class="registration py-5 bg-white" aria-labelledby="home-contact-heading">
         <div class="container">
-            <div class="registration-container">
-                <div class="registration-info">
-                    <h2>Rejoignez Notre Académie</h2>
-                    <p>Inscrivez-vous dès aujourd'hui pour commencer votre parcours. Nos programmes sont adaptés à tous les âges et tous les niveaux.</p>
+            <header class="text-center mb-5">
+                <h2 id="home-contact-heading" class="h3 fw-bold text-primary text-uppercase">Contactez la FBUJA</h2>
+                <p class="text-muted mb-0 col-xl-10 mx-auto">
+                    Écrivez-nous depuis cette page&nbsp;: le formulaire est le même que sur la rubrique <a href="{{ route('contact') }}">Contact</a> (avec carte et tous les détails).
+                </p>
+            </header>
 
-                    <div class="registration-benefits">
-                        <h3>Avantages de l'inscription :</h3>
-                        <ul>
-                            <li><i class="fas fa-check"></i> Accès illimité aux cours</li>
-                            <li><i class="fas fa-check"></i> Suivi personnalisé</li>
-                            <li><i class="fas fa-check"></i> Équipement fourni</li>
-                            <li><i class="fas fa-check"></i> Participation aux compétitions</li>
-                        </ul>
-                    </div>
+            {{-- Les messages succès / erreur sont déjà affichés en haut de page dans layouts/user --}}
+
+            <div class="row g-5 align-items-start">
+                <div class="col-lg-6">
+                    @include('partials.contact-coordonnees', ['showSocialLinks' => false])
+                    <p class="text-muted small mt-4 mb-0 border-start border-success border-3 ps-3">
+                        <i class="fas fa-map-marker-alt me-2 text-success" aria-hidden="true"></i>
+                        Consulter également la carte sur la page <a href="{{ route('contact') }}">Contact complète</a>.
+                    </p>
                 </div>
-
-                <div class="registration-form">
-                    <h3>Formulaire d'inscription</h3>
-                    <div id="messageZone"></div>
-
-                    <form id="myForm" action="{{ route('inscription.store') }}" method="POST">
-                        @csrf
-                        <div class="form-group">
-                            <label for="fullname">Nom complet <span class="required">*</span></label>
-                            <input type="text" id="fullname" name="fullname" required>
-                            <div class="error-message" id="fullname-error"></div>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="email">Email <span class="required">*</span></label>
-                            <input type="email" id="email" name="email" required>
-                            <div class="error-message" id="email-error"></div>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="telephone">Téléphone</label>
-                            <input type="tel" id="telephone" name="telephone" placeholder="+257 79 123 456">
-                            <div class="error-message" id="telephone-error"></div>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="description">Description</label>
-                            <textarea id="description" name="description" rows="4"
-                                      placeholder="Parlez-nous de vous et de vos objectifs..."></textarea>
-                            <div class="error-message" id="description-error"></div>
-                        </div>
-
-                        <button type="submit" class="btn btn-success rounded-pill px-4" id="submitButton">
-                            <span id="loadingSpinner" style="display: none;">⏳</span>
-                            <i class="fas fa-user-plus"></i>
-                            S'inscrire maintenant
-                        </button>
-                    </form>
+                <div class="col-lg-6">
+                    @include('partials.contact-form', ['idSuffix' => '_home'])
                 </div>
             </div>
         </div>

@@ -23,11 +23,11 @@ class MembreController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'fullname' => 'nullable|string|max:255',
+            'fullname' => 'required|string|max:255',
             'description' => 'nullable|string',
             'email' => 'required|email|unique:membres,email',
             'telephone' => 'nullable|string|max:20',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
         ]);
 
         if ($request->hasFile('image')) {
@@ -53,11 +53,11 @@ class MembreController extends Controller
     public function update(Request $request, Membre $membre)
     {
         $validated = $request->validate([
-            'fullname' => 'nullable|string|max:255',
+            'fullname' => 'required|string|max:255',
             'description' => 'nullable|string',
             'email' => 'required|email|unique:membres,email,' . $membre->id,
             'telephone' => 'nullable|string|max:20',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
         ]);
 
         if ($request->hasFile('image')) {

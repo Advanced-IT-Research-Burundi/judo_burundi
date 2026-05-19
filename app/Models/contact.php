@@ -12,8 +12,9 @@ class Contact extends Model
     protected $fillable = [
         'name',
         'email',
+        'phone',
         'sujet',
-        'message'
+        'message',
     ];
 
     // Scope pour les messages récents

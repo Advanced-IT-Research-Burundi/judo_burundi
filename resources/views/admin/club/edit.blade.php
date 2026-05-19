@@ -4,8 +4,8 @@
 @section('page-title', 'Modifier le club')
 
 @section('content')
-<div class="card">
-    <div class="card-header d-flex justify-content-between align-items-center">
+<div class="card shadow-sm">
+    <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
         <h5 class="mb-0">
             <i class="fas fa-building me-2"></i>Modifier les informations
         </h5>

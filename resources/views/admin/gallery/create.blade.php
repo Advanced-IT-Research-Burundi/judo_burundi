@@ -4,6 +4,12 @@
 
 @section('content')
 <div class="card shadow-sm">
+    <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+        <h5 class="mb-0"><i class="fas fa-image me-2"></i>Nouvelle image</h5>
+        <a href="{{ route('admin.gallery.index') }}" class="btn btn-secondary btn-sm">
+            <i class="fas fa-arrow-left me-1"></i>Retour
+        </a>
+    </div>
     <div class="card-body">
         <form action="{{ route('admin.gallery.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
@@ -27,7 +33,7 @@
             </div>
             <div class="text-end">
                 <a href="{{ route('admin.gallery.index') }}" class="btn btn-secondary">Annuler</a>
-                <button class="btn btn-success"><i class="fas fa-save me-1"></i>Enregistrer</button>
+                <button type="submit" class="btn btn-primary"><i class="fas fa-save me-1"></i>Enregistrer</button>
             </div>
         </form>
     </div>

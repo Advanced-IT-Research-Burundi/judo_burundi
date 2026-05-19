@@ -24,7 +24,7 @@ class EquipeController extends Controller
         $validated = $request->validate([
             'fullname' => 'required|string|max:255',
             'poste' => 'nullable|string|max:255',
-            'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
         ]);
 
         if ($request->hasFile('photo')) {
@@ -52,7 +52,7 @@ class EquipeController extends Controller
         $validated = $request->validate([
             'fullname' => 'required|string|max:255',
             'poste' => 'nullable|string|max:255',
-            'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
         ]);
 
         if ($request->hasFile('photo')) {

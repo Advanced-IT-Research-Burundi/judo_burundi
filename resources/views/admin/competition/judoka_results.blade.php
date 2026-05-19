@@ -14,7 +14,7 @@
 @endif
 
 <div class="card shadow-sm mb-4">
-    <div class="card-header fw-semibold">Ajouter une ligne de classement</div>
+    <div class="card-header bg-primary text-white fw-semibold">Ajouter une ligne de classement</div>
     <div class="card-body">
         <form action="{{ route('admin.competitions.judoka-results.store', $competition) }}" method="POST" class="row g-3">
             @csrf
@@ -30,34 +30,38 @@
             </div>
             <div class="col-md-2">
                 <label class="form-label">Place</label>
-                <input type="number" name="placement" class="form-control" min="1" max="999" value="{{ old('placement') }}">
+                <input type="number" name="placement" class="form-control @error('placement') is-invalid @enderror" min="1" max="999" value="{{ old('placement') }}">
+                @error('placement')<div class="invalid-feedback">{{ $message }}</div>@enderror
             </div>
             <div class="col-md-2">
                 <label class="form-label">Médaille</label>
-                <select name="medal" class="form-select">
+                <select name="medal" class="form-select @error('medal') is-invalid @enderror">
                     <option value="">—</option>
                     <option value="gold" @selected(old('medal') === 'gold')>Or</option>
                     <option value="silver" @selected(old('medal') === 'silver')>Argent</option>
                     <option value="bronze" @selected(old('medal') === 'bronze')>Bronze</option>
                 </select>
+                @error('medal')<div class="invalid-feedback">{{ $message }}</div>@enderror
             </div>
             <div class="col-md-2">
                 <label class="form-label">Catégorie</label>
-                <input type="text" name="categorie_label" class="form-control" placeholder="-60 kg" value="{{ old('categorie_label') }}">
+                <input type="text" name="categorie_label" class="form-control @error('categorie_label') is-invalid @enderror" placeholder="-60 kg" value="{{ old('categorie_label') }}">
+                @error('categorie_label')<div class="invalid-feedback">{{ $message }}</div>@enderror
             </div>
             <div class="col-md-2">
                 <label class="form-label">Pays</label>
-                <input type="text" name="pays_code" class="form-control" placeholder="BDI" value="{{ old('pays_code') }}">
+                <input type="text" name="pays_code" class="form-control @error('pays_code') is-invalid @enderror" placeholder="BDI" value="{{ old('pays_code') }}">
+                @error('pays_code')<div class="invalid-feedback">{{ $message }}</div>@enderror
             </div>
             <div class="col-12">
-                <button type="submit" class="btn btn-success"><i class="bi bi-plus-lg"></i> Ajouter</button>
+                <button type="submit" class="btn btn-primary"><i class="bi bi-plus-lg me-1"></i>Ajouter</button>
             </div>
         </form>
     </div>
 </div>
 
 <div class="card shadow-sm">
-    <div class="card-header fw-semibold">Lignes enregistrées ({{ $lines->count() }})</div>
+    <div class="card-header bg-primary text-white fw-semibold">Lignes enregistrées ({{ $lines->count() }})</div>
     <div class="table-responsive">
         <table class="table table-striped mb-0 align-middle">
             <thead class="table-light small text-uppercase">

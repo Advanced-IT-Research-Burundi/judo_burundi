@@ -4,60 +4,48 @@
 @section('title', 'Gestion des Pays')
 @section('page-title', 'Pays')
 
-@section('page-actions')
-    <a href="{{ route('admin.countries.create') }}" class="btn btn-primary">
-        <i class="fas fa-plus me-2"></i>Nouveau Pays
-    </a>
-@endsection
-
 @section('content')
-<div class="card">
-    <div class="card-header d-flex justify-content-between align-items-center">
-        <h5 class="mb-0">
-            <i class="fas fa-globe me-2"></i>Liste des Pays
-        </h5>
-        <div class="d-flex gap-2">
-            <!-- Recherche -->
-            <form method="GET" action="{{ route('admin.countries.index') }}" class="d-flex">
-                <div class="input-group">
-                    <input type="text" 
-                           name="search" 
-                           class="form-control" 
-                           placeholder="Rechercher..." 
-                           value="{{ $search }}">
-                    <button class="btn btn-outline-secondary" type="submit">
-                        <i class="fas fa-search"></i>
-                    </button>
-                    @if($search)
-                        <a href="{{ route('admin.countries.index') }}" class="btn btn-outline-secondary">
-                            <i class="fas fa-times"></i>
-                        </a>
-                    @endif
-                </div>
-            </form>
-        </div>
+<div class="card shadow-sm">
+    <div class="card-header bg-primary text-white d-flex flex-column flex-lg-row justify-content-between align-items-stretch align-items-lg-center gap-3">
+        <h5 class="mb-0"><i class="fas fa-globe me-2"></i>Pays ({{ $countries->total() ?? $countries->count() }})</h5>
+        <form method="GET" action="{{ route('admin.countries.index') }}" class="d-flex gap-2 flex-grow-1" style="max-width: 28rem;">
+            <input type="text" name="search" class="form-control form-control-sm" placeholder="Rechercher..." value="{{ $search }}">
+            <button class="btn btn-light btn-sm text-primary flex-shrink-0" type="submit" title="Rechercher">
+                <i class="fas fa-search"></i>
+            </button>
+            @if($search)
+                <a href="{{ route('admin.countries.index') }}" class="btn btn-outline-light btn-sm flex-shrink-0" title="Effacer">
+                    <i class="fas fa-times"></i>
+                </a>
+            @endif
+        </form>
     </div>
 
     <div class="card-body">
         @if($countries->count() > 0)
+            <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center mb-3 gap-2">
+                <a href="{{ route('admin.countries.create') }}" class="btn btn-primary btn-sm">
+                    <i class="fas fa-plus me-1"></i>Nouveau pays
+                </a>
+            </div>
+
             <form id="bulk-delete-form" method="POST" action="{{ route('admin.countries.bulk-delete') }}">
                 @csrf
                 @method('DELETE')
-                
-                <!-- Actions en lot -->
-                <div class="mb-3">
+
+                <div class="mb-3 d-flex flex-wrap align-items-center gap-2">
                     <button type="button" class="btn btn-sm btn-outline-primary" id="select-all">
                         <i class="fas fa-check-square me-1"></i>Tout sélectionner
                     </button>
                     <button type="submit" class="btn btn-sm btn-outline-danger" id="bulk-delete-btn" style="display: none;">
                         <i class="fas fa-trash me-1"></i>Supprimer sélectionnés
                     </button>
-                    <span id="selected-count" class="text-muted ms-2"></span>
+                    <span id="selected-count" class="text-muted small"></span>
                 </div>
 
                 <div class="table-responsive">
-                    <table class="table table-striped table-hover">
-                        <thead class="table-dark">
+                    <table class="table table-striped align-middle table-hover">
+                        <thead class="table-light">
                             <tr>
                                 <th width="40">
                                     <input type="checkbox" id="select-all-checkbox">
@@ -155,7 +143,7 @@
 </div>
 @endsection
 
-@section('scripts')
+@push('scripts')
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     const selectAllCheckbox = document.getElementById('select-all-checkbox');
@@ -208,4 +196,4 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 </script>
-@endsection
+@endpush

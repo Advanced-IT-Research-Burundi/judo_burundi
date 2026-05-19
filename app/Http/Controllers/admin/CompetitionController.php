@@ -9,11 +9,27 @@ use Illuminate\Http\Request;
 
 class CompetitionController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $competitions = Competition::with(['clubDomicile', 'clubAdversaire', 'clubs'])
-            ->latest('date_competition')
-            ->paginate(15);
+        $query = Competition::with(['clubDomicile', 'clubAdversaire', 'clubs'])
+            ->latest('date_competition');
+
+        if ($search = $request->query('search')) {
+            $like = '%' . $search . '%';
+
+            $query->where(function ($query) use ($like) {
+                $query->where('nom', 'like', $like)
+                    ->orWhere('lieu', 'like', $like)
+                    ->orWhere('type', 'like', $like)
+                    ->orWhere('saison', 'like', $like)
+                    ->orWhereHas('clubDomicile', fn ($q) => $q->where('nom', 'like', $like))
+                    ->orWhereHas('clubAdversaire', fn ($q) => $q->where('nom', 'like', $like))
+                    ->orWhereHas('clubs', fn ($q) => $q->where('nom', 'like', $like));
+            });
+        }
+
+        $competitions = $query->paginate(15)->withQueryString();
+
         return view('admin.competition.index', compact('competitions'));
     }
 

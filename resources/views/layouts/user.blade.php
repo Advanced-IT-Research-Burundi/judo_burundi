@@ -96,7 +96,7 @@
                         @else
                             @if(auth()->user()->is_admin)
                                 <li class="nav-item">
-                                    <a class="nav-link px-3 fw-medium site-nav-link @if(request()->routeIs('admin.*')) active @endif" href="{{ route('admin.dashboard') }}">Dashboard</a>
+                                    <a class="nav-link px-3 fw-medium site-nav-link @if(request()->routeIs('admin.*')) active @endif" href="{{ route('admin.dashboard') }}">Administration</a>
                                 </li>
                             @endif
                             <!-- <li class="nav-item">

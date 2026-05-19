@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Post;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Schema;
 use App\Models\Categorie;
 // use App\Models\Colline;
 use App\Models\Joueur;
@@ -16,8 +17,11 @@ class HomeController extends Controller
 {
     public function index()
     {
-        // Récupérer les dernières actualités publiées
-        $actualites = Post::all();
+        $postsQuery = Post::query()->latest();
+        if (Schema::hasColumn('posts', 'typepost_id')) {
+            $postsQuery->with('typePost');
+        }
+        $actualites = $postsQuery->take(6)->get();
 
         // Récupérer les images de la galerie (par ex. les 12 plus récentes)
         $galleryImages = GalleryImage::latest()->take(12)->get();

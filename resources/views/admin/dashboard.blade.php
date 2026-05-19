@@ -56,10 +56,10 @@
     <div class="row g-3">
         <!-- Recent Joueurs -->
         <div class="col-md-6">
-            <div class="card h-100">
-                <div class="card-header d-flex justify-content-between align-items-center">
-                    <h5><i class="fas fa-users me-2"></i>Derniers Joueurs</h5>
-                    <a href="{{ route('admin.joueurs.index') }}" class="btn btn-sm btn-outline-primary">Voir tout</a>
+            <div class="card h-100 shadow-sm">
+                <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0"><i class="fas fa-users me-2"></i>Derniers joueurs</h5>
+                    <a href="{{ route('admin.joueurs.index') }}" class="btn btn-sm btn-light text-primary">Voir tout</a>
                 </div>
                 <div class="card-body">
                     @forelse($recentJoueurs as $joueur)
@@ -87,10 +87,10 @@
 
         <!-- Recent Posts -->
         <div class="col-md-6">
-            <div class="card h-100">
-                <div class="card-header d-flex justify-content-between align-items-center">
-                    <h5><i class="fas fa-newspaper me-2"></i>Dernières Actualités</h5>
-                    <a href="{{ route('admin.posts.index') }}" class="btn btn-sm btn-outline-primary">Voir tout</a>
+            <div class="card h-100 shadow-sm">
+                <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0"><i class="fas fa-newspaper me-2"></i>Dernières actualités</h5>
+                    <a href="{{ route('admin.posts.index') }}" class="btn btn-sm btn-light text-primary">Voir tout</a>
                 </div>
                 <div class="card-body">
                     @forelse($recentPosts as $post)
@@ -120,9 +120,9 @@
     @if($upcomingCompetitions->isNotEmpty())
         <div class="row mt-4">
             <div class="col-12">
-                <div class="card">
-                    <div class="card-header">
-                        <h5><i class="fas fa-calendar-alt me-2"></i>Compétitions à Venir</h5>
+                <div class="card shadow-sm">
+                    <div class="card-header bg-primary text-white">
+                        <h5 class="mb-0"><i class="fas fa-calendar-alt me-2"></i>Compétitions à venir</h5>
                     </div>
                     <div class="card-body">
                         <div class="row g-3">

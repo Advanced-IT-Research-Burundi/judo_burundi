@@ -3,17 +3,17 @@
 @section('page-title', 'Détails de la Compétition')
 
 @section('content')
-<div class="mb-4">
-    <a href="{{ route('admin.competitions.index') }}" class="btn btn-secondary">
+<div class="mb-4 d-flex flex-wrap gap-2">
+    <a href="{{ route('admin.competitions.index') }}" class="btn btn-secondary btn-sm">
         <i class="bi bi-arrow-left me-2"></i>Retour
     </a>
-    <a href="{{ route('admin.competitions.edit', $competition->id) }}" class="btn btn-warning">
+    <a href="{{ route('admin.competitions.edit', $competition->id) }}" class="btn btn-primary btn-sm">
         <i class="bi bi-pencil-square me-2"></i>Modifier
     </a>
-    <a href="{{ route('admin.competitions.judoka-results.index', $competition) }}" class="btn btn-outline-primary">
+    <a href="{{ route('admin.competitions.judoka-results.index', $competition) }}" class="btn btn-outline-primary btn-sm">
         <i class="bi bi-list-ol me-2"></i>Résultats judoka
     </a>
-    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal">
+    <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteModal">
         <i class="bi bi-trash me-2"></i>Supprimer
     </button>
 </div>

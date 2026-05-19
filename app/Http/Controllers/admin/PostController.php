@@ -4,29 +4,52 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Post;
+use App\Models\TypePost;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\Rule;
 
 class PostController extends Controller
 {
+    private function postValidationRules(): array
+    {
+        $rules = [
+            'title' => 'required|string|max:255',
+            'content' => 'required|string',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
+        ];
+
+        if (Schema::hasTable('type_posts') && Schema::hasColumn('posts', 'typepost_id')) {
+            $rules['typepost_id'] = ['nullable', 'integer', Rule::exists('type_posts', 'id')];
+        }
+
+        return $rules;
+    }
+
     public function index()
     {
         $posts = Post::latest()->paginate(15);
+
         return view('admin.post.index', compact('posts'));
     }
 
     public function create()
     {
-        return view('admin.post.create');
+        $typePosts = Schema::hasTable('type_posts')
+            ? TypePost::orderBy('nom')->get()
+            : collect();
+
+        return view('admin.post.create', compact('typePosts'));
     }
 
     public function store(Request $request)
     {
-        $validated = $request->validate([
-            'title' => 'required|string|max:255',
-            'content' => 'required|string',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-        ]);
+        $validated = $request->validate($this->postValidationRules());
+
+        if (isset($validated['typepost_id']) && $validated['typepost_id'] === '') {
+            $validated['typepost_id'] = null;
+        }
 
         if ($request->hasFile('image')) {
             $validated['image'] = $request->file('image')->store('posts', 'public');
@@ -45,16 +68,20 @@ class PostController extends Controller
 
     public function edit(Post $post)
     {
-        return view('admin.post.edit', compact('post'));
+        $typePosts = Schema::hasTable('type_posts')
+            ? TypePost::orderBy('nom')->get()
+            : collect();
+
+        return view('admin.post.edit', compact('post', 'typePosts'));
     }
 
     public function update(Request $request, Post $post)
     {
-        $validated = $request->validate([
-            'title' => 'required|string|max:255',
-            'content' => 'required|string',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-        ]);
+        $validated = $request->validate($this->postValidationRules());
+
+        if (isset($validated['typepost_id']) && $validated['typepost_id'] === '') {
+            $validated['typepost_id'] = null;
+        }
 
         if ($request->hasFile('image')) {
             if ($post->image) {
@@ -63,7 +90,8 @@ class PostController extends Controller
             $validated['image'] = $request->file('image')->store('posts', 'public');
         }
 
-        $post->update($validated);
+        $post->fill($validated);
+        $post->save();
 
         return redirect()->route('admin.posts.index')
             ->with('success', 'Article mis à jour avec succès.');

@@ -19,28 +19,45 @@
         <p class="text-muted mb-4 small">Fédération Burundaise de Judo et Disciplines Associées</p>
 
         <div class="row row-cols-2 row-cols-sm-3 row-cols-md-4 row-cols-lg-6 g-3 g-lg-4">
-            @forelse($equipes as $membre)
+            @forelse($equipes as $equipe)
+                @php
+                    $photoUrl = $equipe->photoUrl();
+                    $initials = collect(preg_split('/\s+/', trim((string) ($equipe->fullname ?? '')), -1, PREG_SPLIT_NO_EMPTY))
+                        ->take(2)
+                        ->map(fn ($w) => mb_strtoupper(mb_substr($w, 0, 1)))
+                        ->implode('');
+                    if ($initials === '') {
+                        $initials = '—';
+                    }
+                @endphp
                 <div class="col">
                     <div class="card h-100 border shadow-sm bureau-member-card rounded-2 overflow-hidden">
                         <div class="bureau-member-photo-wrap">
-                            @if($membre->photo)
-                                <img src="{{ asset('storage/' . $membre->photo) }}" alt="{{ $membre->fullname }}">
+                            @if($photoUrl)
+                                <img src="{{ $photoUrl }}"
+                                     alt="{{ $equipe->fullname }}"
+                                     loading="lazy"
+                                     decoding="async">
                             @else
-                                <img src="{{ asset('images/default-user.png') }}" alt="Photo par défaut">
+                                <div class="bureau-member-photo-placeholder"
+                                     role="img"
+                                     aria-label="Photo — {{ $equipe->fullname }} (initiales)">
+                                    <span class="bureau-member-photo-initials text-uppercase">{{ $initials }}</span>
+                                </div>
                             @endif
                         </div>
                         <div class="card-body py-3 px-2 px-sm-3">
-                            <h3 class="bureau-member-name lh-sm mb-1 fs-6 fw-semibold">{{ $membre->fullname }}</h3>
-                            @if($membre->poste)
-                                <p class="bureau-member-role small text-muted text-uppercase mb-2 mb-lg-3">{{ $membre->poste }}</p>
+                            <h3 class="bureau-member-name lh-sm mb-1 fs-6 fw-semibold">{{ $equipe->fullname }}</h3>
+                            @if($equipe->poste)
+                                <p class="bureau-member-role small text-muted text-uppercase mb-2 mb-lg-3">{{ $equipe->poste }}</p>
                             @endif
-                            @if($membre->email || $membre->telephone)
+                            @if(($equipe->email ?? null) || ($equipe->telephone ?? null))
                                 <div class="d-flex gap-2 justify-content-start flex-wrap small bureau-contact-icons">
-                                    @if($membre->email)
-                                        <a href="mailto:{{ $membre->email }}" class="text-secondary" title="E-mail"><i class="fas fa-envelope"></i></a>
+                                    @if($equipe->email ?? null)
+                                        <a href="mailto:{{ $equipe->email }}" class="text-secondary" title="E-mail"><i class="fas fa-envelope"></i></a>
                                     @endif
-                                    @if($membre->telephone)
-                                        <a href="tel:{{ $membre->telephone }}" class="text-secondary" title="Téléphone"><i class="fas fa-phone"></i></a>
+                                    @if($equipe->telephone ?? null)
+                                        <a href="tel:{{ $equipe->telephone }}" class="text-secondary" title="Téléphone"><i class="fas fa-phone"></i></a>
                                     @endif
                                 </div>
                             @endif

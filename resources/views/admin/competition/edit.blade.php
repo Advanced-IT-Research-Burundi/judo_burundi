@@ -9,102 +9,130 @@
 
 @section('content')
 <div class="card shadow-sm">
+    <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+        <h5 class="mb-0"><i class="fas fa-trophy me-2"></i>Modifier la compétition</h5>
+        <a href="{{ route('admin.competitions.index') }}" class="btn btn-secondary btn-sm">
+            <i class="fas fa-arrow-left me-2"></i>Retour
+        </a>
+    </div>
     <div class="card-body">
         <form action="{{ route('admin.competitions.update', $competition->id) }}" method="POST">
             @csrf
             @method('PUT')
+
             <div class="row g-3">
-                <!-- Nom -->
                 <div class="col-md-6">
                     <label class="form-label">Nom <span class="text-danger">*</span></label>
-                    <input name="nom" class="form-control" value="{{ old('nom', $competition->nom) }}" required>
+                    <input name="nom" value="{{ old('nom', $competition->nom) }}" class="form-control @error('nom') is-invalid @enderror" required>
+                    @error('nom')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
                 </div>
 
-                <!-- Lieu -->
                 <div class="col-md-6">
                     <label class="form-label">Lieu</label>
-                    <input name="lieu" class="form-control" value="{{ old('lieu', $competition->lieu) }}">
+                    <input name="lieu" value="{{ old('lieu', $competition->lieu) }}" class="form-control @error('lieu') is-invalid @enderror">
+                    @error('lieu')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
                 </div>
 
-                <!-- Type (Select) -->
                 <div class="col-md-6">
                     <label class="form-label">Type <span class="text-danger">*</span></label>
-                    <select name="type" class="form-select" required>
+                    <select name="type" class="form-select @error('type') is-invalid @enderror" required>
                         <option value="">-- Sélectionner un type --</option>
-                        <option value="Cadets" {{ old('type', $competition->type) == 'Cadets' ? 'selected' : '' }}>Cadets</option>
-                        <option value="Benjamins" {{ old('type', $competition->type) == 'Benjamins' ? 'selected' : '' }}>Benjamins</option>
-                        <option value="Minimes" {{ old('type', $competition->type) == 'Minimes' ? 'selected' : '' }}>Minimes</option>
-                        <option value="Juniors" {{ old('type', $competition->type) == 'Juniors' ? 'selected' : '' }}>Juniors</option>
-                        <option value="Séniors" {{ old('type', $competition->type) == 'Séniors' ? 'selected' : '' }}>Séniors</option>
-                        <option value="Kata" {{ old('type', $competition->type) == 'Kata' ? 'selected' : '' }}>Kata</option>
+                        @foreach(['Cadets','Benjamins','Minimes','Juniors','Séniors','Kata'] as $type)
+                            <option value="{{ $type }}" @selected(old('type', $competition->type) === $type)>{{ $type }}</option>
+                        @endforeach
                     </select>
+                    @error('type')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
                 </div>
 
-                <!-- Saison -->
                 <div class="col-md-6">
                     <label class="form-label">Saison</label>
-                    <input name="saison" class="form-control" value="{{ old('saison', $competition->saison) }}" placeholder="Ex: 2024-2025">
+                    <input name="saison" value="{{ old('saison', $competition->saison) }}" class="form-control @error('saison') is-invalid @enderror" placeholder="Ex: 2024-2025">
+                    @error('saison')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
                 </div>
 
-                <!-- Date -->
                 <div class="col-md-4">
                     <label class="form-label">Date de compétition</label>
-                    <input type="date" name="date_competition" class="form-control" value="{{ old('date_competition', $competition->date_competition) }}">
+                    <input type="date" name="date_competition" value="{{ old('date_competition', optional($competition->date_competition)->format('Y-m-d')) }}" class="form-control @error('date_competition') is-invalid @enderror">
+                    @error('date_competition')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
                 </div>
 
-                <!-- Club Domicile -->
                 <div class="col-md-4">
                     <label class="form-label">Club Domicile</label>
-                    <select name="clubdomicil_id" class="form-select">
+                    <select name="clubdomicil_id" class="form-select @error('clubdomicil_id') is-invalid @enderror">
                         <option value="">-- Sélectionner --</option>
                         @foreach($clubs as $club)
-                            <option value="{{ $club->id }}" {{ old('clubdomicil_id', $competition->clubdomicil_id) == $club->id ? 'selected' : '' }}>
-                                {{ $club->nom }}
-                            </option>
+                            <option value="{{ $club->id }}" @selected(old('clubdomicil_id', $competition->clubdomicil_id) == $club->id)>{{ $club->nom }}</option>
                         @endforeach
                     </select>
+                    @error('clubdomicil_id')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
                 </div>
 
-                <!-- Club Adversaire -->
                 <div class="col-md-4">
                     <label class="form-label">Club Adversaire</label>
-                    <select name="clubadversaire_id" class="form-select">
+                    <select name="clubadversaire_id" class="form-select @error('clubadversaire_id') is-invalid @enderror">
                         <option value="">-- Sélectionner --</option>
                         @foreach($clubs as $club)
-                            <option value="{{ $club->id }}" {{ old('clubadversaire_id', $competition->clubadversaire_id) == $club->id ? 'selected' : '' }}>
-                                {{ $club->nom }}
-                            </option>
+                            <option value="{{ $club->id }}" @selected(old('clubadversaire_id', $competition->clubadversaire_id) == $club->id)>{{ $club->nom }}</option>
                         @endforeach
                     </select>
+                    @error('clubadversaire_id')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
                 </div>
 
                 @php
                     $extraClubIds = old('club_ids', $competition->clubs->pluck('id')->all());
                 @endphp
+
                 <div class="col-12">
                     <label class="form-label">Autres clubs participants</label>
-                    <select name="club_ids[]" class="form-select" multiple size="6">
+                    <select name="club_ids[]" class="form-select @error('club_ids') is-invalid @enderror" multiple size="6">
                         @foreach($clubs as $club)
                             <option value="{{ $club->id }}" @selected(in_array($club->id, $extraClubIds, true))>{{ $club->nom }}</option>
                         @endforeach
                     </select>
                     <small class="text-muted">Conserver Ctrl (ou Cmd) pour en choisir plusieurs — en complément des clubs domicile et adversaire.</small>
+                    @error('club_ids')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
                 </div>
 
-                <!-- Résultat Détaillé avec Summernote -->
+                <div class="col-12">
+                    <label class="form-label">Description</label>
+                    <textarea name="description" rows="3" class="form-control @error('description') is-invalid @enderror">{{ old('description', $competition->description) }}</textarea>
+                    @error('description')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
+
                 <div class="col-12">
                     <label class="form-label">Résultat Détaillé</label>
-                    <textarea name="resultat" id="resultat_editor" class="form-control">{{ old('resultat', $competition->resultat) }}</textarea>
+                    <textarea name="resultat" id="resultat_editor" class="form-control @error('resultat') is-invalid @enderror">{{ old('resultat', $competition->resultat) }}</textarea>
                     <small class="text-muted">Utilisez l'éditeur pour saisir les résultats détaillés (participants, médailles, statistiques, etc.)</small>
+                    @error('resultat')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
                 </div>
             </div>
 
-            <div class="mt-4 text-end">
+            <div class="d-flex justify-content-end gap-2 mt-4">
                 <a href="{{ route('admin.competitions.index') }}" class="btn btn-secondary">
-                    <i class="fas fa-times me-1"></i>Annuler
+                    <i class="fas fa-times me-2"></i>Annuler
                 </a>
                 <button type="submit" class="btn btn-primary">
-                    <i class="fas fa-save me-1"></i>Mettre à jour
+                    <i class="fas fa-save me-2"></i>Mettre à jour
                 </button>
             </div>
         </form>

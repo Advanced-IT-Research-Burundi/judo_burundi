@@ -4,14 +4,12 @@
 @section('page-title', 'Ajouter une Commune')
 
 @section('content')
-<div class="card">
-    <div class="card-header">
-        <div class="d-flex justify-content-between align-items-center">
-            <h5 class="mb-0">Nouvelle Commune</h5>
-            <a href="{{ route('admin.communes.index') }}" class="btn btn-secondary">
-                <i class="fas fa-arrow-left"></i> Retour à la liste
-            </a>
-        </div>
+<div class="card shadow-sm">
+    <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center flex-wrap gap-2">
+        <h5 class="mb-0"><i class="fas fa-city me-2"></i>Nouvelle commune</h5>
+        <a href="{{ route('admin.communes.index') }}" class="btn btn-secondary btn-sm">
+            <i class="fas fa-arrow-left me-1"></i>Retour
+        </a>
     </div>
     <div class="card-body">
         <form action="{{ route('admin.communes.store') }}" method="POST">

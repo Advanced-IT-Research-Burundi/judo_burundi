@@ -9,6 +9,12 @@
 
 @section('content')
 <div class="card shadow-sm">
+    <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+        <h5 class="mb-0"><i class="fas fa-trophy me-2"></i>Ajouter une compétition</h5>
+        <a href="{{ route('admin.competitions.index') }}" class="btn btn-secondary btn-sm">
+            <i class="fas fa-arrow-left me-2"></i>Retour
+        </a>
+    </div>
     <div class="card-body">
         <form action="{{ route('admin.competitions.store') }}" method="POST">
             @csrf
@@ -103,7 +109,7 @@
                 <a href="{{ route('admin.competitions.index') }}" class="btn btn-secondary">
                     <i class="fas fa-times me-1"></i>Annuler
                 </a>
-                <button type="submit" class="btn btn-success">
+                <button type="submit" class="btn btn-primary">
                     <i class="fas fa-save me-1"></i>Enregistrer
                 </button>
             </div>
